@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="comm.base.batchMng">
+
+	<insert id="insertBatchMng">
+		/* comm.batchMng.insertBatchMng : 배치 관리 등록 */
+		INSERT INTO COMM_BATCH_MGNT
+		(
+		BATCH_ID
+		,BATCH_NM
+		,BATCH_EXEC_TP
+		,BATCH_DUP_EXEC_FG
+		,EXEC_CYCL_SEC_VAL
+		,EXEC_CYCL_MIN_VAL
+		,EXEC_CYCL_HH_VAL
+		,EXEC_CYCL_DD_VAL
+		,EXEC_CYCL_MM_VAL
+		,EXEC_CYCL_WDAY_VAL
+		,EXEC_CYCL_YYYY_VAL
+		,EXEC_CMND
+		,EXEC_CMND_PATH
+		,FLLW_BATCH_ID
+		,REF_VAL_1
+		,REF_VAL_2
+		,REF_VAL_3
+		,USE_FG
+		,REG_USER_NO
+		,REG_DTTM
+		,PROC_USER_NO
+		,PROC_DTTM
+		)
+		VALUES (
+		(SELECT NEXTVAL(SEQ_COMM_BATCH_ID) from dual)
+		,#{batchNm}
+		,#{batchExecTp}
+		,#{batchDupExecFg}
+		,#{execCyclSecVal}
+		,#{execCyclMinVal}
+		,#{execCyclHhVal}
+		,#{execCyclDdVal}
+		,#{execCyclMmVal}
+		,#{execCyclWdayVal}
+		,#{execCyclYyyyVal}
+		,#{execCmnd}
+		,#{execCmndPath}
+		,#{fllwBatchId}
+		,#{refVal1}
+		,#{refVal2}
+		,#{refVal3}
+		,#{useFg}
+		,#{session.userNo}
+		,SYSDATE()
+		,#{session.userNo}
+		,SYSDATE()
+		)
+	</insert>
+
+	<update id="updateBatchMng">
+		/* comm.batchMng.updateBatchMng : 배치 관리 수정 */
+		UPDATE COMM_BATCH_MGNT
+		<trim prefix="SET" prefixOverrides=",">
+			<if test="batchNm != null and batchNm != ''">
+				,BATCH_NM = #{batchNm}
+			</if>
+			<if test="batchExecTp != null and batchExecTp != ''">
+				,BATCH_EXEC_TP = #{batchExecTp}
+			</if>
+			<if test="batchDupExecFg != null and batchDupExecFg != ''">
+				,BATCH_DUP_EXEC_FG = #{batchDupExecFg}
+			</if>
+			<if test="execCyclSecVal != null and execCyclSecVal != ''">
+				,EXEC_CYCL_SEC_VAL = #{execCyclSecVal}
+			</if>
+			<if test="execCyclMinVal != null and execCyclMinVal != ''">
+				,EXEC_CYCL_MIN_VAL = #{execCyclMinVal}
+			</if>
+			<if test="execCyclHhVal != null and execCyclHhVal != ''">
+				,EXEC_CYCL_HH_VAL = #{execCyclHhVal}
+			</if>
+			<if test="execCyclDdVal != null and execCyclDdVal != ''">
+				,EXEC_CYCL_DD_VAL = #{execCyclDdVal}
+			</if>
+			<if test="execCyclMmVal != null and execCyclMmVal != ''">
+				,EXEC_CYCL_MM_VAL = #{execCyclMmVal}
+			</if>
+			<if test="execCyclWdayVal != null and execCyclWdayVal != ''">
+				,EXEC_CYCL_WDAY_VAL = #{execCyclWdayVal}
+			</if>
+			<if test="execCyclYyyyVal != null and execCyclYyyyVal != ''">
+				,EXEC_CYCL_YYYY_VAL = #{execCyclYyyyVal}
+			</if>
+			<if test="execCmnd != null and execCmnd != ''">
+				,EXEC_CMND = #{execCmnd}
+			</if>
+			<if test="execCmndPath != null and execCmndPath != ''">
+				,EXEC_CMND_PATH = #{execCmndPath}
+			</if>
+				,FLLW_BATCH_ID = #{fllwBatchId}
+				,REF_VAL_1 = #{refVal1}
+				,REF_VAL_2 = #{refVal2}
+				,REF_VAL_3 = #{refVal3}
+				,USE_FG = #{useFg}
+			,PROC_USER_NO = #{session.userNo}
+			,PROC_DTTM = SYSDATE()
+		</trim>
+		WHERE 1=1
+		AND BATCH_ID = #{batchId}
+	</update>
+
+	<delete id="deleteBatchMng">
+		/* comm.batchMng.deleteBatchMng : 배치 관리 삭제 */
+		DELETE
+		FROM COMM_BATCH_MGNT
+		WHERE 1=1
+		AND BATCH_ID = #{batchId}
+	</delete>
+
+	<select id="selectBatchMng" resultType="camelHashMap">
+		/* comm.batchMng.selectBatchMng : 배치 관리 조회 */
+		SELECT
+		BATCH_ID
+		,BATCH_NM
+		,BATCH_EXEC_TP
+		,BATCH_DUP_EXEC_FG
+		,EXEC_CYCL_SEC_VAL
+		,EXEC_CYCL_MIN_VAL
+		,EXEC_CYCL_HH_VAL
+		,EXEC_CYCL_DD_VAL
+		,EXEC_CYCL_MM_VAL
+		,EXEC_CYCL_WDAY_VAL
+		,EXEC_CYCL_YYYY_VAL
+		,EXEC_CMND
+		,EXEC_CMND_PATH
+		,FLLW_BATCH_ID
+		,REF_VAL_1
+		,REF_VAL_2
+		,REF_VAL_3
+		,USE_FG
+		,REG_USER_NO
+		,REG_DTTM
+		,PROC_USER_NO
+		,PROC_DTTM
+		FROM COMM_BATCH_MGNT
+		WHERE 1=1
+		<if test="batchId != null and batchId != ''">
+			AND BATCH_ID = #{batchId}
+		</if>
+		<if test="batchNm != null and batchNm != ''">
+			AND BATCH_NM like CONCAT('%', #{batchNm},'%')
+		</if>
+		<if test="batchExecTp != null and batchExecTp != ''">
+			AND BATCH_EXEC_TP = #{batchExecTp}
+		</if>
+		<if test="batchDupExecFg != null and batchDupExecFg != ''">
+			AND BATCH_DUP_EXEC_FG = #{batchDupExecFg}
+		</if>
+		<if test="execCyclSecVal != null and execCyclSecVal != ''">
+			AND EXEC_CYCL_SEC_VAL = #{execCyclSecVal}
+		</if>
+		<if test="execCyclMinVal != null and execCyclMinVal != ''">
+			AND EXEC_CYCL_MIN_VAL = #{execCyclMinVal}
+		</if>
+		<if test="execCyclHhVal != null and execCyclHhVal != ''">
+			AND EXEC_CYCL_HH_VAL = #{execCyclHhVal}
+		</if>
+		<if test="execCyclDdVal != null and execCyclDdVal != ''">
+			AND EXEC_CYCL_DD_VAL = #{execCyclDdVal}
+		</if>
+		<if test="execCyclMmVal != null and execCyclMmVal != ''">
+			AND EXEC_CYCL_MM_VAL = #{execCyclMmVal}
+		</if>
+		<if test="execCyclWdayVal != null and execCyclWdayVal != ''">
+			AND EXEC_CYCL_WDAY_VAL = #{execCyclWdayVal}
+		</if>
+		<if test="execCyclYyyyVal != null and execCyclYyyyVal != ''">
+			AND EXEC_CYCL_YYYY_VAL = #{execCyclYyyyVal}
+		</if>
+		<if test="execCmnd != null and execCmnd != ''">
+			AND EXEC_CMND = #{execCmnd}
+		</if>
+		<if test="execCmndPath != null and execCmndPath != ''">
+			AND EXEC_CMND_PATH = #{execCmndPath}
+		</if>
+		<if test="refVal1 != null and refVal1 != ''">
+			AND REF_VAL_1 = #{refVal1}
+		</if>
+		<if test="refVal2 != null and refVal2 != ''">
+			AND REF_VAL_2 = #{refVal2}
+		</if>
+		<if test="refVal3 != null and refVal3 != ''">
+			AND REF_VAL_3 = #{refVal3}
+		</if>
+		<if test="useFg != null and useFg != ''">
+			AND USE_FG = #{useFg}
+		</if>
+		ORDER BY CAST(BATCH_ID AS UNSIGNED);
+	</select>
+	
+	<select id="selectFllwBatchList" resultType="camelHashMap">
+		/* comm.batchMng.selectFllwBatchList : 후속 배치리스트 */
+		SELECT 
+			'' AS BATCH_ID,
+			'' AS BATCH_NM,
+			'없음' AS BATCH_ID_NM
+		FROM DUAL
+		UNION ALL
+		SELECT
+		BATCH_ID, BATCH_NM, 
+		CONCAT("[", BATCH_ID, "] ", BATCH_NM) AS BATCH_ID_NM
+		FROM COMM_BATCH_MGNT
+		WHERE 1=1
+		<if test="batchId != null and batchId != ''">
+			AND BATCH_ID != #{batchId}
+		</if>
+		<if test="useFg != null and useFg != ''">
+			AND USE_FG = #{useFg}
+		</if>
+		ORDER BY BATCH_ID
+	</select>
+
+</mapper>

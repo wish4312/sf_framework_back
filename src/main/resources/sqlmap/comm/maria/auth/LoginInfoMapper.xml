@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="comm.auth.loginInfo">
+    <insert id="insertLoginInfo">
+    /* comm.loginInfo.insertLoginInfo : 로그인정보 등록 */
+        INSERT INTO COMM_LOGIN_INFO
+               (
+                USER_NO
+               ,USER_STAT_CD
+               ,USER_LOGIN_ID
+               ,USER_PSWD
+               ,PSWD_ERR_CNT
+               ,PSWD_MOD_DTTM
+               ,REG_USER_NO
+               ,REG_DTTM
+               ,PROC_USER_NO
+               ,PROC_DTTM    
+               )
+        VALUES (
+                #{userNo}
+                <choose>
+                	<when test="userStatCd != null and userStatCd != ''.toString()">
+                	,#{userStatCd}
+                	</when>
+                	<otherwise>
+                	,'0'
+                	</otherwise>
+                </choose>
+               ,#{userLoginId}
+               ,#{userPswd}
+               <choose>
+                	<when test="pswdErrCnt != null and pswdErrCnt != ''.toString()">
+                	,#{pswdErrCnt}
+                	</when>
+                	<otherwise>
+					,0                	
+                	</otherwise>
+                </choose>
+               <choose>
+                	<when test="pswdErrCnt != null and pswdErrCnt != ''.toString()">
+                	,#{pswdModDttm}
+                	</when>
+                	<otherwise>
+					,NOW()                	
+                	</otherwise>
+                </choose>
+               ,#{session.userNo}
+               ,NOW()
+               ,#{session.userNo}
+               ,NOW()    
+               )
+    </insert>
+
+    <update id="updateLoginInfo">
+    /* comm.loginInfo.updateLoginInfo : 로그인정보 수정 */
+        UPDATE COMM_LOGIN_INFO
+           <trim prefix="SET" prefixOverrides=",">
+               <if test="userStatCd != null and userStatCd != ''">
+               ,USER_STAT_CD = #{userStatCd}
+               </if>
+               <if test="userLoginId != null and userLoginId != ''">
+               ,USER_LOGIN_ID = #{userLoginId}
+               </if>
+               <if test="userPswd != null and userPswd != ''">
+               ,USER_PSWD = #{userPswd}
+               </if>
+               <if test="pswdErrCnt != null and pswdErrCnt != ''">
+               ,PSWD_ERR_CNT = #{pswdErrCnt}
+               </if>
+               <if test="pswdModDttm != null">
+               ,PSWD_MOD_DTTM = #{pswdModDttm}
+               </if>
+               ,PROC_USER_NO = #{session.userNo}
+               ,PROC_DTTM = NOW()
+           </trim>
+         WHERE 1=1
+           AND USER_NO = #{userNo} 
+    </update>
+    
+    <delete id="deleteLoginInfo">
+    /* comm.loginInfo.deleteLoginInfo : 로그인정보 삭제 */
+        DELETE
+          FROM COMM_LOGIN_INFO
+         WHERE 1=1
+           AND USER_NO = #{userNo} 
+    </delete>
+
+    <select id="selectLoginInfoForLogin" resultType="com.lsitc.core.base.CamelHashMap">
+        SELECT A.USER_NO
+              ,A.USER_PSWD
+              ,B.USER_NM 
+              ,B.COM_ID
+              ,B.BLOC_ID
+              , ifnull(C.BLOC_NM, '') as BLOC_NM
+              , (
+            	SELECT /* 사용자가 가지는 ROLE */
+	              	GROUP_CONCAT(X.ROLE_ID)
+				FROM COMM_ROLE_USER X
+				WHERE 1=1 
+				    AND B.COM_ID = X.COM_ID 
+				    AND B.USER_NO = X.USER_NO
+                ) AS ROLE_LIST
+          FROM COMM_LOGIN_INFO A
+         INNER JOIN COMM_USER B ON A.USER_NO = B.USER_NO
+         LEFT JOIN COMM_BLOC_INFO C ON B.COM_ID = C.COM_ID AND B.BLOC_ID = C.BLOC_ID
+         WHERE 1=1
+           AND B.COM_ID = #{comId}
+           AND USER_LOGIN_ID = #{userId}
+    </select>
+
+    <select id="selectLoginInfo"
+        resultType="com.lsitc.fems.comm.auth.vo.LoginInfoVo">
+        /* comm.loginInfo.selectLoginInfo : 로그인 정보 조회 */
+        SELECT
+        USER_NO
+        ,USER_STAT_CD
+        ,USER_LOGIN_ID
+        ,USER_PSWD
+        ,PSWD_ERR_CNT
+        ,PSWD_MOD_DTTM
+        ,REG_USER_NO
+        ,REG_DTTM
+        ,PROC_USER_NO
+        ,PROC_DTTM
+        FROM COMM_LOGIN_INFO
+        WHERE
+        1=1
+        <if test="userNo != null and userNo != ''">
+            AND USER_NO = #{userNo}
+        </if>
+        <if test="userStatCd != null and userStatCd != ''">
+            AND USER_STAT_CD = #{userStatCd}
+        </if>
+        <if test="userLoginId != null and userLoginId != ''">
+            AND USER_LOGIN_ID = #{userLoginId}
+        </if>
+        <if test="userPswd != null and userPswd != ''">
+            AND USER_PSWD = #{userPswd}
+        </if>
+        <if test="pswdErrCnt != null and pswdErrCnt != ''">
+            AND PSWD_ERR_CNT = #{pswdErrCnt}
+        </if>
+        <if test="pswdModDttm != null and pswdModDttm != ''">
+            AND PSWD_MOD_DTTM = #{pswdModDttm}
+        </if>
+    </select>
+    
+    <select id="selectMenuAuth" resultType="com.lsitc.core.base.CamelHashMap">
+    /* comm.loginInfo.selectLoginInfo : 로그인 정보 조회 */
+    WITH TMP AS (
+        SELECT /* comm.loginInfo.selectMenuAuth 권한이 있는 메뉴 목록 */
+                  D.MENU_ID /* 메뉴ID */
+                , D.MENU_NM /* 메뉴명 */
+                , D.UP_MENU_ID /* 상위메뉴ID */
+                , E.URL /* URL */
+                , C.AUTH_CD /* 권한 */
+             FROM COMM_ROLE_USER A /* 역할별사용자 */
+            INNER JOIN COMM_MENU_ROLE B ON ( A.COM_ID=B.COM_ID AND A.ROLE_ID  = B.ROLE_ID ) /* 역할별메뉴 */
+             LEFT OUTER JOIN COMM_MENU_ROLE_AUTH C ON ( A.COM_ID=C.COM_ID AND B.ROLE_ID = C.ROLE_ID AND B.MENU_ID = C.MENU_ID ) /* 역할별 권한 */ 
+            INNER JOIN COMM_MENU D ON ( A.COM_ID=D.COM_ID AND B.MENU_ID = D.MENU_ID ) /* 메뉴 */
+             LEFT OUTER JOIN COMM_PRGM E ON ( D.PRGM_ID = E.PRGM_ID ) /* 프로그램 */
+            WHERE A.COM_ID = #{session.comId}
+              /* essential */
+              AND A.USER_NO = #{session.userNo} /* USER_NO */
+              AND D.MENU_ID = #{menuId}
+              AND NOW() BETWEEN A.APLY_START_DT AND A.APLY_END_DT /* 현재 유효한것만 */
+    )
+    SELECT A.MENU_ID
+          ,A.MENU_NM
+          ,A.UP_MENU_ID
+          ,A.URL
+          ,( SELECT /* 사용자가 가지는 ROLE */
+              	GROUP_CONCAT(C.AUTH_CD)
+			FROM TMP C
+			WHERE 1=1 
+                AND C.MENU_ID = A.MENU_ID     	
+          	) AS AUTH_CD
+      FROM TMP A
+     GROUP
+        BY A.MENU_ID
+          ,A.MENU_NM
+          ,A.UP_MENU_ID
+          ,A.URL
+    </select>
+</mapper>

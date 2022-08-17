@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="comm.base.comm">
+    <select id="selectBlocMstr" resultType="com.lsitc.fems.comm.base.vo.BlocMstrVo">
+    /* comm.comm.selectBlocMstr : 사업장 코드 조회 */
+        SELECT COM_ID
+              ,BLOC_ID
+              ,BLOC_NM
+              ,PLC_ID
+              ,SORT_SEQ
+              ,USE_FG
+              ,RMRK
+              ,REG_USER_NO
+              ,REG_DTTM
+              ,PROC_USER_NO
+              ,PROC_DTTM
+          FROM COMM_BLOC_INFO
+         WHERE 1=1 
+           AND COM_ID = #{session.comId}
+           <if test="blocId != null and blocId != ''">
+           AND BLOC_ID = #{blocId}
+           </if>
+           <if test="plcId != null and plcId != ''">
+           AND PLC_ID = #{plcId}
+           </if>
+    </select>
+    
+</mapper>

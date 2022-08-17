@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="comm.base.noticeMng">
+    <select id="selectPostList" resultType="com.lsitc.core.base.CamelHashMap" >
+    /* comm.noticeMng.selectPostList : 게시판 리스트 조회 */
+		SELECT B.COM_ID, B.BORD_NO, P.POST_NO, P.POST_ORG_NO, P.POST_GRP_ORD, P.POST_GRP_LAYER, 
+					P.POST_TITL, P.POST_TITL AS TITLE,
+		    		P.NOTI_YN, P.RPLY_POSS_YN, P.STRT_DTTM, P.END_DTTM, P.VIEW_CNT, P.APND_FILE_UUID,
+					P.REG_USER_NO, P.REG_DTTM
+		FROM comm_bord B
+		INNER JOIN comm_post P
+		ON B.COM_ID = P.COM_ID
+		AND B.BORD_NO = P.BORD_NO
+	     WHERE  B.COM_ID = #{session.comId}
+		AND B.USE_FG = '1'
+		AND B.BORD_NO = 'BORD0001'
+		ORDER BY P.POST_ORG_NO DESC, P.POST_GRP_ORD ASC
+    </select>
+    
+    <select id ="selectPost" resultType="com.lsitc.core.base.CamelHashMap">
+    /* comm.noticeMng.selectPost : 게시물 조회 */
+    	SELECT  B.COM_ID, B.BORD_NO, P.POST_NO, P.POST_ORG_NO, P.POST_GRP_ORD, P.POST_GRP_LAYER, 
+    				P.POST_TITL,  P.POST_TITL AS TITLE, P.POST_CNTN,
+		    		P.NOTI_YN, P.RPLY_POSS_YN, P.STRT_DTTM, P.END_DTTM, P.APND_FILE_UUID, P.VIEW_CNT,
+					P.REG_USER_NO, P.REG_DTTM
+		FROM comm_bord B
+		INNER JOIN
+		comm_post P
+		ON B.COM_ID = P.COM_ID
+		AND B.BORD_NO = P.BORD_NO
+	     WHERE  B.COM_ID = #{session.comId}
+		AND B.USE_FG = '1'
+		AND B.BORD_NO = #{bordNo}
+		AND P.POST_NO = #{postNo}
+    </select>
+    
+    <insert id="insertPost">
+    /* comm.noticeMng.insertPost : 게시물 등록 */
+    <selectKey keyProperty="postNo" resultType="java.math.BigDecimal" order="BEFORE">
+		SELECT IFNULL(MAX(POST_NO),0)+1
+					FROM comm_post
+				    WHERE COM_ID = #{session.comId}
+					AND BORD_NO =#{bordNo}
+    </selectKey>
+	    INSERT
+	      INTO comm_post
+	          ( 
+	            COM_ID,
+	            BORD_NO,
+	            POST_NO,
+	            POST_ORG_NO,
+	            POST_GRP_ORD,
+	            POST_GRP_LAYER,
+	            POST_TITL,
+	            POST_CNTN,
+	            RPLY_POSS_YN,
+	            APND_FILE_UUID,
+	            VIEW_CNT,
+	            REG_USER_NO,
+	            REG_DTTM,
+	            PROC_USER_NO,
+	            PROC_DTTM
+	          )
+	    VALUES (
+				#{session.comId}
+				,#{bordNo}
+				,#{postNo}
+				,#{postNo}
+				,0
+				,0
+				,#{postTitl}
+				,#{postCntn}
+				,#{rplyPossYn}
+				,#{apndFileUuid}
+				,0
+		        ,#{session.userNo}
+		        ,NOW()
+		        ,#{session.userNo}
+		        ,NOW()
+	          )
+    </insert>
+    
+    <insert id="insertRplPost">
+    /* comm.noticeMng.insertRplPost : 게시물 답글 등록 */	    
+      
+    	INSERT
+	      INTO comm_post
+	          ( 
+	            COM_ID,
+	            BORD_NO,
+	            POST_NO,
+	            POST_ORG_NO,
+	            POST_GRP_ORD,
+	            POST_GRP_LAYER,
+	            POST_TITL,
+	            POST_CNTN,
+	            RPLY_POSS_YN,
+	            APND_FILE_UUID,
+	            VIEW_CNT,
+	            REG_USER_NO,
+	            REG_DTTM,
+	            PROC_USER_NO,
+	            PROC_DTTM
+	          )
+	    VALUES (
+				#{session.comId}
+				,#{bordNo}
+				,(SELECT IFNULL(MAX(POST_NO),0)+1
+						FROM comm_post cp
+					    WHERE cp.COM_ID = #{session.comId}
+						AND cp.BORD_NO =#{bordNo})
+				,#{postOrgNo}
+				,#{postGrpOrd} + 1
+				,#{postGrpLayer} + 1
+				,#{postTitl}
+				,#{postCntn}
+				,#{rplyPossYn}
+				,#{apndFileUuid}
+				,0
+		        ,#{session.userNo}
+		        ,NOW()
+		        ,#{session.userNo}
+		        ,NOW()
+	          )	          
+    </insert>
+    
+    <update id="updateRplPostGrpOrd">
+      	UPDATE comm_post 
+      	SET POST_GRP_ORD = POST_GRP_ORD + 1 
+      	WHERE POST_ORG_NO = #{postOrgNo} and POST_GRP_ORD > #{postGrpOrd}
+   </update>
+   
+   <update id="updateViewCnt">
+		UPDATE comm_post
+		SET VIEW_CNT = VIEW_CNT + 1 
+		WHERE BORD_NO = #{bordNo}
+		AND POST_NO = #{postNo}
+	</update>
+	
+    <update id="updatePost">
+    /* comm.noticeMng.updatePost : 게시물 수정 */
+        UPDATE comm_post
+           <trim prefix="SET" prefixOverrides=",">
+               <if test="postTitl != null and postTitl != ''">
+               ,POST_TITL = #{postTitl}
+               </if>
+               <if test="postCntn != null and postCntn != ''">
+               ,POST_CNTN = #{postCntn}
+               </if>
+               <if test="notiYn != null and notiYn != ''">
+               ,NOTI_YN = #{notiYn}
+               </if>
+               <if test="apndFileUuid != null and apndFileUuid != ''">
+               ,APND_FILE_UUID = #{apndFileUuid}
+               </if>
+               ,PROC_USER_NO = #{session.userNo}
+               ,PROC_DTTM = NOW()
+           </trim>
+         WHERE 1=1
+           AND COM_ID = #{session.comId}
+           AND BORD_NO = #{bordNo} 
+           AND POST_NO = #{postNo} 
+    </update>
+    
+    <delete id="deletePost">
+    /* comm.noticeMng.deletePostList : 삭제 */
+    <!-- BEGIN TRAN -->
+    DELETE
+      FROM comm_post
+    WHERE 1=1
+      AND COM_ID = #{session.comId}
+      AND BORD_NO = #{bordNo}
+      AND POST_NO = #{postNo}
+    <!-- COMMIT TRAN -->
+    </delete>
+        
+    <update id="updateMenu">
+    /* comm.menuMng.updateMenu :  수정 */
+        UPDATE COMM_MENU
+           <trim prefix="SET" prefixOverrides=",">
+               <if test="sysDivCd != null and sysDivCd != ''">
+               ,SYS_DIV_CD = #{sysDivCd}
+               </if>
+               <if test="prgmId != null and prgmId != ''">
+               ,PRGM_ID = #{prgmId}
+               </if>
+               <if test="upMenuId != null and upMenuId != ''">
+               ,UP_MENU_ID = #{upMenuId}
+               </if>
+               <if test="menuNm != null and menuNm != ''">
+               ,MENU_NM = #{menuNm}
+               </if>
+               <if test="sortSeq != null and sortSeq != ''">
+               ,SORT_SEQ = #{sortSeq}
+               </if>
+               <if test="useFg != null and useFg != ''">
+               ,USE_FG = #{useFg}
+               </if>
+               <if test="rmrk != null and rmrk != ''">
+               ,RMRK = #{rmrk}
+               </if>
+               ,PROC_USER_NO = #{session.userNo}
+               ,PROC_DTTM = NOW()
+           </trim>
+         WHERE 1=1
+           AND MENU_ID = #{menuId} 
+           AND COM_ID = #{session.comId}
+    </update>
+
+</mapper>

@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="comm.base.orgMng">
+    <insert id="insertDeptCd">
+    /* comm.orgMng.insertDeptCd : 부서 채번 */
+    <selectKey keyProperty="deptCd" resultType="java.lang.String" order="BEFORE">
+    SELECT /* 메뉴ID 채번 */
+           CONCAT('DPT', LPAD(NEXT VALUE FOR SEQ_COMM_DEPT_CD, 4,'0'))
+    </selectKey>
+    /* comm.orgMng.insertDeptCd : 부서코드 등록 */
+        INSERT INTO COMM_DEPT_CD
+               (
+                COM_ID
+               ,DEPT_ID
+               ,UP_DEPT_ID
+               ,DEPT_NM
+               ,DEPT_ABRV_NM
+               ,USE_FG
+               ,SORT_SEQ
+               ,REG_USER_NO
+               ,REG_DTTM
+               ,PROC_USER_NO
+               ,PROC_DTTM    
+               )
+        VALUES (
+                #{session.comId}
+               ,#{deptId}
+               ,#{upDeptId}
+               ,#{deptNm}
+               ,#{deptAbrvNm}
+               ,#{useFg}
+               ,#{sortSeq}
+               ,#{session.userNo}
+               ,NOW()
+               ,#{session.userNo}
+               ,NOW()    
+               )
+    </insert>
+
+    <update id="updateDeptCd">
+    /* comm.orgMng.updateDeptCd : 부서코드 수정 */
+        UPDATE COMM_DEPT_CD
+           <trim prefix="SET" prefixOverrides=",">
+               <if test="upDeptId != null and upDeptId != ''">
+               ,UP_DEPT_CD = #{upDeptId}
+               </if>
+               <if test="deptNm != null and deptNm != ''">
+               ,DEPT_NM = #{deptNm}
+               </if>
+               <if test="deptAbrvNm != null">
+               ,DEPT_ABRV_NM = #{deptAbrvNm}
+               </if>
+               <if test="useFg != null and useFg != ''">
+               ,USE_FG = #{useFg}
+               </if>
+               <if test="sortSeq != null">
+               ,SORT_SEQ = #{sortSeq}
+               </if>
+               ,PROC_USER_NO = #{session.userNo}
+               ,PROC_DTTM = NOW()
+           </trim>
+         WHERE 1=1
+           AND COM_ID = #{session.comId}
+           AND DEPT_ID = #{deptId}
+    </update>
+    
+    <delete id="deleteDeptCd">
+    /* comm.orgMng.deleteDeptCd : 부서코드 삭제 */
+        DELETE
+          FROM COMM_DEPT_CD
+         WHERE 1=1
+           AND COM_ID = #{session.comId}
+           AND DEPT_ID = #{deptId}
+    </delete>
+    
+    <select id="selectDeptCd" resultType="com.lsitc.fems.comm.base.vo.DeptCdVo">
+    /* comm.orgMng.selectDeptCd :  부서를 트리형태로 조회 */
+        WITH CTE AS (
+            /* 부서를 트리형태로 조회 */
+            SELECT 
+                   COM_ID
+                  ,DEPT_ID
+                  ,UP_DEPT_ID
+                  ,DEPT_NM
+                  ,DEPT_ABRV_NM
+                  ,USE_FG
+                  ,CONVERT(SORT_SEQ, VARCHAR(10)) as SORT_SEQ
+                  ,CONVERT('.' + CAST(SORT_SEQ as varchar(10)), varchar(10)) AS SORT_REF
+                  ,ROW_NUMBER() OVER(order by COM_ID)-1 as LVL
+                  ,REG_USER_NO
+                  ,REG_DTTM
+                  ,PROC_USER_NO
+                  ,PROC_DTTM    
+              FROM COMM_DEPT_CD
+             WHERE 1=1
+               AND COM_ID = #{session.comId}
+               AND UP_DEPT_ID = 'ROOT'
+                              
+             UNION ALL 
+                 
+            SELECT 
+                   B.COM_ID
+                  ,B.DEPT_ID
+                  ,B.UP_DEPT_ID
+                  ,B.DEPT_NM
+                  ,B.DEPT_ABRV_NM
+                  ,B.USE_FG
+                  ,CONVERT(B.SORT_SEQ, VARCHAR(10)) as SORT_SEQ
+                  ,CONVERT(A.SORT_REF + '.' + CAST(B.SORT_SEQ as varchar(10)), varchar(10)) AS SORT_REF
+                  ,A.LVL + 1 as LVL
+                  ,A.REG_USER_NO
+                  ,A.REG_DTTM
+                  ,A.PROC_USER_NO
+                  ,A.PROC_DTTM
+              FROM CTE A INNER JOIN COMM_DEPT_CD B ON A.DEPT_ID = B.UP_DEPT_ID    
+             WHERE 1=1
+               <if test="comId != null and comId != ''">
+               AND B.COM_ID = #{session.comId}
+               </if>
+               <if test="deptId != null and deptId != ''">
+               AND B.DEPT_ID = #{deptId}
+               </if>
+               <if test="upDeptId != null and upDeptId != ''">
+               AND B.UP_DEPT_ID = #{upDeptId}
+               </if>
+               <if test="deptNm != null and deptNm != ''">
+               AND B.DEPT_NM = #{deptNm}
+               </if>
+               <if test="deptAbrvNm != null and deptAbrvNm != ''">
+               AND B.DEPT_ABRV_NM = #{deptAbrvNm}
+               </if>
+               <if test="useFg != null and useFg != ''">
+               AND B.USE_FG = #{useFg}
+               </if>
+        ) 
+        SELECT *
+          FROM CTE 
+         ORDER
+            BY SORT_REF 
+    </select>
+</mapper>

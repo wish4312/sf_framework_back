@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="comm.base.widgetMng">
+    
+    
+    <select id="selectWidget" resultType="com.lsitc.fems.comm.base.vo.WidgetVo">
+    /* comm.widgetMng.selectWidget : 위젯 조회 */
+        SELECT 
+                 WIDGET_ID
+				,WIDGET_NM
+				,WIDGET_DESC
+				,PRGM_ID
+				,WIDGET_THUMBNAIL_FILE
+				,WIDGET_THUMBNAIL
+				,USE_FG
+				,REG_USER_NO
+				,REG_DTTM
+				,PROC_USER_NO
+				,PROC_DTTM
+          FROM COMM_WIDGET
+         WHERE 1=1 
+           <if test="widgetNm != null and widgetNm != ''">
+           AND WIDGET_NM LIKE CONCAT('%', #{widgetNm}, '%')
+           </if>
+           <if test="useFg != null and useFg != ''">
+           AND USE_FG = #{useFg}
+           </if>
+         ORDER
+            BY WIDGET_ID
+    </select>
+    
+    <insert id="insertWidget">
+    /* comm.widgetMng.insertWidget : 위젯 등록 */
+    INSERT INTO COMM_WIDGET
+               (
+                WIDGET_ID
+               ,WIDGET_NM
+               ,WIDGET_DESC
+               ,PRGM_ID
+               ,WIDGET_THUMBNAIL_FILE
+			   ,WIDGET_THUMBNAIL
+               ,USE_FG
+               ,REG_USER_NO
+               ,REG_DTTM
+               ,PROC_USER_NO
+               ,PROC_DTTM
+               )
+        VALUES (
+                #{widgetId}
+               ,#{widgetNm}
+               ,#{widgetDesc}
+               ,#{prgmId}
+               ,#{widgetThumbnailFile}
+			   ,#{widgetThumbnail}
+               ,#{useFg}
+               ,#{session.userNo}
+               ,NOW()
+               ,#{session.userNo}
+               ,NOW()
+               )
+    </insert>
+    
+    <update id="updateWidget">
+    /* comm.widgetMng.updateWidget : 위젯 수정 */
+   	 UPDATE COMM_WIDGET
+        <trim prefix="SET" prefixOverrides=",">
+            <if test="widgetNm != null and widgetNm != ''">
+            ,WIDGET_NM = #{widgetNm}
+            </if>
+            <if test="widgetId != null and widgetId != ''">
+            ,WIDGET_ID = #{widgetId}
+            </if>
+            <if test="widgetDesc != null and widgetDesc != ''">
+            ,WIDGET_DESC = #{widgetDesc}
+            </if>
+            <if test="prgmId != null and prgmId != ''">
+            ,PRGM_ID = #{prgmId}
+            </if>
+            <if test="useFg != null and useFg != ''">
+            ,USE_FG = #{useFg}
+            </if>
+            <if test="widgetThumbnailFile != null and widgetThumbnailFile != ''">
+            ,WIDGET_THUMBNAIL_FILE = #{widgetThumbnailFile}
+            </if>
+            <if test="widgetThumbnail != null and widgetThumbnail != ''">
+			,WIDGET_THUMBNAIL = #{widgetThumbnail}
+			</if>
+            ,PROC_USER_NO = #{session.userNo}
+            ,PROC_DTTM = NOW()
+        </trim>
+      WHERE 1=1
+        AND WIDGET_ID = #{widgetId}
+    </update>
+    
+    <delete id="deleteWidget">
+    /* comm.widgetMng.deleteWidget : 위젯 삭제 */
+    DELETE
+      FROM COMM_WIDGET
+     WHERE 1=1
+       AND WIDGET_ID = #{widgetId} 
+    </delete>
+    
+    <select id="selectNotMyWidget" resultType="com.lsitc.fems.comm.base.vo.WidgetVo">
+    /* comm.widgetMng.selectMyWidget : 위젯 수정 */
+	    SELECT
+		 	 WIDGET_ID
+			,WIDGET_NM
+			,WIDGET_DESC
+			,WIDGET_THUMBNAIL_FILE
+			,WIDGET_THUMBNAIL
+			,USE_FG
+			,REG_USER_NO
+			,REG_DTTM
+			,PROC_USER_NO
+			,PROC_DTTM
+		FROM COMM_WIDGET
+		WHERE WIDGET_ID NOT IN (
+			SELECT WIDGET_ID
+			  FROM COMM_INDV_WIDGET
+			 WHERE COM_ID = #{session.comId} 
+			   AND BLOC_ID = #{session.blocId}
+			   AND USER_NO = #{session.userNo}
+		)
+    </select>
+    
+    <select id="selectMyWidget" resultType="com.lsitc.fems.comm.base.vo.WidgetVo">
+    /* comm.widgetMng.selectMyWidget : 위젯 수정 */
+			SELECT 
+ 				 A.COM_ID
+				,A.BLOC_ID
+				,A.USER_NO
+				,A.WIDGET_ID
+				,(SELECT B.WIDGET_NM FROM COMM_WIDGET B WHERE A.WIDGET_ID = B.WIDGET_ID) AS WIDGET_NM
+				,A.WIDGET_ORDR_SEQ
+				,A.WIDGET_REFLASH_MM
+				,A.REG_USER_NO
+				,A.REG_DTTM
+				,A.PROC_USER_NO
+				,A.PROC_DTTM
+			  FROM COMM_INDV_WIDGET A
+			 WHERE A.COM_ID = #{session.comId} 
+			   AND A.BLOC_ID = #{session.blocId}
+			   AND A.USER_NO = #{session.userNo}
+			 ORDER BY A.WIDGET_ORDR_SEQ
+    </select>    
+    
+    <insert id="insertMyWidget">
+    /* comm.widgetMng.insertMyWidget : 위젯 등록 */
+    INSERT INTO COMM_INDV_WIDGET
+               (
+                 COM_ID
+				,BLOC_ID
+				,USER_NO
+				,WIDGET_ID
+				,WIDGET_ORDR_SEQ
+				,WIDGET_REFLASH_MM
+				,REG_USER_NO
+				,REG_DTTM
+				,PROC_USER_NO
+				,PROC_DTTM
+               )
+        VALUES (
+                #{session.comId}
+               ,#{session.blocId}
+               ,#{session.userNo}
+               ,#{widgetId}
+               ,#{widgetOrdrSeq}
+               ,#{widgetReflashMm}
+               ,#{session.userNo}
+               ,NOW()
+               ,#{session.userNo}
+               ,NOW()
+               )
+    </insert>
+    
+     <update id="updateMyWidget">
+    /* comm.widgetMng.updateMyWidget : 위젯 수정 */
+   	 UPDATE COMM_INDV_WIDGET SET
+			 WIDGET_ORDR_SEQ = #{widgetOrdrSeq}
+			,WIDGET_REFLASH_MM = #{widgetReflashMm} 
+			,PROC_USER_NO = #{session.userNo}
+			,PROC_DTTM = NOW()
+      WHERE 1=1
+        AND COM_ID = #{session.comId}
+		AND	BLOC_ID = #{session.blocId}
+		AND	USER_NO = #{session.userNo}
+		AND WIDGET_ID = #{widgetId}
+    </update>
+    
+    <delete id="deleteMyWidget">
+    /* comm.widgetMng.deleteMyWidget : 위젯 삭제 */
+    DELETE
+      FROM COMM_INDV_WIDGET
+     WHERE 1=1
+       AND COM_ID = #{session.comId}
+		AND	BLOC_ID = #{session.blocId}
+		AND	USER_NO = #{session.userNo}
+		AND WIDGET_ID = #{widgetId} 
+    </delete>
+    
+    <select id="selectWidgetPrgmUrl" resultType="com.lsitc.fems.comm.base.vo.WidgetVo">
+		SELECT
+			  A.WIDGET_ID
+			 ,A.PRGM_ID
+			 ,CONCAT(B.URL,'?prgmId=',B.PRGM_ID) AS PRGM_URL
+		FROM COMM_WIDGET A
+		JOIN COMM_PRGM B
+		JOIN COMM_INDV_WIDGET C
+		WHERE C.COM_ID = #{session.comId} 
+		AND C.BLOC_ID = #{session.blocId}
+		AND C.USER_NO = #{session.userNo}
+		AND A.PRGM_ID = B.PRGM_ID
+		AND A.WIDGET_ID  = C.WIDGET_ID
+    </select>
+</mapper>

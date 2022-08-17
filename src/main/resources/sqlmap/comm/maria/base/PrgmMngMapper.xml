@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="comm.base.prgmMng">
+    
+    <insert id="insertPrgm">
+    /* comm.prgmMng.insertPrgm : 프로그램 등록 */
+    <selectKey keyProperty="prgmId" resultType="java.lang.String" order="BEFORE">
+        SELECT /* 프로그램ID 채번 */
+               CONCAT('PRG', LPAD(NEXT VALUE FOR SEQ_COMM_PRGM, 4,'0'))
+    </selectKey>
+        INSERT INTO COMM_PRGM
+               (
+                PRGM_ID
+               ,PRGM_NM
+               ,PRGM_TP_CD
+               ,URL
+               ,USE_FG
+               ,REG_USER_NO
+               ,REG_DTTM
+               ,PROC_USER_NO
+               ,PROC_DTTM
+               )
+        VALUES (
+                #{prgmId}
+               ,#{prgmNm}
+               ,#{prgmTpCd}
+               ,#{url}
+               ,#{useFg}
+               ,#{session.userNo}
+               ,NOW()
+               ,#{session.userNo}
+               ,NOW()
+               )
+    </insert>
+
+    <update id="updatePrgm">
+    /* comm.prgmMng.updatePrgm : 프로그램 수정 */
+        UPDATE COMM_PRGM
+           <trim prefix="SET" prefixOverrides=",">
+               <if test="prgmNm != null and prgmNm != ''">
+               ,PRGM_NM = #{prgmNm}
+               </if>
+               <if test="prgmTpCd != null and prgmTpCd != ''">
+               ,PRGM_TP_CD = #{prgmTpCd}
+               </if>
+               <if test="url != null and url != ''">
+               ,URL = #{url}
+               </if>
+               <if test="useFg != null and useFg != ''">
+               ,USE_FG = #{useFg}
+               </if>
+               ,PROC_USER_NO = #{session.userNo}
+               ,PROC_DTTM = NOW()
+           </trim>
+         WHERE 1=1
+           AND PRGM_ID = #{prgmId} 
+    </update>
+    
+    <delete id="deletePrgm">
+    /* comm.prgmMng.deletePrgm : 프로그램 삭제 */
+        DELETE
+          FROM COMM_PRGM
+         WHERE 1=1
+           AND PRGM_ID = #{prgmId} 
+    </delete>
+    
+    <select id="selectPrgm" resultType="com.lsitc.fems.comm.base.vo.PrgmVo">
+    /* comm.prgmMng.selectPrgm : 프로그램 조회 */
+        SELECT 
+               PRGM_ID
+              ,PRGM_NM
+              ,PRGM_TP_CD
+              ,URL
+              ,USE_FG
+              ,REG_USER_NO
+              ,REG_DTTM
+              ,PROC_USER_NO
+              ,PROC_DTTM
+          FROM COMM_PRGM
+         WHERE 1=1 
+           <if test="prgmId != null and prgmId != ''">
+           AND PRGM_ID LIKE CONCAT('%', #{prgmId}, '%')
+           </if>
+           <if test="prgmNm != null and prgmNm != ''">
+           AND PRGM_NM LIKE CONCAT('%', #{prgmNm}, '%')
+           </if>
+           <if test="prgmTpCd != null and prgmTpCd != ''">
+           AND PRGM_TP_CD = #{prgmTpCd}
+           </if>
+           <if test="useFg != null and useFg != ''">
+           AND USE_FG = #{useFg}
+           </if>
+         ORDER
+            BY PRGM_ID
+    </select>
+        
+</mapper>

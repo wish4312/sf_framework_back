@@ -1,0 +1,326 @@
+#####공통 설정#####
+spring:
+  #log색상지정
+  output:
+    ansi:
+      enabled: always
+  gatewayUrl: http://localhost:9999
+    
+  #mvc
+  mvc:
+    view:
+      prefix: /WEB-INF/jsp/
+      suffix: .jsp
+
+  # Redis 서버 설정 정보
+  redis:
+    host: 192.168.0.151
+    port: 6379
+  
+  # rabbitMq 서버 설정 정보 
+  rabbitmq:
+    host: 192.168.0.151
+    port: 5672
+    username: fems
+    password: fems2021!
+    virtual-host: femsEvent
+    
+# Templates reloading during development
+  thymeleaf:
+    cache: false
+    check-template: true
+    check-template-location: true
+    enabled: true
+    encoding: UTF-8
+    mode: HTML
+    prefix: classpath:/templates/
+    suffix: .html
+    servlet:
+      content-type: text/html
+      
+  #servlet 설정
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 20MB
+      max-request-size: 100MB
+      
+
+# jasypt bean regist : 프로퍼티 암호화 기능 관련 복호화 처리
+jasypt:
+  encryptor:
+    bean: jasyptStringEncryptor
+  key: "857b2405e94125f026da8aecb65ad1616bcf336ae827b549146a83cfc17bcbeb79253b61f016fac169e5cf033d470c319afa591224c1cbb84450aa08bf7cf372" #256 bits이상 (default: kfems)
+#
+jwt:
+  cookieId: "FEMS_SESSION"
+  secretKey: "32cdd8f65ec9344d3394dde288d0c8133f9dc7b783709a2e3fbe44285d4596d522e99506422f14d66187ea2c56d1542573922fff697a9915817b95f85bc34336" #256 bits이상 (default: secretKeysecretKeysecretKeysecretKeysecretKeysecretKey)
+  tokenValidTime: -1 #분단위 (default: 30)
+
+
+# API 연결 정보
+api:
+  das:
+    mode: http
+    host: localhost
+    port: 12482
+    query:
+      dps:
+        prefix: /tsdb/query/fems/v1/dps/tag
+      last:
+        prefix: /tsdb/query/fems/v1/last/tag
+
+# SMS 발송 시스템 정보
+sms:
+  userid: ENC(0s1NmPGeMvJkDBgSXuinPQ==)
+  apikey: ENC(rJOTIJnWNMPiYSX/PyXRaagT+nd7K9ss)
+  sndUrl: ENC(cRRwwL+vtoDTLYNfknoKY/hL2nTwUpaRXWXRDxUE89t4pM5XF1yevTY1X3iaBBw/as07cj1Z5PGn5PR356kehbhOC6uIhcy6)
+
+#We can use the httpOnly and secure flags to secure our session cookie:
+#
+#httpOnly: if true then browser script won't be able to access the cookie
+#secure: if true then the cookie will be sent only over HTTPS connection
+server:
+  servlet:
+    encoding: 
+      charset: UTF-8
+      force: true
+    session:
+      cookie:
+        http-only: true
+#        secure: true
+# 아래 max-swallow-size 쓸건지 여부는 판단해야함. 
+#  tomcat:
+#    max-swallow-size: 100MB
+
+#
+restTemplate:
+  factory:
+    connectTimeout: 3000
+    readTimeout: 5000 
+  httpClient:
+    maxConnPerRoute: 5 
+    maxConnTotal: 100
+
+#mybatis
+mybatis:
+  configuration:
+    default-executor-type: reuse
+    lazy-loading-enabled: true
+    map-underscore-to-camel-case: true
+    use-generated-keys: true
+  mapper-locations: classpath*:sqlmap/**/${spring.datasource.db-type}/**/**.xml
+  type-aliases-package: com.lsitc.core.base
+
+--- 
+#####local환경#####
+spring:
+  config:
+    activate:
+      on-profile: local
+  #datasource-maria
+  datasource:
+    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy #logging SQL
+    url: jdbc:log4jdbc:mariadb://192.168.0.151/fems
+    username: femsadmin
+    password: fems2021!
+    hikari:
+        minimum-idle: 1
+        maximum-pool-size: 3
+        idle-timeout: 600000 #(10분)
+        max-lifetime: 1800000 #(30분)
+        connection-timeout: 15000 
+    
+#파일관련 
+file:
+  allowMimeType: application/zip,application/msword,application/pdf,application/x-hwp,applicaion/haansofthwp,application/x-tika-msoffice,application/x-tika-ooxml,image,text,application/vnd.ms-word,application/vnd.ms-excel,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument,applicaion/vnd.hancom
+  allowType: xlsx,ppt,pptx,doc,docx,pdf,hwp,csv,txt,wav,avi,mp3,mpeg,bmp,jpg,jpeg,png,gif,au,ogg,dwg,XLSX,PPT,PPTX,DOC,DOCX,PDF,HWP,CSV,TXT,WAV,AVI,MP3,MPEG,BMP,JPG,JPEG,PNG,GIF,AU,OGG,DWG
+  filePath: c:\tmp\real
+  fileTmpPath: c:\tmp\tmp
+  
+
+#로깅관련  
+logging:
+  config: classpath:logback_spring.xml
+  file:
+    path: c:\tmp\logs
+    max-size: 10MB
+    max-history: 7
+  level: 
+    root: DEBUG
+  loginLogEnable: false
+  menuCnctLogEnable: false
+
+
+#서버포트 설정
+server:
+  error:
+    #에러표시여부
+    include-exception: false
+    #stactrcae포함
+    include-stacktrace: always
+    #handler path
+    path: /error
+    # 기본처리사용여부
+    whitelabel:
+      enabled: false
+  #port설정
+  port: 8080
+  
+
+#management:
+#  endpoints:  
+#    prometheus: 
+#      enabled: true
+#    web:
+#      exposure:
+#        include: 
+#          - health
+#          - info
+#          - env
+#          - metrics
+#          - prometheus
+#  metrics:
+#    enabled: true
+#    export:
+#      prometheus:
+#        enabled: true
+#    tags:
+#      application: ${spring.application.name}    # 서비스 단위의 식별자. Prometheus label에 추가됨.
+      
+--- 
+#####운영 환경#####
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+#
+file:
+  allowType: xlsx,ppt,pptx,doc,docx,pdf,hwp,csv,txt,wav,avi,mp3,mpeg,bmp,jpg,jpeg,png,gif,au,ogg,dwg,XLSX,PPT,PPTX,DOC,DOCX,PDF,HWP,CSV,TXT,WAV,AVI,MP3,MPEG,BMP,JPG,JPEG,PNG,GIF,AU,OGG,DWG
+  allowMimeType: application/zip,application/msword,application/pdf,application/x-hwp,applicaion/haansofthwp,application/x-tika-msoffice,application/x-tika-ooxml,image,text,application/vnd.ms-word,application/vnd.ms-excel,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument,applicaion/vnd.hancom
+  filePath: D:\bgrEms\files\real
+  fileTmpPath: D:\bgrEms\files\tmp
+
+#logging  
+logging:
+  config: classpath:logback_spring.xml
+  file:
+    path: D:\bgrEms\logs
+    max-history: 30
+    max-size: 100MB
+  level: 
+    ROOT: INFO
+  loginLogEnable: true #로그인 로그 여부
+  menuCnctLogEnable: true #메뉴 로그 여부
+    
+#서버포트 설정
+server:
+  error:
+    #에러표시여부
+    include-exception: false
+    #stactrcae포함
+    include-stacktrace: never
+    #handler path
+    path: /error
+    # 기본처리사용여부
+    whitelabel:
+      enabled: false
+  #port설정
+  port: 8080
+
+      
+--- 
+#####운영 환경#####
+spring:
+  config:
+    activate:
+      on-profile: docker
+
+#
+file:
+  allowType: xlsx,ppt,pptx,doc,docx,pdf,hwp,csv,txt,wav,avi,mp3,mpeg,bmp,jpg,jpeg,png,gif,au,ogg,dwg,XLSX,PPT,PPTX,DOC,DOCX,PDF,HWP,CSV,TXT,WAV,AVI,MP3,MPEG,BMP,JPG,JPEG,PNG,GIF,AU,OGG,DWG
+  allowMimeType: application/zip,application/msword,application/pdf,application/x-hwp,applicaion/haansofthwp,application/x-tika-msoffice,application/x-tika-ooxml,image,text,application/vnd.ms-word,application/vnd.ms-excel,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument,applicaion/vnd.hancom
+  filePath: /tmp/files/real
+  fileTmpPath: /tmp/files/tmp
+
+#logging  
+logging:
+  config: classpath:logback_spring.xml
+  file:
+    path: /tmp/logs
+    max-history: 30
+    max-size: 100MB
+  level: 
+    ROOT: INFO
+  loginLogEnable: true #로그인 로그 여부
+  menuCnctLogEnable: true #메뉴 로그 여부
+    
+#서버포트 설정
+server:
+  error:
+    #에러표시여부
+    include-exception: false
+    #stactrcae포함
+    include-stacktrace: never
+    #handler path
+    path: /error
+    # 기본처리사용여부
+    whitelabel:
+      enabled: false
+  #port설정
+  port: 8080
+
+---
+spring:
+  config:
+    activate:
+      on-profile: cloud
+  #datasource-maria 
+  datasource:
+    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy #logging SQL
+    url: jdbc:log4jdbc:mariadb://192.168.0.151/fems
+    username: femsadmin
+    password: fems2021!
+    hikari:
+        minimum-idle: 3
+        maximum-pool-size: 10
+        idle-timeout: 600000 #(10분)
+        max-lifetime: 1800000 #(30분)
+        connection-timeout: 15000 
+    
+#파일관련 
+file:
+  allowMimeType: application/zip,application/msword,application/pdf,application/x-hwp,applicaion/haansofthwp,application/x-tika-msoffice,application/x-tika-ooxml,image,text,application/vnd.ms-word,application/vnd.ms-excel,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument,applicaion/vnd.hancom
+  allowType: xlsx,ppt,pptx,doc,docx,pdf,hwp,csv,txt,wav,avi,mp3,mpeg,bmp,jpg,jpeg,png,gif,au,ogg,dwg,XLSX,PPT,PPTX,DOC,DOCX,PDF,HWP,CSV,TXT,WAV,AVI,MP3,MPEG,BMP,JPG,JPEG,PNG,GIF,AU,OGG,DWG
+  filePath: /tmp/real
+  fileTmpPath: /tmp/tmp
+  
+
+#로깅관련  
+logging:
+  config: classpath:logback_spring.xml
+  file:
+    path: /tmp/logs
+    max-size: 10MB
+    max-history: 7
+  level: 
+    root: DEBUG
+  loginLogEnable: false
+  menuCnctLogEnable: false
+
+
+#서버포트 설정
+server:
+  error:
+    #에러표시여부
+    include-exception: false
+    #stactrcae포함
+    include-stacktrace: always
+    #handler path
+    path: /error
+    # 기본처리사용여부
+    whitelabel:
+      enabled: false
+  #port설정
+  port: 8080
