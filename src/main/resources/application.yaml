@@ -10,9 +10,9 @@ spring:
     #db type으로 반드시 지정하여야 한다.(mapper-scan용)
     db-type: maria
     #db-type: mssql
-    serverIp: 192.168.0.151
+    serverIp: 10.123.202.151
     port: 3306
-    databaseName: fems
+    databaseName: dynamic
     username: femsadmin
     password: fems2021!
 
@@ -41,8 +41,8 @@ spring:
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
     url: jdbc:mariadb://${spring.datasource.serverIp}:${spring.datasource.port}/${spring.datasource.databaseName}
-    username: femsadmin
-    password: fems2021!
+    username: lsitc
+    password: lsitc1234
 #로깅관련
 logging:
   loginLogEnable: true
