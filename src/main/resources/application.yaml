@@ -7,14 +7,8 @@ spring:
     #core.yaml(do not modify!)
     import: application-core.yaml
   datasource:
-    #db type으로 반드시 지정하여야 한다.(mapper-scan용)
+    #커스텀 프로퍼티 #db type으로 반드시 지정하여야 한다.(mapper-scan용)
     db-type: maria
-    #db-type: mssql
-    serverIp: 10.123.202.151
-    port: 3306
-    databaseName: dynamic
-    username: femsadmin
-    password: fems2021!
 
   profiles:
     #프로파일(local:개발자 환경, dev:개발서버, prod:운영 택1, 향후 runtime argument로 넘어갈 예정)
@@ -30,19 +24,8 @@ spring:
   config:
     activate:
       on-profile: local
-  #  datasource:
-  #    db-type: maria #db type으로 반드시 지정하여야 한다.(essential!)
-  #    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
-  #    url: jdbc:log4jdbc:mariadb://ap.kfems.net:13306/fems_test
-  #    username: fems_test
-  #    password: fems2021
   gatewayUrl: http://localhost:9999
-  #datasource-mssql
-  datasource:
-    driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://${spring.datasource.serverIp}:${spring.datasource.port}/${spring.datasource.databaseName}
-    username: lsitc
-    password: lsitc1234
+
 #로깅관련
 logging:
   loginLogEnable: true
@@ -69,12 +52,6 @@ spring:
     activate:
       on-profile: docker
   gatewayUrl: http://apigw:9999
-  #datasource-mssql
-  datasource:
-    driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://${spring.datasource.serverIp}:${spring.datasource.port}/${spring.datasource.databaseName}
-    username: femsadmin
-    password: fems2021!
 
 #로깅관련
 logging:
@@ -110,12 +87,6 @@ spring:
     activate:
       on-profile: cloud
   gatewayUrl: http://139.150.73.181:9999
-  #datasource-mssql
-  datasource:
-    driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://${spring.datasource.serverIp}:${spring.datasource.port}/${spring.datasource.databaseName}
-    username: femsadmin
-    password: fems2021!
 
 #로깅관련
 logging:
