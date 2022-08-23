@@ -4,17 +4,34 @@ spring:
   application:
     #업무명
     name: comm
-  config:
-    #core.yaml(do not modify!)
-    import: application-core.yaml
-  #커스텀 프로퍼티
+  #log색상지정
+  output:
+    ansi:
+      enabled: always
+  #servlet 설정
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 20MB
+      max-request-size: 100MB
   datasource:
-    #db type으로 반드시 지정하여야 한다.(mapper-scan용)
+    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+    #커스텀 프로퍼티 #db type으로 반드시 지정하여야 한다.(mapper-scan용)
     db-type: maria
-
   profiles:
     #프로파일(local:개발자 환경, dev:개발서버, prod:운영 택1, 향후 runtime argument로 넘어갈 예정)
     active: local
+
+# jasypt bean regist : 프로퍼티 암호화 기능 관련 복호화 처리
+jasypt:
+  encryptor:
+    bean: jasyptStringEncryptor
+  key: "857b2405e94125f026da8aecb65ad1616bcf336ae827b549146a83cfc17bcbeb79253b61f016fac169e5cf033d470c319afa591224c1cbb84450aa08bf7cf372" #256 bits이상 (default: kfems)
+
+jwt:
+  cookieId: "FEMS_SESSION"
+  secretKey: "32cdd8f65ec9344d3394dde288d0c8133f9dc7b783709a2e3fbe44285d4596d522e99506422f14d66187ea2c56d1542573922fff697a9915817b95f85bc34336" #256 bits이상 (default: secretKeysecretKeysecretKeysecretKeysecretKeysecretKey)
+  tokenValidTime: -1 #분단위 (default: 30)
 
 #로깅관련
 logging:
@@ -32,6 +49,43 @@ logging:
 server:
   #port설정
   port: 8080
+  error:
+    #에러표시여부
+    include-exception: false
+    #handler path
+    path: /error
+    # 기본처리사용여부
+    whitelabel:
+      enabled: false
+  servlet:
+    encoding:
+      charset: UTF-8
+      force: true
+    session:
+      cookie:
+        http-only: true
+
+restTemplate:
+  factory:
+    connectTimeout: 3000
+    readTimeout: 5000
+  httpClient:
+    maxConnPerRoute: 5
+    maxConnTotal: 100
+
+#mybatis
+mybatis:
+  configuration:
+    default-executor-type: reuse
+    lazy-loading-enabled: true
+    map-underscore-to-camel-case: true
+    use-generated-keys: true
+  mapper-locations: classpath*:sqlmap/**/${spring.datasource.db-type}/**/**.xml
+  type-aliases-package: com.lsitc.core.base
+
+file:
+  allowType: xlsx,ppt,pptx,doc,docx,pdf,hwp,csv,txt,wav,avi,mp3,mpeg,bmp,jpg,jpeg,png,gif,au,ogg,dwg,XLSX,PPT,PPTX,DOC,DOCX,PDF,HWP,CSV,TXT,WAV,AVI,MP3,MPEG,BMP,JPG,JPEG,PNG,GIF,AU,OGG,DWG
+  allowMimeType: application/zip,application/msword,application/pdf,application/x-hwp,applicaion/haansofthwp,application/x-tika-msoffice,application/x-tika-ooxml,image,text,application/vnd.ms-word,application/vnd.ms-excel,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument,applicaion/vnd.hancom
 
 #이하 해당 프로젝트에서 profile별로 필요한 정보를 세팅한다.(default와 중복될 경우 override)
 #DB외 SPRING과 관련된 직접적인 셋팅은 자제하고, 이 외 필요한 것들만 선언해서 사용한다. (t)
@@ -44,6 +98,44 @@ spring:
     activate:
       on-profile: local
   gatewayUrl: http://localhost:9999
+  datasource:
+    hikari:
+      minimum-idle: 1
+      maximum-pool-size: 3
+      idle-timeout: 600000 #(10분)
+      max-lifetime: 1800000 #(30분)
+      connection-timeout: 15000
+
+#파일관련
+file:
+  filePath: c:\tmp\real
+  fileTmpPath: c:\tmp\tmp
+
+#서버포트 설정
+server:
+  error:
+    #stactrcae포함
+    include-stacktrace: always
+
+---
+##############
+####Product#####
+##############
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+#
+file:
+  filePath: D:\bgrEms\files\real
+  fileTmpPath: D:\bgrEms\files\tmp
+
+#서버포트 설정
+server:
+  error:
+    #stactrcae포함
+    include-stacktrace: never
 
 ---
 ##############
@@ -54,6 +146,10 @@ spring:
     activate:
       on-profile: docker
   gatewayUrl: http://apigw:9999
+
+file:
+  filePath: /tmp/files/real
+  fileTmpPath: /tmp/files/tmp
 
 #Spring boot Actuator
 management:
@@ -74,6 +170,24 @@ spring:
     activate:
       on-profile: cloud
   gatewayUrl: http://139.150.73.181:9999
+  datasource:
+    hikari:
+      minimum-idle: 3
+      maximum-pool-size: 10
+      idle-timeout: 600000 #(10분)
+      max-lifetime: 1800000 #(30분)
+      connection-timeout: 15000
+
+#파일관련
+file:
+  filePath: /tmp/real
+  fileTmpPath: /tmp/tmp
+
+#서버포트 설정
+server:
+  error:
+    #stactrcae포함
+    include-stacktrace: always
 
 #Spring boot Actuator
 management:
