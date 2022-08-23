@@ -12,7 +12,6 @@ spring:
       enabled: true
       max-file-size: 20MB
       max-request-size: 100MB
-      
 
 # jasypt bean regist : 프로퍼티 암호화 기능 관련 복호화 처리
 jasypt:
@@ -30,6 +29,16 @@ jwt:
 #httpOnly: if true then browser script won't be able to access the cookie
 #secure: if true then the cookie will be sent only over HTTPS connection
 server:
+  #port설정
+  port: 8080
+  error:
+    #에러표시여부
+    include-exception: false
+    #handler path
+    path: /error
+    # 기본처리사용여부
+    whitelabel:
+      enabled: false
   servlet:
     encoding: 
       charset: UTF-8
@@ -61,6 +70,14 @@ mybatis:
   mapper-locations: classpath*:sqlmap/**/${spring.datasource.db-type}/**/**.xml
   type-aliases-package: com.lsitc.core.base
 
+#로깅관련
+logging:
+  config: classpath:logback_spring.xml
+
+file:
+  allowType: xlsx,ppt,pptx,doc,docx,pdf,hwp,csv,txt,wav,avi,mp3,mpeg,bmp,jpg,jpeg,png,gif,au,ogg,dwg,XLSX,PPT,PPTX,DOC,DOCX,PDF,HWP,CSV,TXT,WAV,AVI,MP3,MPEG,BMP,JPG,JPEG,PNG,GIF,AU,OGG,DWG
+  allowMimeType: application/zip,application/msword,application/pdf,application/x-hwp,applicaion/haansofthwp,application/x-tika-msoffice,application/x-tika-ooxml,image,text,application/vnd.ms-word,application/vnd.ms-excel,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument,applicaion/vnd.hancom
+
 --- 
 #####local환경#####
 spring:
@@ -79,18 +96,14 @@ spring:
         idle-timeout: 600000 #(10분)
         max-lifetime: 1800000 #(30분)
         connection-timeout: 15000 
-    
+
 #파일관련 
 file:
-  allowMimeType: application/zip,application/msword,application/pdf,application/x-hwp,applicaion/haansofthwp,application/x-tika-msoffice,application/x-tika-ooxml,image,text,application/vnd.ms-word,application/vnd.ms-excel,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument,applicaion/vnd.hancom
-  allowType: xlsx,ppt,pptx,doc,docx,pdf,hwp,csv,txt,wav,avi,mp3,mpeg,bmp,jpg,jpeg,png,gif,au,ogg,dwg,XLSX,PPT,PPTX,DOC,DOCX,PDF,HWP,CSV,TXT,WAV,AVI,MP3,MPEG,BMP,JPG,JPEG,PNG,GIF,AU,OGG,DWG
   filePath: c:\tmp\real
   fileTmpPath: c:\tmp\tmp
-  
 
 #로깅관련  
 logging:
-  config: classpath:logback_spring.xml
   file:
     path: c:\tmp\logs
     max-size: 10MB
@@ -100,21 +113,11 @@ logging:
   loginLogEnable: false
   menuCnctLogEnable: false
 
-
 #서버포트 설정
 server:
   error:
-    #에러표시여부
-    include-exception: false
     #stactrcae포함
     include-stacktrace: always
-    #handler path
-    path: /error
-    # 기본처리사용여부
-    whitelabel:
-      enabled: false
-  #port설정
-  port: 8080
 
 --- 
 #####운영 환경#####
@@ -125,14 +128,11 @@ spring:
 
 #
 file:
-  allowType: xlsx,ppt,pptx,doc,docx,pdf,hwp,csv,txt,wav,avi,mp3,mpeg,bmp,jpg,jpeg,png,gif,au,ogg,dwg,XLSX,PPT,PPTX,DOC,DOCX,PDF,HWP,CSV,TXT,WAV,AVI,MP3,MPEG,BMP,JPG,JPEG,PNG,GIF,AU,OGG,DWG
-  allowMimeType: application/zip,application/msword,application/pdf,application/x-hwp,applicaion/haansofthwp,application/x-tika-msoffice,application/x-tika-ooxml,image,text,application/vnd.ms-word,application/vnd.ms-excel,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument,applicaion/vnd.hancom
   filePath: D:\bgrEms\files\real
   fileTmpPath: D:\bgrEms\files\tmp
 
 #logging  
 logging:
-  config: classpath:logback_spring.xml
   file:
     path: D:\bgrEms\logs
     max-history: 30
@@ -145,18 +145,8 @@ logging:
 #서버포트 설정
 server:
   error:
-    #에러표시여부
-    include-exception: false
     #stactrcae포함
     include-stacktrace: never
-    #handler path
-    path: /error
-    # 기본처리사용여부
-    whitelabel:
-      enabled: false
-  #port설정
-  port: 8080
-
       
 --- 
 #####운영 환경#####
@@ -167,14 +157,11 @@ spring:
 
 #
 file:
-  allowType: xlsx,ppt,pptx,doc,docx,pdf,hwp,csv,txt,wav,avi,mp3,mpeg,bmp,jpg,jpeg,png,gif,au,ogg,dwg,XLSX,PPT,PPTX,DOC,DOCX,PDF,HWP,CSV,TXT,WAV,AVI,MP3,MPEG,BMP,JPG,JPEG,PNG,GIF,AU,OGG,DWG
-  allowMimeType: application/zip,application/msword,application/pdf,application/x-hwp,applicaion/haansofthwp,application/x-tika-msoffice,application/x-tika-ooxml,image,text,application/vnd.ms-word,application/vnd.ms-excel,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument,applicaion/vnd.hancom
   filePath: /tmp/files/real
   fileTmpPath: /tmp/files/tmp
 
 #logging  
 logging:
-  config: classpath:logback_spring.xml
   file:
     path: /tmp/logs
     max-history: 30
@@ -187,17 +174,8 @@ logging:
 #서버포트 설정
 server:
   error:
-    #에러표시여부
-    include-exception: false
     #stactrcae포함
     include-stacktrace: never
-    #handler path
-    path: /error
-    # 기본처리사용여부
-    whitelabel:
-      enabled: false
-  #port설정
-  port: 8080
 
 ---
 spring:
@@ -219,15 +197,11 @@ spring:
     
 #파일관련 
 file:
-  allowMimeType: application/zip,application/msword,application/pdf,application/x-hwp,applicaion/haansofthwp,application/x-tika-msoffice,application/x-tika-ooxml,image,text,application/vnd.ms-word,application/vnd.ms-excel,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument,applicaion/vnd.hancom
-  allowType: xlsx,ppt,pptx,doc,docx,pdf,hwp,csv,txt,wav,avi,mp3,mpeg,bmp,jpg,jpeg,png,gif,au,ogg,dwg,XLSX,PPT,PPTX,DOC,DOCX,PDF,HWP,CSV,TXT,WAV,AVI,MP3,MPEG,BMP,JPG,JPEG,PNG,GIF,AU,OGG,DWG
   filePath: /tmp/real
   fileTmpPath: /tmp/tmp
-  
 
 #로깅관련  
 logging:
-  config: classpath:logback_spring.xml
   file:
     path: /tmp/logs
     max-size: 10MB
@@ -237,18 +211,8 @@ logging:
   loginLogEnable: false
   menuCnctLogEnable: false
 
-
 #서버포트 설정
 server:
   error:
-    #에러표시여부
-    include-exception: false
     #stactrcae포함
     include-stacktrace: always
-    #handler path
-    path: /error
-    # 기본처리사용여부
-    whitelabel:
-      enabled: false
-  #port설정
-  port: 8080
