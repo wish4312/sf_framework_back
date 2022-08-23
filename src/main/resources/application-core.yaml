@@ -5,39 +5,7 @@ spring:
     ansi:
       enabled: always
   gatewayUrl: http://localhost:9999
-    
-  #mvc
-  mvc:
-    view:
-      prefix: /WEB-INF/jsp/
-      suffix: .jsp
 
-  # Redis 서버 설정 정보
-  redis:
-    host: 192.168.0.151
-    port: 6379
-  
-  # rabbitMq 서버 설정 정보 
-  rabbitmq:
-    host: 192.168.0.151
-    port: 5672
-    username: fems
-    password: fems2021!
-    virtual-host: femsEvent
-    
-# Templates reloading during development
-  thymeleaf:
-    cache: false
-    check-template: true
-    check-template-location: true
-    enabled: true
-    encoding: UTF-8
-    mode: HTML
-    prefix: classpath:/templates/
-    suffix: .html
-    servlet:
-      content-type: text/html
-      
   #servlet 설정
   servlet:
     multipart:
@@ -56,25 +24,6 @@ jwt:
   cookieId: "FEMS_SESSION"
   secretKey: "32cdd8f65ec9344d3394dde288d0c8133f9dc7b783709a2e3fbe44285d4596d522e99506422f14d66187ea2c56d1542573922fff697a9915817b95f85bc34336" #256 bits이상 (default: secretKeysecretKeysecretKeysecretKeysecretKeysecretKey)
   tokenValidTime: -1 #분단위 (default: 30)
-
-
-# API 연결 정보
-api:
-  das:
-    mode: http
-    host: localhost
-    port: 12482
-    query:
-      dps:
-        prefix: /tsdb/query/fems/v1/dps/tag
-      last:
-        prefix: /tsdb/query/fems/v1/last/tag
-
-# SMS 발송 시스템 정보
-sms:
-  userid: ENC(0s1NmPGeMvJkDBgSXuinPQ==)
-  apikey: ENC(rJOTIJnWNMPiYSX/PyXRaagT+nd7K9ss)
-  sndUrl: ENC(cRRwwL+vtoDTLYNfknoKY/hL2nTwUpaRXWXRDxUE89t4pM5XF1yevTY1X3iaBBw/as07cj1Z5PGn5PR356kehbhOC6uIhcy6)
 
 #We can use the httpOnly and secure flags to secure our session cookie:
 #
@@ -166,28 +115,7 @@ server:
       enabled: false
   #port설정
   port: 8080
-  
 
-#management:
-#  endpoints:  
-#    prometheus: 
-#      enabled: true
-#    web:
-#      exposure:
-#        include: 
-#          - health
-#          - info
-#          - env
-#          - metrics
-#          - prometheus
-#  metrics:
-#    enabled: true
-#    export:
-#      prometheus:
-#        enabled: true
-#    tags:
-#      application: ${spring.application.name}    # 서비스 단위의 식별자. Prometheus label에 추가됨.
-      
 --- 
 #####운영 환경#####
 spring:
