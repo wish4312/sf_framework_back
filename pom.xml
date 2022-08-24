@@ -72,12 +72,24 @@
                     <artifactId>commons-logging</artifactId>
                     <groupId>commons-logging</groupId>
                 </exclusion>
+                <!-- LS ITC에서 Logback을 사용하기 위해 exclusion -->
+                <exclusion>
+                    <artifactId>org.egovframe.rte.fdl.logging</artifactId>
+                    <groupId>org.egovframe.rte</groupId>
+                </exclusion>
             </exclusions>
         </dependency>
         <dependency>
             <groupId>org.egovframe.rte</groupId>
             <artifactId>org.egovframe.rte.psl.dataaccess</artifactId>
             <version>${org.egovframe.rte.version}</version>
+            <exclusions>
+                <!-- LS ITC에서 Logback을 사용하기 위해 exclusion -->
+                <exclusion>
+                    <artifactId>org.egovframe.rte.fdl.logging</artifactId>
+                    <groupId>org.egovframe.rte</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.egovframe.rte</groupId>
@@ -170,17 +182,16 @@
             <artifactId>mybatis-spring-boot-starter</artifactId>
             <version>2.1.4</version>
         </dependency>
-        <!--<dependency>
+        <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
             <version>1.2.11</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-core</artifactId>
             <version>1.2.11</version>
-        </dependency>-->
+        </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
