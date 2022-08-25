@@ -25,8 +25,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.lsitc.core.jwt.JwtTokenUtils;
-import com.lsitc.core.utils.CommonUtils;
+import com.lsitc.global.util.JwtTokenUtils;
+import com.lsitc.global.util.CommonUtils;
 import com.lsitc.fems.comm.base.service.MenuMngSvc;
 import com.lsitc.fems.comm.auth.vo.CommMenuVo;
 import com.lsitc.fems.comm.base.service.SystemLogReadSvc;

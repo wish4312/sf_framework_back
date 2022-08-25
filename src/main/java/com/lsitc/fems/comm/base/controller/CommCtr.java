@@ -23,8 +23,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.lsitc.core.base.BaseParam;
-import com.lsitc.core.base.BaseResponse;
+import com.lsitc.global.common.BaseParam;
+import com.lsitc.global.common.BaseResponse;
 import com.lsitc.fems.comm.base.service.CommSvc;
 import com.lsitc.fems.comm.base.vo.BlocMstrVo;
 

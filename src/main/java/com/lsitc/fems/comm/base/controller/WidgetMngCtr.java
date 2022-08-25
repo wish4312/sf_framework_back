@@ -33,8 +33,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import com.lsitc.core.base.BaseParam;
-import com.lsitc.core.base.BaseResponse;
+import com.lsitc.global.common.BaseParam;
+import com.lsitc.global.common.BaseResponse;
 import com.lsitc.fems.comm.base.service.WidgetMngSvc;
 import com.lsitc.fems.comm.base.vo.WidgetVo;
 

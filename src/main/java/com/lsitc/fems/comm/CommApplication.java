@@ -19,7 +19,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
-@SpringBootApplication(scanBasePackages = { "com.lsitc.core", "com.lsitc.fems.comm", "system.session"})
+@SpringBootApplication(scanBasePackages = {"com.lsitc.global", "com.lsitc.fems.comm", "system.session"})
 @EnableScheduling
 public class CommApplication {
 	public static void main(String[] args) {

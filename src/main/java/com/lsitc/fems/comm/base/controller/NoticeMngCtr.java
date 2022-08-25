@@ -27,9 +27,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.lsitc.core.base.BaseParam;
-import com.lsitc.core.base.BaseResponse;
-import com.lsitc.core.base.CamelHashMap;
+import com.lsitc.global.common.BaseParam;
+import com.lsitc.global.common.BaseResponse;
+import com.lsitc.global.common.CamelHashMap;
 import com.lsitc.fems.comm.base.service.NoticeMngSvc;
 
 @RequestMapping("/comm/base/NoticeMngCtr")

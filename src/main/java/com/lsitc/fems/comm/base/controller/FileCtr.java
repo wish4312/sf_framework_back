@@ -27,8 +27,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.lsitc.core.base.BaseResponse;
-import com.lsitc.core.share.service.FileSvc;
+import com.lsitc.global.common.BaseResponse;
+import com.lsitc.global.common.share.service.FileSvc;
 
 @Controller
 public class FileCtr {

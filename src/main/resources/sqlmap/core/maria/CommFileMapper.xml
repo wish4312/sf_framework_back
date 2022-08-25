@@ -3,7 +3,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="core.uploadFile">
-    <select id="selectUploadFile" resultType="com.lsitc.core.share.vo.FileVo">
+    <select id="selectUploadFile" resultType="com.lsitc.global.common.share.vo.FileVo">
    	SELECT A.APND_FILE_UUID
   	      ,B.APND_FILE_ID
   	      ,B.APND_FILE_NM
@@ -23,7 +23,7 @@
    	    BY B.SORT_SEQ
     </select>
     
-    <select id="selectApndFileGrp01" resultType="com.lsitc.core.share.vo.ApndFileGrpVo">
+    <select id="selectApndFileGrp01" resultType="com.lsitc.global.common.share.vo.ApndFileGrpVo">
    	SELECT APND_FILE_UUID
 		  ,MENU_ID
 		  ,USE_TABLE_NM
@@ -34,7 +34,7 @@
    	   AND APND_FILE_UUID = #{apndFileUuid}
     </select>
     
-    <select id="selectApndFile01" resultType="com.lsitc.core.share.vo.ApndFileVo">
+    <select id="selectApndFile01" resultType="com.lsitc.global.common.share.vo.ApndFileVo">
    	SELECT APND_FILE_UUID
 		  ,APND_FILE_ID
 		  ,APND_FILE_NM
@@ -52,7 +52,7 @@
    	    BY SORT_SEQ
     </select>
     
-    <select id="selectApndFile02" resultType="com.lsitc.core.share.vo.ApndFileVo">
+    <select id="selectApndFile02" resultType="com.lsitc.global.common.share.vo.ApndFileVo">
     /* core.uploadFile.selectApndFile02 xx하는 쿼리  */
    	SELECT APND_FILE_UUID
 		  ,APND_FILE_ID
@@ -70,7 +70,7 @@
    	    BY SORT_SEQ
     </select>
     
-    <select id="selectUploadFilePop" resultType="com.lsitc.core.base.CamelHashMap">
+    <select id="selectUploadFilePop" resultType="com.lsitc.global.common.CamelHashMap">
    	SELECT A.APND_FILE_UUID
   	      ,B.APND_FILE_ID
   	      ,CONCAT(B.APND_FILE_NM, '.', B.APND_FILE_EXT) AS APND_FILE_NM

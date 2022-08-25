@@ -20,7 +20,7 @@ import java.util.regex.Pattern;
 
 import org.springframework.stereotype.Service;
 
-import com.lsitc.core.base.BaseSvc;
+import com.lsitc.global.common.BaseSvc;
 
 
 @Service

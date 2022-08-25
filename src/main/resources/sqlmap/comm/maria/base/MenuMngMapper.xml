@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="comm.base.menuMng">
-    <select id="selectCommMenuTree" resultType="com.lsitc.core.base.CamelHashMap" >
+    <select id="selectCommMenuTree" resultType="com.lsitc.global.common.CamelHashMap" >
     /* comm.menuMng.selectCommMenuTree : 메뉴 트리 조회 */
     WITH RECURSIVE CTE AS (
         SELECT MENU_ID, PRGM_ID, UP_MENU_ID, MENU_NM, SORT_SEQ, USE_FG, RMRK, REG_USER_NO, REG_DTTM, PROC_USER_NO, PROC_DTTM, COM_ID, SYS_DIV_CD

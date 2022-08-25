@@ -85,7 +85,7 @@
            AND USER_NO = #{userNo} 
     </delete>
 
-    <select id="selectLoginInfoForLogin" resultType="com.lsitc.core.base.CamelHashMap">
+    <select id="selectLoginInfoForLogin" resultType="com.lsitc.global.common.CamelHashMap">
         SELECT A.USER_NO
               ,A.USER_PSWD
               ,B.USER_NM 
@@ -145,7 +145,7 @@
         </if>
     </select>
     
-    <select id="selectMenuAuth" resultType="com.lsitc.core.base.CamelHashMap">
+    <select id="selectMenuAuth" resultType="com.lsitc.global.common.CamelHashMap">
     /* comm.loginInfo.selectLoginInfo : 로그인 정보 조회 */
     WITH TMP AS (
         SELECT /* comm.loginInfo.selectMenuAuth 권한이 있는 메뉴 목록 */

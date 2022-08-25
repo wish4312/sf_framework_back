@@ -20,7 +20,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.lsitc.core.base.BaseSvc;
+import com.lsitc.global.common.BaseSvc;
 import com.lsitc.fems.comm.base.vo.PrgmVo;
 
 @Service

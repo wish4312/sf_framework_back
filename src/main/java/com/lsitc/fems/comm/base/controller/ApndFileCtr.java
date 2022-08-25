@@ -35,10 +35,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import com.lsitc.core.base.BaseParam;
-import com.lsitc.core.base.BaseResponse;
-import com.lsitc.core.base.CamelHashMap;
-import com.lsitc.core.utils.FileUtils;
+import com.lsitc.global.common.BaseParam;
+import com.lsitc.global.common.BaseResponse;
+import com.lsitc.global.common.CamelHashMap;
+import com.lsitc.global.util.FileUtils;
 import com.lsitc.fems.comm.base.service.ApndFileSvc;
 
 @RequestMapping("/comm/base/ApndFileCtr")

@@ -3,7 +3,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="core.auth">
-    <select id="selectMenuAuth" resultType="com.lsitc.core.base.CamelHashMap">
+    <select id="selectMenuAuth" resultType="com.lsitc.global.common.CamelHashMap">
     /* 공통그룹코드 조회 */
     SELECT /* 권한이 있는 메뉴 목록 */
 		   D.MENU_ID /* 메뉴ID */
@@ -29,7 +29,7 @@
 	    BY D.SORT_SEQ 
     </select>
     
-    <select id="selectAuthMenuBreadcrumb" resultType="com.lsitc.core.base.CamelHashMap">
+    <select id="selectAuthMenuBreadcrumb" resultType="com.lsitc.global.common.CamelHashMap">
     /* 화면 권한 및 breadcrumb 조회 */
     WITH W_AUTH_MENU AS (
 		SELECT /* 권한이 있는 메뉴 목록 */

@@ -23,7 +23,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.lsitc.core.base.BaseSvc;
+import com.lsitc.global.common.BaseSvc;
 
 @Service
 public class SystemLogReadSvc extends BaseSvc {

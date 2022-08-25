@@ -30,9 +30,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.lsitc.core.base.BaseSvc;
-import com.lsitc.core.base.CamelHashMap;
-import com.lsitc.core.utils.FileUtils;
+import com.lsitc.global.common.BaseSvc;
+import com.lsitc.global.common.CamelHashMap;
+import com.lsitc.global.util.FileUtils;
 
 
 @Service

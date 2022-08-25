@@ -4,7 +4,7 @@
 
 <mapper namespace="comm.base.commCdMng">
     <!-- 조회 - 공통 코드 그룹 목록 -->
-    <select id="selectCommGrpCd" resultType="com.lsitc.core.base.CamelHashMap">
+    <select id="selectCommGrpCd" resultType="com.lsitc.global.common.CamelHashMap">
     /* comm.commCdMng.selectCommGrpCd : 조회 - 공통 코드 그룹 목록 */
         SELECT A.COMM_GRP_CD
               ,A.COMM_GRP_NM

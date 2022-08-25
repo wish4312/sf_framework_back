@@ -26,9 +26,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.lsitc.core.base.BaseParam;
-import com.lsitc.core.base.BaseResponse;
-import com.lsitc.core.utils.CommonUtils;
+import com.lsitc.global.common.BaseParam;
+import com.lsitc.global.common.BaseResponse;
+import com.lsitc.global.util.CommonUtils;
 import com.lsitc.fems.comm.auth.vo.CommMenuVo;
 import com.lsitc.fems.comm.base.service.MenuMngSvc;
 import com.lsitc.fems.comm.base.vo.MenuVo;

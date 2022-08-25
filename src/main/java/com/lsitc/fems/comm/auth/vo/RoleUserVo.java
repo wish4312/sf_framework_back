@@ -17,7 +17,7 @@ package com.lsitc.fems.comm.auth.vo;
 
 import java.util.Date;
 
-import com.lsitc.core.base.BaseVo;
+import com.lsitc.global.common.BaseVo;
 
 import lombok.Getter;
 import lombok.Setter;

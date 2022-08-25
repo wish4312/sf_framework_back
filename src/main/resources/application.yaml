@@ -81,7 +81,7 @@ mybatis:
     map-underscore-to-camel-case: true
     use-generated-keys: true
   mapper-locations: classpath*:sqlmap/**/${spring.datasource.db-type}/**/**.xml
-  type-aliases-package: com.lsitc.core.base
+  type-aliases-package: com.lsitc.global.common
 
 file:
   allowType: xlsx,ppt,pptx,doc,docx,pdf,hwp,csv,txt,wav,avi,mp3,mpeg,bmp,jpg,jpeg,png,gif,au,ogg,dwg,XLSX,PPT,PPTX,DOC,DOCX,PDF,HWP,CSV,TXT,WAV,AVI,MP3,MPEG,BMP,JPG,JPEG,PNG,GIF,AU,OGG,DWG

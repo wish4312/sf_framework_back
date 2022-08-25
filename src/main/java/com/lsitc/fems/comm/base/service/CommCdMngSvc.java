@@ -20,8 +20,8 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
-import com.lsitc.core.base.BaseParam;
-import com.lsitc.core.base.BaseSvc;
+import com.lsitc.global.common.BaseParam;
+import com.lsitc.global.common.BaseSvc;
 import com.lsitc.fems.comm.base.vo.CommCdVo;
 import com.lsitc.fems.comm.base.vo.CommGrpCdVo;
 
