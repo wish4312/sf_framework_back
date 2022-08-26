@@ -4,7 +4,7 @@
 
 
 <mapper namespace="comm.base.comm">
-    <select id="selectBlocMstr" resultType="com.lsitc.fems.comm.base.vo.BlocMstrVo">
+    <select id="selectBlocMstr" resultType="com.lsitc.domain.base.vo.BlocMstrVo">
     /* comm.comm.selectBlocMstr : 사업장 코드 조회 */
         SELECT COM_ID
               ,BLOC_ID

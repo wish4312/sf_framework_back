@@ -73,7 +73,7 @@
            AND COM_ID = #{comId}
     </delete>
     
-    <select id="selectComId" resultType="com.lsitc.fems.comm.base.vo.ComIdVo">
+    <select id="selectComId" resultType="com.lsitc.domain.base.vo.ComIdVo">
     /* comm.comId.selectComId :  조회 */
         SELECT 
                COM_ID

@@ -35,7 +35,7 @@
            </if>
     </select>
     
-    <select id="selectUnAsgnRoleByUser" resultType="com.lsitc.fems.comm.auth.vo.RoleUserVo">
+    <select id="selectUnAsgnRoleByUser" resultType="com.lsitc.domain.auth.vo.RoleUserVo">
     /* comm.userRoleMng.selectUnAsgnRoleByUser : 사용자의 미배정 역할 조회 */
         SELECT A.ROLE_ID 
              , A.ROLE_NM
@@ -54,7 +54,7 @@
                 ) 
     </select>
     
-    <select id="selectAsgnRoleByUser" resultType="com.lsitc.fems.comm.auth.vo.RoleUserVo">
+    <select id="selectAsgnRoleByUser" resultType="com.lsitc.domain.auth.vo.RoleUserVo">
     /* comm.userRoleMng.selectAsgnRoleByUser : 사용자의 역할 조회 */
         SELECT B.ROLE_ID
               ,B.ROLE_NM
@@ -69,7 +69,7 @@
            AND A.USER_NO = #{userNo}
     </select>
     
-    <select id="selectAsgnMenuByUser" resultType="com.lsitc.fems.comm.base.vo.MenuVo">
+    <select id="selectAsgnMenuByUser" resultType="com.lsitc.domain.common.menu.MenuVo">
     /* comm.userRoleMng.selectAsgnMenuByUser : 사용자의 메뉴 조회 */
         WITH RECURSIVE MENU_LIST AS (
             SELECT /* comm.menu.selectAuthMenu 권한이 있는 메뉴 목록 */
@@ -184,7 +184,7 @@
            AND USER_NO = #{userNo} 
     </delete>
     
-    <select id="selectUser" resultType="com.lsitc.fems.comm.auth.vo.UserVo">
+    <select id="selectUser" resultType="com.lsitc.domain.auth.vo.UserVo">
     /* comm.user.selectUser : 사용자 조회 */
         SELECT A.COM_ID
               ,A.DEPT_ID

@@ -64,7 +64,7 @@
            AND PRGM_ID = #{prgmId} 
     </delete>
     
-    <select id="selectPrgm" resultType="com.lsitc.fems.comm.base.vo.PrgmVo">
+    <select id="selectPrgm" resultType="com.lsitc.domain.base.vo.PrgmVo">
     /* comm.prgmMng.selectPrgm : 프로그램 조회 */
         SELECT 
                PRGM_ID

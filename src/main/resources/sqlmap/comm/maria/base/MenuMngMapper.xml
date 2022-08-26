@@ -165,7 +165,7 @@
        AND COM_ID = #{comId}
     </delete>
 
-    <select id="selectAuthMenu" resultType="com.lsitc.fems.comm.auth.vo.CommMenuVo">
+    <select id="selectAuthMenu" resultType="com.lsitc.domain.auth.vo.CommMenuVo">
     /* comm.menuMng.selectAuthMenu 권한이 있는 메뉴 목록 */
         WITH recursive MENU_LIST AS (
             SELECT /* 권한있는 메뉴 목록 조회 */
@@ -269,7 +269,7 @@
     	DELETE FROM COMM_USER_BKMK_MENU WHERE COM_ID = #{session.comId} AND USER_NO = #{session.userNo} AND MENU_ID = #{menuId}
     </delete>
     
-    <select id="selectMyMenu"  resultType="com.lsitc.fems.comm.auth.vo.CommMenuVo">
+    <select id="selectMyMenu"  resultType="com.lsitc.domain.auth.vo.CommMenuVo">
     	SELECT
     		 A.COM_ID
     		,A.USER_NO

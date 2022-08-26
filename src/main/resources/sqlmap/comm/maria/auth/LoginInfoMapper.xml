@@ -109,7 +109,7 @@
     </select>
 
     <select id="selectLoginInfo"
-        resultType="com.lsitc.fems.comm.auth.vo.LoginInfoVo">
+        resultType="com.lsitc.domain.auth.vo.LoginInfoVo">
         /* comm.loginInfo.selectLoginInfo : 로그인 정보 조회 */
         SELECT
         USER_NO

@@ -3,7 +3,7 @@
 <mapper namespace="comm.base.widgetMng">
     
     
-    <select id="selectWidget" resultType="com.lsitc.fems.comm.base.vo.WidgetVo">
+    <select id="selectWidget" resultType="com.lsitc.domain.base.vo.WidgetVo">
     /* comm.widgetMng.selectWidget : 위젯 조회 */
         SELECT 
                  WIDGET_ID
@@ -100,7 +100,7 @@
        AND WIDGET_ID = #{widgetId} 
     </delete>
     
-    <select id="selectNotMyWidget" resultType="com.lsitc.fems.comm.base.vo.WidgetVo">
+    <select id="selectNotMyWidget" resultType="com.lsitc.domain.base.vo.WidgetVo">
     /* comm.widgetMng.selectMyWidget : 위젯 수정 */
 	    SELECT
 		 	 WIDGET_ID
@@ -123,7 +123,7 @@
 		)
     </select>
     
-    <select id="selectMyWidget" resultType="com.lsitc.fems.comm.base.vo.WidgetVo">
+    <select id="selectMyWidget" resultType="com.lsitc.domain.base.vo.WidgetVo">
     /* comm.widgetMng.selectMyWidget : 위젯 수정 */
 			SELECT 
  				 A.COM_ID
@@ -198,7 +198,7 @@
 		AND WIDGET_ID = #{widgetId} 
     </delete>
     
-    <select id="selectWidgetPrgmUrl" resultType="com.lsitc.fems.comm.base.vo.WidgetVo">
+    <select id="selectWidgetPrgmUrl" resultType="com.lsitc.domain.base.vo.WidgetVo">
 		SELECT
 			  A.WIDGET_ID
 			 ,A.PRGM_ID

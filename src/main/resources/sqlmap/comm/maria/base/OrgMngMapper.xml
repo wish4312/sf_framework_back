@@ -73,7 +73,7 @@
            AND DEPT_ID = #{deptId}
     </delete>
     
-    <select id="selectDeptCd" resultType="com.lsitc.fems.comm.base.vo.DeptCdVo">
+    <select id="selectDeptCd" resultType="com.lsitc.domain.base.vo.DeptCdVo">
     /* comm.orgMng.selectDeptCd :  부서를 트리형태로 조회 */
         WITH CTE AS (
             /* 부서를 트리형태로 조회 */

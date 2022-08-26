@@ -62,7 +62,7 @@
            AND ROLE_ID = #{roleId} 
     </delete>
     
-    <select id="selectRole" resultType="com.lsitc.fems.comm.auth.vo.RoleVo">
+    <select id="selectRole" resultType="com.lsitc.domain.common.role.RoleVo">
     /* comm.roleMng.selectRole : 역할 조회 */
         SELECT 
                COM_ID

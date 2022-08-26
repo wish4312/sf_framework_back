@@ -77,7 +77,7 @@
         AND COMM_GRP_CD = #{commGrpCd}
     </delete>
 
-    <select id="selectCommCd" resultType="com.lsitc.fems.comm.base.vo.CommCdVo">
+    <select id="selectCommCd" resultType="com.lsitc.domain.common.code.CommCdVo">
         /* comm.commCdMng.selectCommCd 화면용 공통코드 조회 */
 	    SELECT
 		   <!-- CD AS CODE, -->
