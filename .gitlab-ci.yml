@@ -12,21 +12,21 @@ maven-build:
   script:
       - mvn clean package
   after_script:
-      - mv /data/deploy/dev/app.jar /data/deploy/dev/backup/app.jar_$(date '+%Y%m%d%H%M%S') || true
-      - mv target/backend-0.0.1-SNAPSHOT.jar /data/deploy/dev/app.jar
-
-deploy-server:
-    stage: deploy
-    before_script:
       - export imagename=10.123.202.171:5000/sf-app
       - export imagetag=v$(date '+%Y%m%d')
-      - docker build -t sf-app:$imagetag /data/deploy/dev
+      - mv target/backend-0.0.1-SNAPSHOT.jar $CI_PROJECT_DIR/app.jar
+      - docker build -t sf-app:$imagetag $CI_PROJECT_DIR
       - docker tag sf-app:$imagetag $imagename:$imagetag
       - docker push $imagename:$imagetag
       - docker rmi $imagename:$imagetag
       - docker rmi sf-app:$imagetag
+
+deploy-server:
+    stage: deploy
     script:
       - export sshscript='ssh sfuser@10.123.202.201 -p 2211'
+      - export imagename=10.123.202.171:5000/sf-app
+      - export imagetag=v$(date '+%Y%m%d')
       - $sshscript docker pull $imagename:$imagetag
       - $sshscript docker stop sf-app || true
       - $sshscript docker rm sf-app || true
