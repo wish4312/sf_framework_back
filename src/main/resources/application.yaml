@@ -22,12 +22,6 @@ spring:
     #프로파일(local:개발자 환경, dev:개발서버, prod:운영 택1, 향후 runtime argument로 넘어갈 예정)
     active: local
 
-# jasypt bean regist : 프로퍼티 암호화 기능 관련 복호화 처리
-jasypt:
-  encryptor:
-    bean: jasyptStringEncryptor
-  key: "857b2405e94125f026da8aecb65ad1616bcf336ae827b549146a83cfc17bcbeb79253b61f016fac169e5cf033d470c319afa591224c1cbb84450aa08bf7cf372" #256 bits이상 (default: kfems)
-
 jwt:
   cookieId: "FEMS_SESSION"
   secretKey: "32cdd8f65ec9344d3394dde288d0c8133f9dc7b783709a2e3fbe44285d4596d522e99506422f14d66187ea2c56d1542573922fff697a9915817b95f85bc34336" #256 bits이상 (default: secretKeysecretKeysecretKeysecretKeysecretKeysecretKey)
