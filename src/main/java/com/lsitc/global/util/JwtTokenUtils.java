@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -200,7 +202,29 @@ public class JwtTokenUtils {
         
         return sessionMap;
     }
-    
+
+  /**
+   * 받은 세션키에 맵핑된 사용자 정보(securityContextHolder)를 가져와서
+   * sessionVO를 생성하여 전달 함.
+   * 사용자 정보가 없을 경우 null 전달
+   * @return
+   */
+  public static SessionVo getSessionVoFromSecurityCtx() {
+    //
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    SessionVo sessionVo = null;
+
+    if (authentication.getPrincipal() instanceof Map) {
+      sessionVo = new SessionVo();
+      Map<String, String> userInfo = (Map<String, String>) authentication.getPrincipal();
+      sessionVo.setUserNm(userInfo.get("userNm"));
+      sessionVo.setUserNo(userInfo.get("userNo"));
+      sessionVo.setBlocId(userInfo.get("blocId"));
+      sessionVo.setComId(userInfo.get("comId"));
+    }
+    return sessionVo;
+  }
+
     /**
      * @methodName  : getSessionVo
      * @date        : 2021.02.19
@@ -209,7 +233,12 @@ public class JwtTokenUtils {
      */
     public static SessionVo getSessionVo() {
         try {
+          SessionVo securityCtxSessionVO = getSessionVoFromSecurityCtx();
+          if (securityCtxSessionVO != null) {
+            return securityCtxSessionVO;
+          } else {
             return CommonUtils.convertMapToObject(getSessionMap(), SessionVo.class);
+          }
         } catch (Exception e) {
             // 로그인 하지 않은 경우
             return new SessionVo();

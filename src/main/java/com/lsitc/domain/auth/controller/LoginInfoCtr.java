@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,6 +36,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -282,6 +286,12 @@ public class LoginInfoCtr{
         String userPswdCrypted= CryptoUtils.getSHA512(inputUserInfo.get("userPswd").toString());
 
         if ( loginInfo.get("userPswd").equals(userPswdCrypted) ){
+            // Spring Security ContextHolder 에 인증된 사용자 정보를 넣어줌.
+            // 사용자에게 전달해 줄 session key 에 자동으로 userInfo를 맵핑해주어서 이후 sessionkey로 사용자 식별 가능.
+            // TODO JwtToken으로 구성된 인증과정은 제거할 예정.
+            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+                loginInfo, null, Collections.singletonList(new SimpleGrantedAuthority("admin")));
+            SecurityContextHolder.getContext().setAuthentication(authentication);
             //비밀번호 삭제!
             loginInfo.remove("userPswd");
             //로그인 성공
