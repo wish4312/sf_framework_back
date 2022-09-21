@@ -9,4 +9,8 @@ public interface SampleDAO {
   SampleEntity selectSampleById(SampleEntity sampleEntity);
 
   int insertSample(SampleEntity sampleEntity);
+
+  int updateSampleById(SampleEntity sampleEntity);
+
+  int insertSampleWithId(SampleEntity sampleEntity);
 }

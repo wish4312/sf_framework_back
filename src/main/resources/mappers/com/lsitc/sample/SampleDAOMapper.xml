@@ -37,4 +37,37 @@
            , #{lastModifiedBy}
            , current_timestamp())
   </insert>
+
+  <insert id="insertSampleWithId"
+    parameterType="com.lsitc.domain.sample.entity.SampleEntity"
+    useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+    INSERT INTO sf_sample
+    ( id
+    , sample_key
+    , sample_value
+    , comment
+    , created_by
+    , created_date
+    , last_modified_by
+    , last_modified_date)
+    VALUES ( #{id}
+           , #{sampleKey}
+           , #{sampleValue}
+           , #{comment}
+           , #{createdBy}
+           , current_timestamp()
+           , #{lastModifiedBy}
+           , current_timestamp())
+  </insert>
+
+  <update id="updateSampleById"
+    parameterType="com.lsitc.domain.sample.entity.SampleEntity">
+    UPDATE sf_sample
+    SET sample_key         = #{sampleKey}
+      , sample_value       = #{sampleValue}
+      , comment            = #{comment}
+      , last_modified_by   = #{lastModifiedBy}
+      , last_modified_date = current_timestamp()
+    WHERE id = #{id}
+  </update>
 </mapper>
