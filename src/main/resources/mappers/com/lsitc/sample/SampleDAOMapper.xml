@@ -70,4 +70,11 @@
       , last_modified_date = current_timestamp()
     WHERE id = #{id}
   </update>
+
+  <delete id="deleteSampleById"
+    parameterType="com.lsitc.domain.sample.entity.SampleEntity">
+    DELETE
+    FROM sf_sample
+    WHERE id = #{id}
+  </delete>
 </mapper>

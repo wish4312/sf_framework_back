@@ -2,6 +2,8 @@ package com.lsitc.domain.sample.service;
 
 import com.lsitc.domain.sample.dao.SampleDAO;
 import com.lsitc.domain.sample.entity.SampleEntity;
+import com.lsitc.domain.sample.vo.DeleteSampleRequestVO;
+import com.lsitc.domain.sample.vo.DeleteSampleResponseVO;
 import com.lsitc.domain.sample.vo.GetSampleRequestVO;
 import com.lsitc.domain.sample.vo.GetSampleResponseVO;
 import com.lsitc.domain.sample.vo.PostSampleRequestVO;
@@ -46,5 +48,12 @@ public class SampleService {
     SampleEntity sampleEntity = sampleDAO.selectSampleById(targetEntity);
     return sampleEntity != null ? sampleDAO.updateSampleById(targetEntity)
         : sampleDAO.insertSampleWithId(targetEntity);
+  }
+
+  public DeleteSampleResponseVO deleteSample(DeleteSampleRequestVO deleteSampleRequestVO) {
+    SampleEntity sampleEntity = deleteSampleRequestVO.toEntity();
+    log.info(sampleEntity.toString());
+    int deleteRows = sampleDAO.deleteSampleById(sampleEntity);
+    return DeleteSampleResponseVO.of(deleteRows);
   }
 }

@@ -2,6 +2,8 @@ package com.lsitc.domain.sample.controller;
 
 import com.lsitc.domain.sample.exception.SampleException;
 import com.lsitc.domain.sample.service.SampleService;
+import com.lsitc.domain.sample.vo.DeleteSampleRequestVO;
+import com.lsitc.domain.sample.vo.DeleteSampleResponseVO;
 import com.lsitc.domain.sample.vo.GetSampleRequestVO;
 import com.lsitc.domain.sample.vo.GetSampleResponseVO;
 import com.lsitc.domain.sample.vo.PostSampleRequestVO;
@@ -11,6 +13,7 @@ import com.lsitc.domain.sample.vo.PutSampleResponseVO;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -64,5 +67,19 @@ public class SampleController {
     PutSampleResponseVO putSampleResponseVO = sampleService.putSample(putSampleRequestVO);
     log.info(putSampleResponseVO.toString());
     return putSampleResponseVO;
+  }
+
+  @DeleteMapping("/delete-method")
+  public DeleteSampleResponseVO sample(@Valid final DeleteSampleRequestVO deleteSampleRequestVO)
+      throws SampleException {
+    log.info("delete 메소드가 호출되었습니다.");
+    if ("ERROR".equals(deleteSampleRequestVO.getKey())) {
+      throw new SampleException();
+    }
+    log.info(deleteSampleRequestVO.toString());
+    DeleteSampleResponseVO deleteSampleResponseVO = sampleService.deleteSample(
+        deleteSampleRequestVO);
+    log.info(deleteSampleResponseVO.toString());
+    return deleteSampleResponseVO;
   }
 }
