@@ -74,7 +74,9 @@ mybatis:
     lazy-loading-enabled: true
     map-underscore-to-camel-case: true
     use-generated-keys: true
-  mapper-locations: classpath*:sqlmap/**/${spring.datasource.db-type}/**/**.xml
+  mapper-locations:
+    - classpath*:sqlmap/**/${spring.datasource.db-type}/**/**.xml
+    - classpath*:mappers/**/*.xml
   type-aliases-package: com.lsitc.global.common
 
 file:

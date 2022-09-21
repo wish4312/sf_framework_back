@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lsitc.domain.sample.dao.SampleDAO">
+  <select id="selectSampleById"
+    parameterType="com.lsitc.domain.sample.entity.SampleEntity"
+    resultType="com.lsitc.domain.sample.entity.SampleEntity">
+    SELECT id
+         , sample_key
+         , sample_value
+         , comment
+         , created_by
+         , created_date
+         , last_modified_by
+         , last_modified_date
+    FROM sf_sample
+    WHERE id = #{id}
+  </select>
+</mapper>
