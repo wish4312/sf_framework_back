@@ -7,4 +7,6 @@ import org.apache.ibatis.annotations.Mapper;
 public interface SampleDAO {
 
   SampleEntity selectSampleById(SampleEntity sampleEntity);
+
+  int insertSample(SampleEntity sampleEntity);
 }
