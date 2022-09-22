@@ -16,14 +16,14 @@ public class GetSampleRequestVO {
   @PositiveOrZero(message = "음수의 ID는 사용할 수 없습니다.")
   private final long id;
 
-  @NotBlank(message = "키에 빈값이 들어왔습니다.")
+  @NotBlank(message = "foo에 빈값이 들어왔습니다.")
   @Size(max = 5)
-  private final String key;
+  private final String foo;
 
   public SampleEntity toEntity() {
     return SampleEntity.builder()
         .id(id)
-        .sampleKey(key)
+        .foo(foo)
         .build();
   }
 
@@ -31,7 +31,7 @@ public class GetSampleRequestVO {
   public String toString() {
     return "GetSampleRequestVO{" +
         "id=" + id +
-        ", key='" + key + '\'' +
+        ", foo='" + foo + '\'' +
         '}';
   }
 }

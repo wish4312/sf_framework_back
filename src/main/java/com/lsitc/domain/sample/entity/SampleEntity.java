@@ -11,8 +11,8 @@ import lombok.NoArgsConstructor;
 public class SampleEntity {
 
   private long id;
-  private String sampleKey;
-  private String sampleValue;
+  private String foo;
+  private String bar;
   private String comment;
   private String createdBy;
   private LocalDateTime createdDate;
@@ -20,10 +20,10 @@ public class SampleEntity {
   private LocalDateTime lastModifiedDate;
 
   @Builder
-  public SampleEntity(long id, String sampleKey, String sampleValue, String comment) {
+  public SampleEntity(long id, String foo, String bar, String comment) {
     this.id = id;
-    this.sampleKey = sampleKey;
-    this.sampleValue = sampleValue;
+    this.foo = foo;
+    this.bar = bar;
     this.comment = comment;
   }
 }

@@ -7,8 +7,8 @@
     parameterType="com.lsitc.domain.sample.entity.SampleEntity"
     resultType="com.lsitc.domain.sample.entity.SampleEntity">
     SELECT id
-         , sample_key
-         , sample_value
+         , foo
+         , bar
          , comment
          , created_by
          , created_date
@@ -22,15 +22,15 @@
     parameterType="com.lsitc.domain.sample.entity.SampleEntity"
     useGeneratedKeys="true" keyProperty="id" keyColumn="id">
     INSERT INTO sf_sample
-    ( sample_key
-    , sample_value
+    ( foo
+    , bar
     , comment
     , created_by
     , created_date
     , last_modified_by
     , last_modified_date)
-    VALUES ( #{sampleKey}
-           , #{sampleValue}
+    VALUES ( #{foo}
+           , #{bar}
            , #{comment}
            , #{createdBy}
            , current_timestamp()
@@ -43,16 +43,16 @@
     useGeneratedKeys="true" keyProperty="id" keyColumn="id">
     INSERT INTO sf_sample
     ( id
-    , sample_key
-    , sample_value
+    , foo
+    , bar
     , comment
     , created_by
     , created_date
     , last_modified_by
     , last_modified_date)
     VALUES ( #{id}
-           , #{sampleKey}
-           , #{sampleValue}
+           , #{foo}
+           , #{bar}
            , #{comment}
            , #{createdBy}
            , current_timestamp()
@@ -63,8 +63,8 @@
   <update id="updateSampleById"
     parameterType="com.lsitc.domain.sample.entity.SampleEntity">
     UPDATE sf_sample
-    SET sample_key         = #{sampleKey}
-      , sample_value       = #{sampleValue}
+    SET foo                = #{foo}
+      , bar                = #{bar}
       , comment            = #{comment}
       , last_modified_by   = #{lastModifiedBy}
       , last_modified_date = current_timestamp()

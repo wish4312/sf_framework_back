@@ -33,7 +33,7 @@ public class SampleController {
   public GetSampleResponseVO sample(@Valid final GetSampleRequestVO getSampleRequestVO)
       throws SampleException {
     log.info("get 메소드가 호출되었습니다.");
-    if ("ERROR".equals(getSampleRequestVO.getKey())) {
+    if ("ERROR".equals(getSampleRequestVO.getFoo())) {
       throw new SampleException();
     }
     log.info(getSampleRequestVO.toString());
@@ -47,7 +47,7 @@ public class SampleController {
       @RequestBody @Valid final PostSampleRequestVO postSampleRequestVO)
       throws SampleException {
     log.info("post 메소드가 호출되었습니다.");
-    if ("ERROR".equals(postSampleRequestVO.getKey())) {
+    if ("ERROR".equals(postSampleRequestVO.getFoo())) {
       throw new SampleException();
     }
     log.info(postSampleRequestVO.toString());
@@ -60,7 +60,7 @@ public class SampleController {
   public PutSampleResponseVO sample(@RequestBody @Valid final PutSampleRequestVO putSampleRequestVO)
       throws SampleException {
     log.info("put 메소드가 호출되었습니다.");
-    if ("ERROR".equals(putSampleRequestVO.getKey())) {
+    if ("ERROR".equals(putSampleRequestVO.getFoo())) {
       throw new SampleException();
     }
     log.info(putSampleRequestVO.toString());
@@ -73,7 +73,7 @@ public class SampleController {
   public DeleteSampleResponseVO sample(@Valid final DeleteSampleRequestVO deleteSampleRequestVO)
       throws SampleException {
     log.info("delete 메소드가 호출되었습니다.");
-    if ("ERROR".equals(deleteSampleRequestVO.getKey())) {
+    if ("ERROR".equals(deleteSampleRequestVO.getFoo())) {
       throw new SampleException();
     }
     log.info(deleteSampleRequestVO.toString());

@@ -14,12 +14,12 @@ public class DeleteSampleRequestVO {
   @PositiveOrZero(message = "음수의 ID는 사용할 수 없습니다.")
   private final long id;
 
-  private final String key;
+  private final String foo;
 
   public SampleEntity toEntity() {
     return SampleEntity.builder()
         .id(id)
-        .sampleKey(key)
+        .foo(foo)
         .build();
   }
 
@@ -27,7 +27,7 @@ public class DeleteSampleRequestVO {
   public String toString() {
     return "GetSampleRequestVO{" +
         "id=" + id +
-        ", key='" + key + '\'' +
+        ", foo='" + foo + '\'' +
         '}';
   }
 }
