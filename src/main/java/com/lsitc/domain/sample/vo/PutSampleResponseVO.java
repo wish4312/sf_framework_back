@@ -9,7 +9,7 @@ public class PutSampleResponseVO {
   private final String result;
 
   @Builder
-  public PutSampleResponseVO(String result) {
+  private PutSampleResponseVO(String result) {
     this.result = result;
   }
 

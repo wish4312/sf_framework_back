@@ -12,7 +12,7 @@ public class GetSampleResponseVO {
   private final String comment;
 
   @Builder
-  public GetSampleResponseVO(String foo, String bar, String comment) {
+  private GetSampleResponseVO(String foo, String bar, String comment) {
     this.foo = foo;
     this.bar = bar;
     this.comment = comment;

@@ -9,7 +9,7 @@ public class DeleteSampleResponseVO {
   private final String result;
 
   @Builder
-  public DeleteSampleResponseVO(String result) {
+  private DeleteSampleResponseVO(String result) {
     this.result = result;
   }
 

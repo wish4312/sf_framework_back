@@ -20,7 +20,7 @@ public class SampleEntity {
   private LocalDateTime lastModifiedDate;
 
   @Builder
-  public SampleEntity(long id, String foo, String bar, String comment) {
+  private SampleEntity(long id, String foo, String bar, String comment) {
     this.id = id;
     this.foo = foo;
     this.bar = bar;
