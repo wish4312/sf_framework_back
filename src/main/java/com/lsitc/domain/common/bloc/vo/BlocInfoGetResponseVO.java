@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-public class BlocInfoResponseVO {
+public class BlocInfoGetResponseVO {
 
   private final long id;
   private final String name;
@@ -13,14 +13,14 @@ public class BlocInfoResponseVO {
   private final String remark;
 
   @Builder
-  private BlocInfoResponseVO(long id, String name, boolean isDeleted, String remark) {
+  private BlocInfoGetResponseVO(long id, String name, boolean isDeleted, String remark) {
     this.id = id;
     this.name = name;
     this.isDeleted = isDeleted;
     this.remark = remark;
   }
 
-  public static BlocInfoResponseVO of(BlocEntity blocInfo) {
+  public static BlocInfoGetResponseVO of(BlocEntity blocInfo) {
     return builder().id(blocInfo.getId())
         .name(blocInfo.getName())
         .isDeleted(blocInfo.isDeleted())
@@ -30,7 +30,7 @@ public class BlocInfoResponseVO {
 
   @Override
   public String toString() {
-    return "BlocInfoResponseVO{" +
+    return "BlocInfoGetResponseVO{" +
         "id=" + id +
         ", name='" + name + '\'' +
         ", isDeleted=" + isDeleted +

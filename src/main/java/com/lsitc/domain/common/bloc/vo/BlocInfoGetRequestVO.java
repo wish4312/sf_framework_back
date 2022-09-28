@@ -8,7 +8,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class BlocInfoRequestVO {
+public class BlocInfoGetRequestVO {
 
   @NotNull
   @PositiveOrZero(message = "사업장 ID에는 음수가 들어올 수 없습니다.")
@@ -22,7 +22,7 @@ public class BlocInfoRequestVO {
 
   @Override
   public String toString() {
-    return "BlocInfoRequestVO{" +
+    return "BlocInfoGetRequestVO{" +
         "id=" + id +
         '}';
   }

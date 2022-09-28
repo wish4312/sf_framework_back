@@ -4,8 +4,8 @@ import com.lsitc.domain.common.bloc.dao.BlocDAO;
 import com.lsitc.domain.common.bloc.entity.BlocEntity;
 import com.lsitc.domain.common.bloc.vo.BlocAddRequestVO;
 import com.lsitc.domain.common.bloc.vo.BlocAddResponseVO;
-import com.lsitc.domain.common.bloc.vo.BlocInfoRequestVO;
-import com.lsitc.domain.common.bloc.vo.BlocInfoResponseVO;
+import com.lsitc.domain.common.bloc.vo.BlocInfoGetRequestVO;
+import com.lsitc.domain.common.bloc.vo.BlocInfoGetResponseVO;
 import com.lsitc.domain.common.bloc.vo.BlocModifyRequestVO;
 import com.lsitc.domain.common.bloc.vo.BlocModifyResponseVO;
 import lombok.AllArgsConstructor;
@@ -19,11 +19,11 @@ public class BlocService {
 
   private final BlocDAO blocDAO;
 
-  public BlocInfoResponseVO getBlocInfo(BlocInfoRequestVO blocInfoRequestVO) {
-    BlocEntity blocEntity = blocInfoRequestVO.toEntity();
+  public BlocInfoGetResponseVO getBlocInfo(BlocInfoGetRequestVO blocInfoGetRequestVO) {
+    BlocEntity blocEntity = blocInfoGetRequestVO.toEntity();
     log.info(blocEntity.toString());
     BlocEntity blocInfo = blocDAO.selectBlocById(blocEntity);
-    return BlocInfoResponseVO.of(blocInfo);
+    return BlocInfoGetResponseVO.of(blocInfo);
   }
 
   public BlocAddResponseVO addBloc(BlocAddRequestVO blocAddRequestVO) {

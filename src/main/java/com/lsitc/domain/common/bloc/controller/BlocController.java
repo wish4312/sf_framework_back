@@ -4,8 +4,8 @@ import com.lsitc.domain.common.bloc.exception.BlocException;
 import com.lsitc.domain.common.bloc.service.BlocService;
 import com.lsitc.domain.common.bloc.vo.BlocAddRequestVO;
 import com.lsitc.domain.common.bloc.vo.BlocAddResponseVO;
-import com.lsitc.domain.common.bloc.vo.BlocInfoRequestVO;
-import com.lsitc.domain.common.bloc.vo.BlocInfoResponseVO;
+import com.lsitc.domain.common.bloc.vo.BlocInfoGetRequestVO;
+import com.lsitc.domain.common.bloc.vo.BlocInfoGetResponseVO;
 import com.lsitc.domain.common.bloc.vo.BlocModifyRequestVO;
 import com.lsitc.domain.common.bloc.vo.BlocModifyResponseVO;
 import javax.validation.Valid;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
-@RequestMapping("/comm/bloc")
+@RequestMapping("/common/bloc")
 @RestController
 @RequiredArgsConstructor
 public class BlocController {
@@ -27,12 +27,12 @@ public class BlocController {
   private final BlocService blocService;
 
   @GetMapping("/info")
-  public BlocInfoResponseVO blocInfo(@Valid final BlocInfoRequestVO blocInfoRequestVO)
+  public BlocInfoGetResponseVO getBlocInfo(@Valid final BlocInfoGetRequestVO blocInfoGetRequestVO)
       throws BlocException {
-    log.info(blocInfoRequestVO.toString());
-    BlocInfoResponseVO blocInfoResponseVO = blocService.getBlocInfo(blocInfoRequestVO);
-    log.info(blocInfoResponseVO.toString());
-    return blocInfoResponseVO;
+    log.info(blocInfoGetRequestVO.toString());
+    BlocInfoGetResponseVO blocInfoGetResponseVO = blocService.getBlocInfo(blocInfoGetRequestVO);
+    log.info(blocInfoGetResponseVO.toString());
+    return blocInfoGetResponseVO;
   }
 
   @PostMapping("")
