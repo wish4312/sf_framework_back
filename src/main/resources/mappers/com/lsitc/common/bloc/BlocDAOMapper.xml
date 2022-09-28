@@ -20,6 +20,21 @@
     WHERE id = #{id}
   </select>
 
+  <select id="selectAll"
+    resultType="com.lsitc.domain.common.bloc.entity.BlocEntity">
+    SELECT id
+         , name
+         , is_deleted
+         , deleted_by
+         , deleted_date
+         , remark
+         , created_by
+         , created_date
+         , last_modified_by
+         , last_modified_date
+    FROM sf_bloc
+  </select>
+
   <insert id="insertBloc"
     parameterType="com.lsitc.domain.common.bloc.entity.BlocEntity"
     useGeneratedKeys="true" keyProperty="id" keyColumn="id">

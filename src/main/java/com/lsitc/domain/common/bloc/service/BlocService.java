@@ -7,10 +7,13 @@ import com.lsitc.domain.common.bloc.vo.BlocAddRequestVO;
 import com.lsitc.domain.common.bloc.vo.BlocAddResponseVO;
 import com.lsitc.domain.common.bloc.vo.BlocInfoGetRequestVO;
 import com.lsitc.domain.common.bloc.vo.BlocInfoGetResponseVO;
+import com.lsitc.domain.common.bloc.vo.BlocListGetResponseVO;
 import com.lsitc.domain.common.bloc.vo.BlocModifyRequestVO;
 import com.lsitc.domain.common.bloc.vo.BlocModifyResponseVO;
 import com.lsitc.domain.common.bloc.vo.BlocRemoveRequestVO;
 import com.lsitc.domain.common.bloc.vo.BlocRemoveResponseVO;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -27,6 +30,11 @@ public class BlocService {
     log.info(blocEntity.toString());
     BlocEntity blocInfo = blocDAO.selectBlocById(blocEntity);
     return BlocInfoGetResponseVO.of(blocInfo);
+  }
+
+  public List<BlocListGetResponseVO> getBlocList() {
+    List<BlocEntity> blocEntityList = blocDAO.selectAll();
+    return blocEntityList.stream().map(BlocListGetResponseVO::of).collect(Collectors.toList());
   }
 
   public BlocAddResponseVO addBloc(final BlocAddRequestVO blocAddRequestVO) {

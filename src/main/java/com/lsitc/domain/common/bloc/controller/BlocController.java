@@ -6,10 +6,12 @@ import com.lsitc.domain.common.bloc.vo.BlocAddRequestVO;
 import com.lsitc.domain.common.bloc.vo.BlocAddResponseVO;
 import com.lsitc.domain.common.bloc.vo.BlocInfoGetRequestVO;
 import com.lsitc.domain.common.bloc.vo.BlocInfoGetResponseVO;
+import com.lsitc.domain.common.bloc.vo.BlocListGetResponseVO;
 import com.lsitc.domain.common.bloc.vo.BlocModifyRequestVO;
 import com.lsitc.domain.common.bloc.vo.BlocModifyResponseVO;
 import com.lsitc.domain.common.bloc.vo.BlocRemoveRequestVO;
 import com.lsitc.domain.common.bloc.vo.BlocRemoveResponseVO;
+import java.util.List;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -36,6 +38,13 @@ public class BlocController {
     BlocInfoGetResponseVO blocInfoGetResponseVO = blocService.getBlocInfo(blocInfoGetRequestVO);
     log.info(blocInfoGetResponseVO.toString());
     return blocInfoGetResponseVO;
+  }
+
+  @GetMapping("/list")
+  public List<BlocListGetResponseVO> getBlocList() throws BlocException {
+    List<BlocListGetResponseVO> blocListGetResponseVOList = blocService.getBlocList();
+    log.info(blocListGetResponseVOList.toString());
+    return blocListGetResponseVOList;
   }
 
   @PostMapping("")
