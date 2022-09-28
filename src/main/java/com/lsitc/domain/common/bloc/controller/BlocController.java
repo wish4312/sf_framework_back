@@ -8,9 +8,12 @@ import com.lsitc.domain.common.bloc.vo.BlocInfoGetRequestVO;
 import com.lsitc.domain.common.bloc.vo.BlocInfoGetResponseVO;
 import com.lsitc.domain.common.bloc.vo.BlocModifyRequestVO;
 import com.lsitc.domain.common.bloc.vo.BlocModifyResponseVO;
+import com.lsitc.domain.common.bloc.vo.BlocRemoveRequestVO;
+import com.lsitc.domain.common.bloc.vo.BlocRemoveResponseVO;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -52,5 +55,15 @@ public class BlocController {
     BlocModifyResponseVO blocModifyResponseVO = blocService.modifyBloc(blocModifyRequestVO);
     log.info(blocModifyResponseVO.toString());
     return blocModifyResponseVO;
+  }
+
+  @DeleteMapping("")
+  public BlocRemoveResponseVO removeBloc(@Valid final BlocRemoveRequestVO blocRemoveRequestVO)
+      throws BlocException {
+    log.info(blocRemoveRequestVO.toString());
+    BlocRemoveResponseVO blocRemoveResponseVO = blocService.removeBloc(
+        blocRemoveRequestVO);
+    log.info(blocRemoveResponseVO.toString());
+    return blocRemoveResponseVO;
   }
 }

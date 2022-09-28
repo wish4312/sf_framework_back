@@ -27,4 +27,8 @@ public class BlocEntity {
     this.name = name;
     this.remark = remark;
   }
+
+  public void delete() {
+    this.isDeleted = true;
+  }
 }

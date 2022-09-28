@@ -2,12 +2,15 @@ package com.lsitc.domain.common.bloc.service;
 
 import com.lsitc.domain.common.bloc.dao.BlocDAO;
 import com.lsitc.domain.common.bloc.entity.BlocEntity;
+import com.lsitc.domain.common.bloc.exception.BlocException;
 import com.lsitc.domain.common.bloc.vo.BlocAddRequestVO;
 import com.lsitc.domain.common.bloc.vo.BlocAddResponseVO;
 import com.lsitc.domain.common.bloc.vo.BlocInfoGetRequestVO;
 import com.lsitc.domain.common.bloc.vo.BlocInfoGetResponseVO;
 import com.lsitc.domain.common.bloc.vo.BlocModifyRequestVO;
 import com.lsitc.domain.common.bloc.vo.BlocModifyResponseVO;
+import com.lsitc.domain.common.bloc.vo.BlocRemoveRequestVO;
+import com.lsitc.domain.common.bloc.vo.BlocRemoveResponseVO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -44,5 +47,17 @@ public class BlocService {
     BlocEntity blocEntity = blocDAO.selectBlocById(targetEntity);
     return blocEntity != null ? blocDAO.updateBlocById(targetEntity)
         : blocDAO.insertBlocWithId(targetEntity);
+  }
+
+  public BlocRemoveResponseVO removeBloc(BlocRemoveRequestVO blocRemoveRequestVO)
+      throws BlocException {
+    BlocEntity blocEntity = blocDAO.selectBlocById(blocRemoveRequestVO.toEntity());
+    if (blocEntity == null) {
+      throw new BlocException();
+    }
+    blocEntity.delete();
+    log.info(blocEntity.toString());
+    int deleteRows = blocDAO.updateBlocIsDeletedById(blocEntity);
+    return BlocRemoveResponseVO.of(deleteRows);
   }
 }

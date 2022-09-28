@@ -70,4 +70,15 @@
       , last_modified_date = current_timestamp()
     WHERE id = #{id}
   </update>
+
+  <update id="updateBlocIsDeletedById"
+    parameterType="com.lsitc.domain.common.bloc.entity.BlocEntity">
+    UPDATE sf_bloc
+    SET is_deleted         = #{isDeleted}
+      , deleted_date       = current_timestamp()
+      , deleted_by         = #{deletedBy}
+      , last_modified_by   = #{lastModifiedBy}
+      , last_modified_date = current_timestamp()
+    WHERE id = #{id}
+  </update>
 </mapper>

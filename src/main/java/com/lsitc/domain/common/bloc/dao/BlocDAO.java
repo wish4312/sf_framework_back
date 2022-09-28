@@ -13,4 +13,6 @@ public interface BlocDAO {
   int updateBlocById(BlocEntity blocEntity);
 
   int insertBlocWithId(BlocEntity blocEntity);
+
+  int updateBlocIsDeletedById(BlocEntity blocEntity);
 }
