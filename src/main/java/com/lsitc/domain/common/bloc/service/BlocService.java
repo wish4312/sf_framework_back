@@ -22,21 +22,21 @@ public class BlocService {
 
   private final BlocDAO blocDAO;
 
-  public BlocInfoGetResponseVO getBlocInfo(BlocInfoGetRequestVO blocInfoGetRequestVO) {
+  public BlocInfoGetResponseVO getBlocInfo(final BlocInfoGetRequestVO blocInfoGetRequestVO) {
     BlocEntity blocEntity = blocInfoGetRequestVO.toEntity();
     log.info(blocEntity.toString());
     BlocEntity blocInfo = blocDAO.selectBlocById(blocEntity);
     return BlocInfoGetResponseVO.of(blocInfo);
   }
 
-  public BlocAddResponseVO addBloc(BlocAddRequestVO blocAddRequestVO) {
+  public BlocAddResponseVO addBloc(final BlocAddRequestVO blocAddRequestVO) {
     BlocEntity blocEntity = blocAddRequestVO.toEntity();
     log.info(blocEntity.toString());
     int addRows = blocDAO.insertBloc(blocEntity);
     return BlocAddResponseVO.of(addRows);
   }
 
-  public BlocModifyResponseVO modifyBloc(BlocModifyRequestVO blocModifyRequestVO) {
+  public BlocModifyResponseVO modifyBloc(final BlocModifyRequestVO blocModifyRequestVO) {
     BlocEntity blocEntity = blocModifyRequestVO.toEntity();
     int upsertRows = upsertBloc(blocEntity);
     log.info(blocEntity.toString());
@@ -49,7 +49,7 @@ public class BlocService {
         : blocDAO.insertBlocWithId(targetEntity);
   }
 
-  public BlocRemoveResponseVO removeBloc(BlocRemoveRequestVO blocRemoveRequestVO)
+  public BlocRemoveResponseVO removeBloc(final BlocRemoveRequestVO blocRemoveRequestVO)
       throws BlocException {
     BlocEntity blocEntity = blocDAO.selectBlocById(blocRemoveRequestVO.toEntity());
     if (blocEntity == null) {
