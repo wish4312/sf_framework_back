@@ -6,10 +6,12 @@ import com.lsitc.domain.sample.vo.SampleAddRequestVO;
 import com.lsitc.domain.sample.vo.SampleAddResponseVO;
 import com.lsitc.domain.sample.vo.SampleInfoGetRequestVO;
 import com.lsitc.domain.sample.vo.SampleInfoGetResponseVO;
+import com.lsitc.domain.sample.vo.SampleListGetResponseVO;
 import com.lsitc.domain.sample.vo.SampleModifyRequestVO;
 import com.lsitc.domain.sample.vo.SampleModifyResponseVO;
 import com.lsitc.domain.sample.vo.SampleRemoveRequestVO;
 import com.lsitc.domain.sample.vo.SampleRemoveResponseVO;
+import java.util.List;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -41,6 +43,14 @@ public class SampleController {
         sampleInfoGetRequestVO);
     log.info(sampleInfoGetResponseVO.toString());
     return sampleInfoGetResponseVO;
+  }
+
+  @GetMapping("/list")
+  public List<SampleListGetResponseVO> getSampleList() {
+    log.info("get 메소드가 호출되었습니다.");
+    List<SampleListGetResponseVO> sampleListGetResponseVOList = sampleService.getSampleList();
+    log.info(sampleListGetResponseVOList.toString());
+    return sampleListGetResponseVOList;
   }
 
   @PostMapping("")

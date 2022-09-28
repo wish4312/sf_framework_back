@@ -6,10 +6,13 @@ import com.lsitc.domain.sample.vo.SampleAddRequestVO;
 import com.lsitc.domain.sample.vo.SampleAddResponseVO;
 import com.lsitc.domain.sample.vo.SampleInfoGetRequestVO;
 import com.lsitc.domain.sample.vo.SampleInfoGetResponseVO;
+import com.lsitc.domain.sample.vo.SampleListGetResponseVO;
 import com.lsitc.domain.sample.vo.SampleModifyRequestVO;
 import com.lsitc.domain.sample.vo.SampleModifyResponseVO;
 import com.lsitc.domain.sample.vo.SampleRemoveRequestVO;
 import com.lsitc.domain.sample.vo.SampleRemoveResponseVO;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -27,6 +30,11 @@ public class SampleService {
     log.info(sampleEntity.toString());
     SampleEntity resultEntity = sampleDAO.selectSampleById(sampleEntity);
     return SampleInfoGetResponseVO.of(resultEntity);
+  }
+
+  public List<SampleListGetResponseVO> getSampleList() {
+    List<SampleEntity> resultEntityList = sampleDAO.selectAll();
+    return resultEntityList.stream().map(SampleListGetResponseVO::of).collect(Collectors.toList());
   }
 
   public SampleAddResponseVO addSample(final SampleAddRequestVO sampleAddRequestVO) {

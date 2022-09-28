@@ -18,6 +18,19 @@
     WHERE id = #{id}
   </select>
 
+  <select id="selectAll"
+    resultType="com.lsitc.domain.sample.entity.SampleEntity">
+    SELECT id
+         , foo
+         , bar
+         , comment
+         , created_by
+         , created_date
+         , last_modified_by
+         , last_modified_date
+    FROM sf_sample
+  </select>
+
   <insert id="insertSample"
     parameterType="com.lsitc.domain.sample.entity.SampleEntity"
     useGeneratedKeys="true" keyProperty="id" keyColumn="id">
