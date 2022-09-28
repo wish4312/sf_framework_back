@@ -6,11 +6,14 @@ import com.lsitc.domain.common.bloc.vo.BlocAddRequestVO;
 import com.lsitc.domain.common.bloc.vo.BlocAddResponseVO;
 import com.lsitc.domain.common.bloc.vo.BlocInfoRequestVO;
 import com.lsitc.domain.common.bloc.vo.BlocInfoResponseVO;
+import com.lsitc.domain.common.bloc.vo.BlocModifyRequestVO;
+import com.lsitc.domain.common.bloc.vo.BlocModifyResponseVO;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -39,5 +42,15 @@ public class BlocController {
     BlocAddResponseVO blocAddResponseVO = blocService.addBloc(blocAddRequestVO);
     log.info(blocAddResponseVO.toString());
     return blocAddResponseVO;
+  }
+
+  @PutMapping("")
+  public BlocModifyResponseVO modifyBloc(
+      @RequestBody @Valid final BlocModifyRequestVO blocModifyRequestVO)
+      throws BlocException {
+    log.info(blocModifyRequestVO.toString());
+    BlocModifyResponseVO blocModifyResponseVO = blocService.modifyBloc(blocModifyRequestVO);
+    log.info(blocModifyResponseVO.toString());
+    return blocModifyResponseVO;
   }
 }
