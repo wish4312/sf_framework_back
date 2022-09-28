@@ -4,23 +4,23 @@ import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-public class DeleteSampleResponseVO {
+public class SampleRemoveResponseVO {
 
   private final String result;
 
   @Builder
-  private DeleteSampleResponseVO(String result) {
+  private SampleRemoveResponseVO(String result) {
     this.result = result;
   }
 
-  public static DeleteSampleResponseVO of(int deleteRows) {
+  public static SampleRemoveResponseVO of(int deleteRows) {
     String result = 0 < deleteRows ? "success" : "no data";
     return builder().result(result).build();
   }
 
   @Override
   public String toString() {
-    return "DeleteSampleResponseVO{" +
+    return "SampleRemoveResponseVO{" +
         "result='" + result + '\'' +
         '}';
   }

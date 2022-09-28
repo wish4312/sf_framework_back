@@ -4,23 +4,23 @@ import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-public class PutSampleResponseVO {
+public class SampleModifyResponseVO {
 
   private final String result;
 
   @Builder
-  private PutSampleResponseVO(String result) {
+  private SampleModifyResponseVO(String result) {
     this.result = result;
   }
 
-  public static PutSampleResponseVO of(int upsertRows) {
+  public static SampleModifyResponseVO of(int upsertRows) {
     String result = 0 < upsertRows ? "success" : "failure";
     return builder().result(result).build();
   }
 
   @Override
   public String toString() {
-    return "PutSampleResponseVO{" +
+    return "SampleModifyResponseVO{" +
         "result='" + result + '\'' +
         '}';
   }

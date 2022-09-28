@@ -5,20 +5,20 @@ import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-public class GetSampleResponseVO {
+public class SampleInfoGetResponseVO {
 
   private final String foo;
   private final String bar;
   private final String comment;
 
   @Builder
-  private GetSampleResponseVO(String foo, String bar, String comment) {
+  private SampleInfoGetResponseVO(String foo, String bar, String comment) {
     this.foo = foo;
     this.bar = bar;
     this.comment = comment;
   }
 
-  public static GetSampleResponseVO of(SampleEntity resultEntity) {
+  public static SampleInfoGetResponseVO of(SampleEntity resultEntity) {
     return builder().foo(resultEntity.getFoo())
         .bar(resultEntity.getBar())
         .comment(resultEntity.getComment())
@@ -27,7 +27,7 @@ public class GetSampleResponseVO {
 
   @Override
   public String toString() {
-    return "GetSampleResponseVO{" +
+    return "SampleInfoGetResponseVO{" +
         "foo='" + foo + '\'' +
         ", bar='" + bar + '\'' +
         ", comment='" + comment + '\'' +

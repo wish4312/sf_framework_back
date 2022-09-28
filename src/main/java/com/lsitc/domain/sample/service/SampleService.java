@@ -2,14 +2,14 @@ package com.lsitc.domain.sample.service;
 
 import com.lsitc.domain.sample.dao.SampleDAO;
 import com.lsitc.domain.sample.entity.SampleEntity;
-import com.lsitc.domain.sample.vo.DeleteSampleRequestVO;
-import com.lsitc.domain.sample.vo.DeleteSampleResponseVO;
-import com.lsitc.domain.sample.vo.GetSampleRequestVO;
-import com.lsitc.domain.sample.vo.GetSampleResponseVO;
-import com.lsitc.domain.sample.vo.PostSampleRequestVO;
-import com.lsitc.domain.sample.vo.PostSampleResponseVO;
-import com.lsitc.domain.sample.vo.PutSampleRequestVO;
-import com.lsitc.domain.sample.vo.PutSampleResponseVO;
+import com.lsitc.domain.sample.vo.SampleAddRequestVO;
+import com.lsitc.domain.sample.vo.SampleAddResponseVO;
+import com.lsitc.domain.sample.vo.SampleInfoGetRequestVO;
+import com.lsitc.domain.sample.vo.SampleInfoGetResponseVO;
+import com.lsitc.domain.sample.vo.SampleModifyRequestVO;
+import com.lsitc.domain.sample.vo.SampleModifyResponseVO;
+import com.lsitc.domain.sample.vo.SampleRemoveRequestVO;
+import com.lsitc.domain.sample.vo.SampleRemoveResponseVO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -21,27 +21,28 @@ public class SampleService {
 
   private final SampleDAO sampleDAO;
 
-  public GetSampleResponseVO getSample(final GetSampleRequestVO getSampleRequestVO) {
-    SampleEntity sampleEntity = getSampleRequestVO.toEntity();
+  public SampleInfoGetResponseVO getSampleInfo(
+      final SampleInfoGetRequestVO sampleInfoGetRequestVO) {
+    SampleEntity sampleEntity = sampleInfoGetRequestVO.toEntity();
     log.info(sampleEntity.toString());
     SampleEntity resultEntity = sampleDAO.selectSampleById(sampleEntity);
-    return GetSampleResponseVO.of(resultEntity);
+    return SampleInfoGetResponseVO.of(resultEntity);
   }
 
-  public PostSampleResponseVO postSample(final PostSampleRequestVO postSampleRequestVO) {
-    SampleEntity sampleEntity = postSampleRequestVO.toEntity();
+  public SampleAddResponseVO addSample(final SampleAddRequestVO sampleAddRequestVO) {
+    SampleEntity sampleEntity = sampleAddRequestVO.toEntity();
     log.info(sampleEntity.toString());
     int addRows = sampleDAO.insertSample(sampleEntity);
     log.info("sample entity id: {}", sampleEntity.getId());
-    return PostSampleResponseVO.of(addRows);
+    return SampleAddResponseVO.of(addRows);
   }
 
-  public PutSampleResponseVO putSample(final PutSampleRequestVO putSampleRequestVO) {
-    SampleEntity sampleEntity = putSampleRequestVO.toEntity();
+  public SampleModifyResponseVO modifySample(final SampleModifyRequestVO sampleModifyRequestVO) {
+    SampleEntity sampleEntity = sampleModifyRequestVO.toEntity();
     log.info(sampleEntity.toString());
     int upsertRows = upsertSample(sampleEntity);
     log.info("sample entity id: {}", sampleEntity.getId());
-    return PutSampleResponseVO.of(upsertRows);
+    return SampleModifyResponseVO.of(upsertRows);
   }
 
   private int upsertSample(SampleEntity targetEntity) {
@@ -50,10 +51,10 @@ public class SampleService {
         : sampleDAO.insertSampleWithId(targetEntity);
   }
 
-  public DeleteSampleResponseVO deleteSample(DeleteSampleRequestVO deleteSampleRequestVO) {
-    SampleEntity sampleEntity = deleteSampleRequestVO.toEntity();
+  public SampleRemoveResponseVO removeSample(SampleRemoveRequestVO sampleRemoveRequestVO) {
+    SampleEntity sampleEntity = sampleRemoveRequestVO.toEntity();
     log.info(sampleEntity.toString());
     int deleteRows = sampleDAO.deleteSampleById(sampleEntity);
-    return DeleteSampleResponseVO.of(deleteRows);
+    return SampleRemoveResponseVO.of(deleteRows);
   }
 }
