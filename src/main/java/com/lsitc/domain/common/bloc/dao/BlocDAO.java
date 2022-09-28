@@ -9,4 +9,8 @@ public interface BlocDAO {
   BlocEntity selectBlocById(BlocEntity blocEntity);
 
   int insertBloc(BlocEntity blocEntity);
+
+  int updateBlocById(BlocEntity blocEntity);
+
+  int insertBlocWithId(BlocEntity blocEntity);
 }

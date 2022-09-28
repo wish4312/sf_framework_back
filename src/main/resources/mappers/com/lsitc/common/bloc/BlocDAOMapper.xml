@@ -39,4 +39,35 @@
            , #{lastModifiedBy}
            , current_timestamp())
   </insert>
+
+  <insert id="insertBlocWithId"
+    parameterType="com.lsitc.domain.common.bloc.entity.BlocEntity">
+    INSERT INTO sf_bloc
+    ( id
+    , name
+    , is_deleted
+    , remark
+    , created_by
+    , created_date
+    , last_modified_by
+    , last_modified_date)
+    VALUES ( #{id}
+           , #{name}
+           , #{isDeleted}
+           , #{remark}
+           , #{createdBy}
+           , current_timestamp()
+           , #{lastModifiedBy}
+           , current_timestamp())
+  </insert>
+
+  <update id="updateBlocById"
+    parameterType="com.lsitc.domain.common.bloc.entity.BlocEntity">
+    UPDATE sf_bloc
+    SET name               = #{name}
+      , remark             = #{remark}
+      , last_modified_by   = #{lastModifiedBy}
+      , last_modified_date = current_timestamp()
+    WHERE id = #{id}
+  </update>
 </mapper>
