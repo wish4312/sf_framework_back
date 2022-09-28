@@ -2,14 +2,14 @@ package com.lsitc.domain.sample.controller;
 
 import com.lsitc.domain.sample.exception.SampleException;
 import com.lsitc.domain.sample.service.SampleService;
-import com.lsitc.domain.sample.vo.DeleteSampleRequestVO;
-import com.lsitc.domain.sample.vo.DeleteSampleResponseVO;
-import com.lsitc.domain.sample.vo.GetSampleRequestVO;
-import com.lsitc.domain.sample.vo.GetSampleResponseVO;
-import com.lsitc.domain.sample.vo.PostSampleRequestVO;
-import com.lsitc.domain.sample.vo.PostSampleResponseVO;
-import com.lsitc.domain.sample.vo.PutSampleRequestVO;
-import com.lsitc.domain.sample.vo.PutSampleResponseVO;
+import com.lsitc.domain.sample.vo.SampleAddRequestVO;
+import com.lsitc.domain.sample.vo.SampleAddResponseVO;
+import com.lsitc.domain.sample.vo.SampleInfoGetRequestVO;
+import com.lsitc.domain.sample.vo.SampleInfoGetResponseVO;
+import com.lsitc.domain.sample.vo.SampleModifyRequestVO;
+import com.lsitc.domain.sample.vo.SampleModifyResponseVO;
+import com.lsitc.domain.sample.vo.SampleRemoveRequestVO;
+import com.lsitc.domain.sample.vo.SampleRemoveResponseVO;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,57 +29,59 @@ public class SampleController {
 
   private final SampleService sampleService;
 
-  @GetMapping("/get-method")
-  public GetSampleResponseVO sample(@Valid final GetSampleRequestVO getSampleRequestVO)
-      throws SampleException {
+  @GetMapping("/info")
+  public SampleInfoGetResponseVO getSampleInfo(
+      @Valid final SampleInfoGetRequestVO sampleInfoGetRequestVO) throws SampleException {
     log.info("get 메소드가 호출되었습니다.");
-    if ("ERROR".equals(getSampleRequestVO.getFoo())) {
+    if ("ERROR".equals(sampleInfoGetRequestVO.getFoo())) {
       throw new SampleException();
     }
-    log.info(getSampleRequestVO.toString());
-    GetSampleResponseVO getSampleResponseVO = sampleService.getSample(getSampleRequestVO);
-    log.info(getSampleResponseVO.toString());
-    return getSampleResponseVO;
+    log.info(sampleInfoGetRequestVO.toString());
+    SampleInfoGetResponseVO sampleInfoGetResponseVO = sampleService.getSampleInfo(
+        sampleInfoGetRequestVO);
+    log.info(sampleInfoGetResponseVO.toString());
+    return sampleInfoGetResponseVO;
   }
 
-  @PostMapping("/post-method")
-  public PostSampleResponseVO sample(
-      @RequestBody @Valid final PostSampleRequestVO postSampleRequestVO)
-      throws SampleException {
+  @PostMapping("")
+  public SampleAddResponseVO addSample(
+      @RequestBody @Valid final SampleAddRequestVO sampleAddRequestVO) throws SampleException {
     log.info("post 메소드가 호출되었습니다.");
-    if ("ERROR".equals(postSampleRequestVO.getFoo())) {
+    if ("ERROR".equals(sampleAddRequestVO.getFoo())) {
       throw new SampleException();
     }
-    log.info(postSampleRequestVO.toString());
-    PostSampleResponseVO postSampleResponseVO = sampleService.postSample(postSampleRequestVO);
-    log.info(postSampleResponseVO.toString());
-    return postSampleResponseVO;
+    log.info(sampleAddRequestVO.toString());
+    SampleAddResponseVO sampleAddResponseVO = sampleService.addSample(sampleAddRequestVO);
+    log.info(sampleAddResponseVO.toString());
+    return sampleAddResponseVO;
   }
 
-  @PutMapping("/put-method")
-  public PutSampleResponseVO sample(@RequestBody @Valid final PutSampleRequestVO putSampleRequestVO)
+  @PutMapping("")
+  public SampleModifyResponseVO modifySample(
+      @RequestBody @Valid final SampleModifyRequestVO sampleModifyRequestVO)
       throws SampleException {
     log.info("put 메소드가 호출되었습니다.");
-    if ("ERROR".equals(putSampleRequestVO.getFoo())) {
+    if ("ERROR".equals(sampleModifyRequestVO.getFoo())) {
       throw new SampleException();
     }
-    log.info(putSampleRequestVO.toString());
-    PutSampleResponseVO putSampleResponseVO = sampleService.putSample(putSampleRequestVO);
-    log.info(putSampleResponseVO.toString());
-    return putSampleResponseVO;
+    log.info(sampleModifyRequestVO.toString());
+    SampleModifyResponseVO sampleModifyResponseVO = sampleService.modifySample(
+        sampleModifyRequestVO);
+    log.info(sampleModifyResponseVO.toString());
+    return sampleModifyResponseVO;
   }
 
-  @DeleteMapping("/delete-method")
-  public DeleteSampleResponseVO sample(@Valid final DeleteSampleRequestVO deleteSampleRequestVO)
-      throws SampleException {
+  @DeleteMapping("")
+  public SampleRemoveResponseVO removeSample(
+      @Valid final SampleRemoveRequestVO sampleRemoveRequestVO) throws SampleException {
     log.info("delete 메소드가 호출되었습니다.");
-    if ("ERROR".equals(deleteSampleRequestVO.getFoo())) {
+    if ("ERROR".equals(sampleRemoveRequestVO.getFoo())) {
       throw new SampleException();
     }
-    log.info(deleteSampleRequestVO.toString());
-    DeleteSampleResponseVO deleteSampleResponseVO = sampleService.deleteSample(
-        deleteSampleRequestVO);
-    log.info(deleteSampleResponseVO.toString());
-    return deleteSampleResponseVO;
+    log.info(sampleRemoveRequestVO.toString());
+    SampleRemoveResponseVO sampleRemoveResponseVO = sampleService.removeSample(
+        sampleRemoveRequestVO);
+    log.info(sampleRemoveResponseVO.toString());
+    return sampleRemoveResponseVO;
   }
 }
