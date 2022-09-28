@@ -7,4 +7,6 @@ import org.apache.ibatis.annotations.Mapper;
 public interface BlocDAO {
 
   BlocEntity selectBlocById(BlocEntity blocEntity);
+
+  int insertBloc(BlocEntity blocEntity);
 }

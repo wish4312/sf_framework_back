@@ -19,4 +19,24 @@
     FROM sf_bloc
     WHERE id = #{id}
   </select>
+
+  <insert id="insertBloc"
+    parameterType="com.lsitc.domain.common.bloc.entity.BlocEntity"
+    useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+    INSERT INTO sf_bloc
+    ( name
+    , is_deleted
+    , remark
+    , created_by
+    , created_date
+    , last_modified_by
+    , last_modified_date)
+    VALUES ( #{name}
+           , #{isDeleted}
+           , #{remark}
+           , #{createdBy}
+           , current_timestamp()
+           , #{lastModifiedBy}
+           , current_timestamp())
+  </insert>
 </mapper>

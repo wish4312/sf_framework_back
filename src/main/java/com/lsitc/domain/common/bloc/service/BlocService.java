@@ -2,6 +2,8 @@ package com.lsitc.domain.common.bloc.service;
 
 import com.lsitc.domain.common.bloc.dao.BlocDAO;
 import com.lsitc.domain.common.bloc.entity.BlocEntity;
+import com.lsitc.domain.common.bloc.vo.BlocAddRequestVO;
+import com.lsitc.domain.common.bloc.vo.BlocAddResponseVO;
 import com.lsitc.domain.common.bloc.vo.BlocInfoRequestVO;
 import com.lsitc.domain.common.bloc.vo.BlocInfoResponseVO;
 import lombok.AllArgsConstructor;
@@ -20,5 +22,12 @@ public class BlocService {
     log.info(blocEntity.toString());
     BlocEntity blocInfo = blocDAO.selectBlocById(blocEntity);
     return BlocInfoResponseVO.of(blocInfo);
+  }
+
+  public BlocAddResponseVO addBloc(BlocAddRequestVO blocAddRequestVO) {
+    BlocEntity blocEntity = blocAddRequestVO.toEntity();
+    log.info(blocEntity.toString());
+    int addRows = blocDAO.insertBloc(blocEntity);
+    return BlocAddResponseVO.of(addRows);
   }
 }
