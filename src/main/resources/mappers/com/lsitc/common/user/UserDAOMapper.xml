@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lsitc.domain.common.user.dao.UserDAO">
+  <select id="selectUserById"
+    parameterType="com.lsitc.domain.common.user.entity.UserEntity"
+    resultType="com.lsitc.domain.common.user.entity.UserEntity">
+		SELECT id
+		     , user_id
+         , password
+         , name
+         , email
+         , phone_number
+         , created_by
+         , created_date
+         , last_modified_by
+         , last_modified_date
+         , is_deleted
+         , deleted_by
+         , deleted_date
+		FROM sf_user
+		WHERE id = #{id}
+  </select>
+  
+  <select id="selectAll"
+  	resultType="com.lsitc.domain.common.user.entity.UserEntity">
+		SELECT id
+		     , user_id
+         , password
+         , name
+         , email
+         , phone_number
+         , created_by
+         , created_date
+         , last_modified_by
+         , last_modified_date
+         , is_deleted
+         , deleted_by
+         , deleted_date
+		FROM sf_user
+  </select>
+  
+  <insert id="insertUser"
+    parameterType="com.lsitc.domain.common.user.entity.UserEntity"
+    useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+    INSERT INTO sf_user
+	  ( user_id
+      , password
+      , name
+      , email
+      , phone_number
+      , created_by
+      , created_date
+      , last_modified_by
+      , last_modified_date)
+    VALUES ( #{userId}
+           , #{password}
+           , #{name}
+           , #{email}
+           , #{phoneNumber}
+           , #{createdBy}
+           , current_timestamp()
+           , #{lastModifiedBy}
+           , current_timestamp())
+  </insert>
+  
+  <insert id="insertUserWithId"
+    parameterType="com.lsitc.domain.common.user.entity.UserEntity"
+    useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+    INSERT INTO sf_user
+	  ( id
+	    , user_id
+      , password
+      , name
+      , email
+      , phone_number
+      , created_by
+      , created_date
+      , last_modified_by
+      , last_modified_date)
+    VALUES ( #{id}
+           , #{userId}
+           , #{password}
+           , #{name}
+           , #{email}
+           , #{phoneNumber}
+           , #{createdBy}
+           , current_timestamp()
+           , #{lastModifiedBy}
+           , current_timestamp())
+  </insert>
+    
+  <update id="updateUserById"
+    parameterType="com.lsitc.domain.common.user.entity.UserEntity">
+    UPDATE sf_user
+    SET user_id             = #{userId}
+      , password            = #{password}
+      , name                = #{name}
+      , email               = #{email}
+      , phone_number        = #{phoneNumber}
+      , last_modified_by    = #{lastModifiedBy}
+      , last_modified_date  = current_timestamp()
+    WHERE id = #{id}
+  </update>
+  
+  <update id="updateUserIsDeletedById"
+    parameterType="com.lsitc.domain.common.user.entity.UserEntity">
+    UPDATE sf_user
+    SET is_deleted          = #{isDeleted}
+      , deleted_by          = #{deletedBy}
+      , deleted_date        = current_timestamp()
+      , last_modified_by   = #{lastModifiedBy}
+      , last_modified_date = current_timestamp()
+    WHERE id = #{id}
+  </update>
+  
+  <delete id="deleteUserById"
+    parameterType="com.lsitc.domain.common.user.entity.UserEntity">
+    DELETE
+    FROM sf_user
+    WHERE id = #{id}
+  </delete>
+</mapper>
