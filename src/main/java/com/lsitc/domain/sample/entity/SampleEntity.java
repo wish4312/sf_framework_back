@@ -10,13 +10,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class SampleEntity {
 
-  private long id;
+  private Long id;
   private String foo;
   private String bar;
   private String comment;
-  private String createdBy;
+  private Long createdBy;
   private LocalDateTime createdDate;
-  private String lastModifiedBy;
+  private Long lastModifiedBy;
   private LocalDateTime lastModifiedDate;
 
   @Builder

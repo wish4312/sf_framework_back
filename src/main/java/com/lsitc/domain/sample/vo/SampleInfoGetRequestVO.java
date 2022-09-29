@@ -14,7 +14,7 @@ public class SampleInfoGetRequestVO {
 
   @NotNull
   @PositiveOrZero(message = "음수의 ID는 사용할 수 없습니다.")
-  private final long id;
+  private final Long id;
 
   @NotBlank(message = "foo에 빈값이 들어왔습니다.")
   @Size(max = 5)

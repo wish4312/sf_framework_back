@@ -12,7 +12,7 @@ public class SampleRemoveRequestVO {
 
   @NotNull
   @PositiveOrZero(message = "음수의 ID는 사용할 수 없습니다.")
-  private final long id;
+  private final Long id;
 
   private final String foo;
 
