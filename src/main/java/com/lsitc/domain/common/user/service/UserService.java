@@ -69,16 +69,4 @@ public class UserService {
     int deleteRows = userDAO.updateUserIsDeletedById(userEntity);
     return UserRemoveResponseVO.of(deleteRows);
   }
-
-  // Delete시 데이터를 row에서 삭제
-//  public UserRemoveResponseVO removeUser(final UserRemoveRequestVO userRemoveRequestVO)
-//      throws UserException {
-//    UserEntity userEntity = userDAO.selectUserById(userRemoveRequestVO.toEntity());
-//    if (userEntity == null) {
-//      throw new UserException();
-//    }
-//    log.info(userEntity.toString());
-//    int deleteRows = userDAO.deleteUserById(userEntity);
-//    return UserRemoveResponseVO.of(deleteRows);
-// }
 }

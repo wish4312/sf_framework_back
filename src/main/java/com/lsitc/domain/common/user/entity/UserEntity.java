@@ -10,24 +10,24 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserEntity {
 
-  private long id;
+  private Long id;
   private String userId;
   private String password;
   private String name;
   private String email;
   private String phoneNumber;
-  private long createdBy;
+  private Long createdBy;
   private LocalDateTime createdDate;
-  private long lastModifiedBy;
+  private Long lastModifiedBy;
   private LocalDateTime lastModifiedDate;
   private boolean isDeleted;
-  private long deletedBy;
+  private Long deletedBy;
   private LocalDateTime deletedDate;
 
   @Builder
-  public UserEntity(long id, String userId, String password, String name, String email,
-      String phoneNumber, long createdBy, LocalDateTime createdDate, long lastModifiedBy,
-      LocalDateTime lastModifiedDate, boolean isDeleted, long deletedBy,
+  public UserEntity(Long id, String userId, String password, String name, String email,
+      String phoneNumber, Long createdBy, LocalDateTime createdDate, Long lastModifiedBy,
+      LocalDateTime lastModifiedDate, boolean isDeleted, Long deletedBy,
       LocalDateTime deletedDate) {
     this.id = id;
     this.userId = userId;

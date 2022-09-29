@@ -114,11 +114,4 @@
       , last_modified_date = current_timestamp()
     WHERE id = #{id}
   </update>
-
-  <delete id="deleteUserById"
-    parameterType="com.lsitc.domain.common.user.entity.UserEntity">
-    DELETE
-    FROM sf_user
-    WHERE id = #{id}
-  </delete>
 </mapper>

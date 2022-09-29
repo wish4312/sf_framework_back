@@ -9,19 +9,19 @@ import lombok.Getter;
 @Getter
 public class UserListGetResponseVO {
 
-  private final long id;
+  private final Long id;
   private final String userId;
   private final String name;
   private final String email;
   private final String phoneNumber;
-  private final long createdBy;
+  private final Long createdBy;
   private final LocalDateTime createdDate;
-  private final long lastModifiedBy;
+  private final Long lastModifiedBy;
   private final LocalDateTime lastModifiedDate;
 
   @Builder
-  private UserListGetResponseVO(long id, String userId, String name, String email,
-      String phoneNumber, long createdBy, LocalDateTime createdDate, long lastModifiedBy,
+  private UserListGetResponseVO(Long id, String userId, String name, String email,
+      String phoneNumber, Long createdBy, LocalDateTime createdDate, Long lastModifiedBy,
       LocalDateTime lastModifiedDate) {
     this.id = id;
     this.userId = userId;
