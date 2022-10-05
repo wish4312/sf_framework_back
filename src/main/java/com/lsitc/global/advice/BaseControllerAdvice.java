@@ -24,8 +24,8 @@ import io.jsonwebtoken.JwtException;
 /**
  * ExcpHandler
  */
-@ControllerAdvice
-@ConfigurationProperties
+//@ControllerAdvice
+//@ConfigurationProperties
 public class BaseControllerAdvice {
     //최대 허용 파일 사이즈
     private static String MAX_FILE_SIZE;
