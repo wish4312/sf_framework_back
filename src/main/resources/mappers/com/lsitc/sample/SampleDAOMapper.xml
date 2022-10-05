@@ -46,9 +46,9 @@
            , #{bar}
            , #{comment}
            , #{createdBy}
-           , current_timestamp()
+           , #{createdDate}
            , #{lastModifiedBy}
-           , current_timestamp())
+           , #{lastModifiedDate})
   </insert>
 
   <insert id="insertSampleWithId"
@@ -68,9 +68,9 @@
            , #{bar}
            , #{comment}
            , #{createdBy}
-           , current_timestamp()
+           , #{createdDate}
            , #{lastModifiedBy}
-           , current_timestamp())
+           , #{lastModifiedDate})
   </insert>
 
   <update id="updateSampleById"
@@ -80,7 +80,7 @@
       , bar                = #{bar}
       , comment            = #{comment}
       , last_modified_by   = #{lastModifiedBy}
-      , last_modified_date = current_timestamp()
+      , last_modified_date = #{lastModifiedDate}
     WHERE id = #{id}
   </update>
 
