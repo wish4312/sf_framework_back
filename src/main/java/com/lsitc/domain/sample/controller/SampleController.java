@@ -11,6 +11,7 @@ import com.lsitc.domain.sample.vo.SampleModifyRequestVO;
 import com.lsitc.domain.sample.vo.SampleModifyResponseVO;
 import com.lsitc.domain.sample.vo.SampleRemoveRequestVO;
 import com.lsitc.domain.sample.vo.SampleRemoveResponseVO;
+import com.lsitc.global.error.exception.ErrorCode;
 import java.util.List;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -36,7 +37,7 @@ public class SampleController {
       @Valid final SampleInfoGetRequestVO sampleInfoGetRequestVO) throws SampleException {
     log.info("get 메소드가 호출되었습니다.");
     if ("ERROR".equals(sampleInfoGetRequestVO.getFoo())) {
-      throw new SampleException();
+      throw new SampleException("오류발생", ErrorCode.INTERNAL_SERVER_ERROR);
     }
     log.info(sampleInfoGetRequestVO.toString());
     SampleInfoGetResponseVO sampleInfoGetResponseVO = sampleService.getSampleInfo(
@@ -58,7 +59,7 @@ public class SampleController {
       @RequestBody @Valid final SampleAddRequestVO sampleAddRequestVO) throws SampleException {
     log.info("post 메소드가 호출되었습니다.");
     if ("ERROR".equals(sampleAddRequestVO.getFoo())) {
-      throw new SampleException();
+      throw new SampleException("오류발생", ErrorCode.INTERNAL_SERVER_ERROR);
     }
     log.info(sampleAddRequestVO.toString());
     SampleAddResponseVO sampleAddResponseVO = sampleService.addSample(sampleAddRequestVO);
@@ -72,7 +73,7 @@ public class SampleController {
       throws SampleException {
     log.info("put 메소드가 호출되었습니다.");
     if ("ERROR".equals(sampleModifyRequestVO.getFoo())) {
-      throw new SampleException();
+      throw new SampleException("오류발생", ErrorCode.INTERNAL_SERVER_ERROR);
     }
     log.info(sampleModifyRequestVO.toString());
     SampleModifyResponseVO sampleModifyResponseVO = sampleService.modifySample(
@@ -86,7 +87,7 @@ public class SampleController {
       @Valid final SampleRemoveRequestVO sampleRemoveRequestVO) throws SampleException {
     log.info("delete 메소드가 호출되었습니다.");
     if ("ERROR".equals(sampleRemoveRequestVO.getFoo())) {
-      throw new SampleException();
+      throw new SampleException("오류발생", ErrorCode.INTERNAL_SERVER_ERROR);
     }
     log.info(sampleRemoveRequestVO.toString());
     SampleRemoveResponseVO sampleRemoveResponseVO = sampleService.removeSample(

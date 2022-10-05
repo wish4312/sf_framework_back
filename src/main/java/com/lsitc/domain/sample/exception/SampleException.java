@@ -1,12 +1,15 @@
 package com.lsitc.domain.sample.exception;
 
-public class SampleException extends Exception {
+import com.lsitc.global.error.exception.BusinessException;
+import com.lsitc.global.error.exception.ErrorCode;
 
-  public SampleException() {
-    super();
+public class SampleException extends BusinessException {
+
+  public SampleException(String message, ErrorCode errorCode) {
+    super(message, errorCode);
   }
 
-  public SampleException(String message) {
-    super(message);
+  public SampleException(ErrorCode errorCode) {
+    super(errorCode);
   }
 }
