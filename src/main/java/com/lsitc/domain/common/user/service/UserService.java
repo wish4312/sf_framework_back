@@ -1,8 +1,15 @@
 package com.lsitc.domain.common.user.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
+import javax.servlet.http.HttpServletResponse;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import com.lsitc.domain.common.user.dao.UserDAO;
 import com.lsitc.domain.common.user.entity.UserEntity;
 import com.lsitc.domain.common.user.exception.UserException;
@@ -15,13 +22,14 @@ import com.lsitc.domain.common.user.vo.UserModifyRequestVO;
 import com.lsitc.domain.common.user.vo.UserModifyResponseVO;
 import com.lsitc.domain.common.user.vo.UserRemoveRequestVO;
 import com.lsitc.domain.common.user.vo.UserRemoveResponseVO;
+import com.lsitc.global.util.JwtTokenUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
 @AllArgsConstructor
-public class UserService {
+public class UserService implements UserDetailsService {
 
   private final UserDAO userDAO;
 
@@ -68,5 +76,37 @@ public class UserService {
     log.info(userEntity.toString());
     int deleteRows = userDAO.updateUserIsDeletedById(userEntity);
     return UserRemoveResponseVO.of(deleteRows);
+  }
+
+  @Override
+  public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    UserEntity userInfo = userDAO.selectUserByUserId(username);
+    
+    if (userInfo == null) {
+      throw new UsernameNotFoundException(username);
+    }
+    
+    //// FIXME Jwt용 임시 정보 세팅 - 삭제예정 ==================================
+    try {
+      HashMap<String, Object> tmpTokenInfo = new HashMap<String, Object>();
+      tmpTokenInfo.put("userNm", userInfo.getUsername());
+      tmpTokenInfo.put("userNo", '3');
+      tmpTokenInfo.put("blocId", "BL0001");
+      tmpTokenInfo.put("comId", "FEMS");
+      tmpTokenInfo.put("roleList", "ROL0001");
+      tmpTokenInfo.put("blocNm", "1사업장");
+      String token;
+      token = JwtTokenUtils.createToken(tmpTokenInfo);
+      //토큰을 쿠키에 셋팅
+      HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getResponse();
+      JwtTokenUtils.setTokenOnResponse(token, response);
+    } catch (Exception e) {
+      e.printStackTrace();
+      log.error(e.getMessage());
+      return null;
+    }
+    //// ===================================================
+    
+    return userInfo;
   }
 }
