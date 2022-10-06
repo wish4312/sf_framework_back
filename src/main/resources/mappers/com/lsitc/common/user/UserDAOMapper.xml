@@ -60,9 +60,9 @@
            , #{email}
            , #{phoneNumber}
            , #{createdBy}
-           , current_timestamp()
+           , #{createdDate}
            , #{lastModifiedBy}
-           , current_timestamp())
+           , #{lastModifiedDate})
   </insert>
 
   <insert id="insertUserWithId"
@@ -86,9 +86,9 @@
            , #{email}
            , #{phoneNumber}
            , #{createdBy}
-           , current_timestamp()
+           , #{createdDate}
            , #{lastModifiedBy}
-           , current_timestamp())
+           , #{lastModifiedDate})
   </insert>
 
   <update id="updateUserById"
@@ -100,7 +100,7 @@
       , email              = #{email}
       , phone_number       = #{phoneNumber}
       , last_modified_by   = #{lastModifiedBy}
-      , last_modified_date = current_timestamp()
+      , last_modified_date = #{lastModifiedDate}
     WHERE id = #{id}
   </update>
 
@@ -111,7 +111,27 @@
       , deleted_by         = #{deletedBy}
       , deleted_date       = current_timestamp()
       , last_modified_by   = #{lastModifiedBy}
-      , last_modified_date = current_timestamp()
+      , last_modified_date = #{lastModifiedDate}
     WHERE id = #{id}
   </update>
+  
+  <select id="selectUserByUserId"
+    parameterType="com.lsitc.domain.common.user.entity.UserEntity"
+    resultType="com.lsitc.domain.common.user.entity.UserEntity">
+    SELECT id
+         , user_id
+         , password
+         , name
+         , email
+         , phone_number
+         , created_by
+         , created_date
+         , last_modified_by
+         , last_modified_date
+         , is_deleted
+         , deleted_by
+         , deleted_date
+    FROM sf_user
+    WHERE user_id = #{userId}
+  </select>
 </mapper>

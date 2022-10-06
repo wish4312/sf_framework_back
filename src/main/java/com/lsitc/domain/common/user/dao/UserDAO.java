@@ -18,4 +18,6 @@ public interface UserDAO {
   int insertUserWithId(UserEntity userEntity);
 
   int updateUserIsDeletedById(UserEntity userEntity);
+  
+  UserEntity selectUserByUserId(String userId);
 }
