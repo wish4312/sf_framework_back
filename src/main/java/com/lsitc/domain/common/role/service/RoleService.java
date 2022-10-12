@@ -62,7 +62,7 @@ public class RoleService {
       throws RoleException {
     RoleEntity roleEntity = roleDAO.selectRoleById(roleRemoveRequestVO.toEntity());
     if (roleEntity == null) {
-      throw new RoleException(ErrorCode.INTERNAL_SERVER_ERROR);
+      throw new RoleException("roleEntity is null");
     }
     roleEntity.delete();
     log.info(roleEntity.toString());

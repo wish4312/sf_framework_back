@@ -22,6 +22,7 @@ import com.lsitc.domain.common.user.vo.UserModifyRequestVO;
 import com.lsitc.domain.common.user.vo.UserModifyResponseVO;
 import com.lsitc.domain.common.user.vo.UserRemoveRequestVO;
 import com.lsitc.domain.common.user.vo.UserRemoveResponseVO;
+import com.lsitc.global.error.exception.ErrorCode;
 import com.lsitc.global.util.JwtTokenUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -70,7 +71,7 @@ public class UserService implements UserDetailsService {
       throws UserException {
     UserEntity userEntity = userDAO.selectUserById(userRemoveRequestVO.toEntity());
     if (userEntity == null) {
-      throw new UserException();
+      throw new UserException("userEntity is null");
     }
     userEntity.delete();
     log.info(userEntity.toString());
