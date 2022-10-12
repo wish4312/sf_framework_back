@@ -2,6 +2,7 @@ package com.lsitc.domain.sample.service;
 
 import com.lsitc.domain.sample.dao.SampleDAO;
 import com.lsitc.domain.sample.entity.SampleEntity;
+import com.lsitc.domain.sample.exception.SampleException;
 import com.lsitc.domain.sample.vo.SampleAddRequestVO;
 import com.lsitc.domain.sample.vo.SampleAddResponseVO;
 import com.lsitc.domain.sample.vo.SampleInfoGetRequestVO;
@@ -11,6 +12,7 @@ import com.lsitc.domain.sample.vo.SampleModifyRequestVO;
 import com.lsitc.domain.sample.vo.SampleModifyResponseVO;
 import com.lsitc.domain.sample.vo.SampleRemoveRequestVO;
 import com.lsitc.domain.sample.vo.SampleRemoveResponseVO;
+import com.lsitc.global.error.exception.ErrorCode;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
@@ -62,7 +64,22 @@ public class SampleService {
   public SampleRemoveResponseVO removeSample(SampleRemoveRequestVO sampleRemoveRequestVO) {
     SampleEntity sampleEntity = sampleRemoveRequestVO.toEntity();
     log.info(sampleEntity.toString());
-    int deleteRows = sampleDAO.deleteSampleById(sampleEntity);
+//    int deleteRows = hardDeleteSample(sampleEntity);
+    int deleteRows = softDeleteSample(sampleEntity);
     return SampleRemoveResponseVO.of(deleteRows);
+  }
+
+  private int hardDeleteSample(SampleEntity targetEntity) {
+    return sampleDAO.deleteSampleById(targetEntity);
+  }
+
+  private int softDeleteSample(SampleEntity targetEntity) {
+    SampleEntity sampleEntity = sampleDAO.selectSampleById(targetEntity);
+    if (sampleEntity == null) {
+      throw new SampleException("sampleEntity is null", ErrorCode.INTERNAL_SERVER_ERROR);
+    }
+    sampleEntity.delete();
+    log.info(sampleEntity.toString());
+    return sampleDAO.updateSampleIsDeletedById(sampleEntity);
   }
 }

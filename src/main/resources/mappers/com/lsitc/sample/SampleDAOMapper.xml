@@ -90,4 +90,15 @@
     FROM sf_sample
     WHERE id = #{id}
   </delete>
+
+  <update id="updateSampleIsDeletedById"
+    parameterType="com.lsitc.domain.sample.entity.SampleEntity">
+    UPDATE sf_sample
+    SET is_deleted         = #{isDeleted}
+      , deleted_date       = #{deletedDate}
+      , deleted_by         = #{deletedBy}
+      , last_modified_by   = #{lastModifiedBy}
+      , last_modified_date = #{lastModifiedDate}
+    WHERE id = #{id}
+  </update>
 </mapper>
