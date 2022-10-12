@@ -4,6 +4,7 @@ import com.lsitc.global.auditing.Auditable;
 import com.lsitc.global.auditing.CurrentDateTimeProvider;
 import com.lsitc.global.auditing.CurrentUserInfoProvider;
 import com.lsitc.global.auditing.DateTimeProvider;
+import com.lsitc.global.auditing.SoftDeletable;
 import com.lsitc.global.auditing.UserProvider;
 import com.lsitc.global.common.BaseVo;
 import com.lsitc.global.common.SessionVo;
@@ -68,6 +69,14 @@ public class DefaultInterceptor implements Interceptor {
         } else if (mappedStatement.getSqlCommandType().equals(SqlCommandType.UPDATE)) {
           baseAbstractEntity.setLastModifiedBy(userProvider.getId());
           baseAbstractEntity.setLastModifiedDate(dateTimeProvider.getNow());
+
+          if (parameter instanceof SoftDeletable) {
+            SoftDeletable softDeletableEntity = (SoftDeletable) parameter;
+            if (softDeletableEntity.isDeleted()) {
+              softDeletableEntity.setDeletedBy(userProvider.getId());
+              softDeletableEntity.setDeletedDate(dateTimeProvider.getNow());
+            }
+          }
         }
       }
     } else if (parameter instanceof Map || parameter instanceof HashMap) {
