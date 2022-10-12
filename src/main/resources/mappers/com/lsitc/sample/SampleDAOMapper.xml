@@ -35,6 +35,11 @@
          , deleted_by
          , deleted_date
     FROM sf_sample
+    <if test="pageable.size != null and pageable.page != null ">
+    ORDER BY created_by
+    LIMIT #{pageable.size}
+    OFFSET #{pageable.offset}
+    </if>
   </select>
 
   <insert id="insertSample"

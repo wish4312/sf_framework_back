@@ -12,6 +12,7 @@ import com.lsitc.domain.sample.vo.SampleModifyResponseVO;
 import com.lsitc.domain.sample.vo.SampleRemoveRequestVO;
 import com.lsitc.domain.sample.vo.SampleRemoveResponseVO;
 import com.lsitc.global.error.exception.ErrorCode;
+import com.lsitc.global.paging.Pageable;
 import java.util.List;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -47,9 +48,10 @@ public class SampleController {
   }
 
   @GetMapping("/list")
-  public List<SampleListGetResponseVO> getSampleList() {
+  public List<SampleListGetResponseVO> getSampleList(@Valid final Pageable pageable) {
     log.info("get 메소드가 호출되었습니다.");
-    List<SampleListGetResponseVO> sampleListGetResponseVOList = sampleService.getSampleList();
+    List<SampleListGetResponseVO> sampleListGetResponseVOList = sampleService.getSampleList(
+        pageable);
     log.info(sampleListGetResponseVOList.toString());
     return sampleListGetResponseVOList;
   }

@@ -12,6 +12,7 @@ import com.lsitc.domain.sample.vo.SampleModifyRequestVO;
 import com.lsitc.domain.sample.vo.SampleModifyResponseVO;
 import com.lsitc.domain.sample.vo.SampleRemoveRequestVO;
 import com.lsitc.domain.sample.vo.SampleRemoveResponseVO;
+import com.lsitc.global.paging.Pageable;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
@@ -33,8 +34,8 @@ public class SampleService {
     return SampleInfoGetResponseVO.of(resultEntity);
   }
 
-  public List<SampleListGetResponseVO> getSampleList() {
-    List<SampleEntity> resultEntityList = sampleDAO.selectAll();
+  public List<SampleListGetResponseVO> getSampleList(final Pageable pageable) {
+    List<SampleEntity> resultEntityList = sampleDAO.selectAll(pageable);
     return resultEntityList.stream().map(SampleListGetResponseVO::of).collect(Collectors.toList());
   }
 
