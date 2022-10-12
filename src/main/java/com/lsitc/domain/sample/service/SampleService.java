@@ -12,7 +12,6 @@ import com.lsitc.domain.sample.vo.SampleModifyRequestVO;
 import com.lsitc.domain.sample.vo.SampleModifyResponseVO;
 import com.lsitc.domain.sample.vo.SampleRemoveRequestVO;
 import com.lsitc.domain.sample.vo.SampleRemoveResponseVO;
-import com.lsitc.global.error.exception.ErrorCode;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
@@ -76,7 +75,7 @@ public class SampleService {
   private int softDeleteSample(SampleEntity targetEntity) {
     SampleEntity sampleEntity = sampleDAO.selectSampleById(targetEntity);
     if (sampleEntity == null) {
-      throw new SampleException("sampleEntity is null", ErrorCode.INTERNAL_SERVER_ERROR);
+      throw new SampleException("sampleEntity is null");
     }
     sampleEntity.delete();
     log.info(sampleEntity.toString());

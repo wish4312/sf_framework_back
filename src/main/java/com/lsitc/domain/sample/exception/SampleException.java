@@ -9,6 +9,10 @@ public class SampleException extends BusinessException {
     super(message, errorCode);
   }
 
+  public SampleException(String message) {
+    super(message, ErrorCode.INTERNAL_SERVER_ERROR);
+  }
+
   public SampleException(ErrorCode errorCode) {
     super(errorCode);
   }
