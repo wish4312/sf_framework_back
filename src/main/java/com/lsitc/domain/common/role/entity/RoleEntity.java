@@ -1,7 +1,7 @@
 package com.lsitc.domain.common.role.entity;
 
-import java.time.LocalDateTime;
 import com.lsitc.global.common.BaseAbstractEntity;
+import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,7 +14,7 @@ public class RoleEntity extends BaseAbstractEntity {
   private long id;
   private String name;
   private boolean isDeleted;
-  private String deletedBy;
+  private Long deletedBy;
   private LocalDateTime deletedDate;
   private String remark;
 
