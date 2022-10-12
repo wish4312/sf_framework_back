@@ -50,9 +50,9 @@
            , #{isDeleted}
            , #{remark}
            , #{createdBy}
-           , current_timestamp()
+           , #{createdDate}
            , #{lastModifiedBy}
-           , current_timestamp())
+           , #{lastModifiedDate})
   </insert>
 
   <insert id="insertBlocWithId"
@@ -71,9 +71,9 @@
            , #{isDeleted}
            , #{remark}
            , #{createdBy}
-           , current_timestamp()
+           , #{createdDate}
            , #{lastModifiedBy}
-           , current_timestamp())
+           , #{lastModifiedDate})
   </insert>
 
   <update id="updateBlocById"
@@ -82,7 +82,7 @@
     SET name               = #{name}
       , remark             = #{remark}
       , last_modified_by   = #{lastModifiedBy}
-      , last_modified_date = current_timestamp()
+      , last_modified_date = #{lastModifiedDate}
     WHERE id = #{id}
   </update>
 
@@ -90,10 +90,10 @@
     parameterType="com.lsitc.domain.common.bloc.entity.BlocEntity">
     UPDATE sf_bloc
     SET is_deleted         = #{isDeleted}
-      , deleted_date       = current_timestamp()
+      , deleted_date       = #{deletedDate}
       , deleted_by         = #{deletedBy}
       , last_modified_by   = #{lastModifiedBy}
-      , last_modified_date = current_timestamp()
+      , last_modified_date = #{lastModifiedDate}
     WHERE id = #{id}
   </update>
 </mapper>
