@@ -11,6 +11,7 @@
               ,A.USE_FG
               ,A.RMRK
               ,A.SYS_DIV
+              ,(SELECT COMM_CD_NM FROM COMM_CD B WHERE B.COMM_GRP_CD= 'CO_SYSDIV' AND B.COMM_CD = A.SYS_DIV) AS SYS_DIV_NM
           FROM COMM_GRP_CD A
          WHERE 1=1
          <if test='commGrpCd != null and commGrpCd != ""'>

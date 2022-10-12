@@ -12,7 +12,7 @@
          INNER JOIN COMM_LOGIN_INFO C ON A.REG_USER_NO = C.USER_NO
          WHERE 1=1
            AND A.COM_ID = #{session.comId}
-           <if test="userList != null and userList != ''">
+      <if test="userList != null and userList.size > 0">
            AND A.REG_USER_NO IN
 	           <foreach item="eachRow" open="(" separator="," close=")" collection="userList">
 	           		#{eachRow}
@@ -40,7 +40,7 @@
          INNER JOIN COMM_LOGIN_INFO D ON A.REG_USER_NO = D.USER_NO
          WHERE 1=1
            AND A.COM_ID = #{session.comId}
-           <if test="userList != null and userList != ''">
+      <if test="userList != null and userList.size > 0">
            AND A.REG_USER_NO IN
 	           <foreach item="eachRow" open="(" separator="," close=")" collection="userList">
 	           		#{eachRow}

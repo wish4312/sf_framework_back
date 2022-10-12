@@ -33,4 +33,6 @@ public class PrgmVo extends BaseVo<PrgmVo> {
 	private String url; // URL (URL)
 
 	private String useFg; // USE_FG (사용여부)
+
+	private String prgmTpCdNm;
 }

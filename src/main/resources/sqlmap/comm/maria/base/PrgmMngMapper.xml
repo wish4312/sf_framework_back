@@ -70,6 +70,7 @@
                PRGM_ID
               ,PRGM_NM
               ,PRGM_TP_CD
+              ,CASE WHEN PRGM_TP_CD = '1' THEN '프로그램' ELSE '팝업' END AS PRGM_TP_CD_NM
               ,URL
               ,USE_FG
               ,REG_USER_NO
