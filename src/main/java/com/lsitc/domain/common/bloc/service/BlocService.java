@@ -61,7 +61,7 @@ public class BlocService {
       throws BlocException {
     BlocEntity blocEntity = blocDAO.selectBlocById(blocRemoveRequestVO.toEntity());
     if (blocEntity == null) {
-      throw new BlocException();
+      throw new BlocException("blocEntity is null");
     }
     blocEntity.delete();
     log.info(blocEntity.toString());
