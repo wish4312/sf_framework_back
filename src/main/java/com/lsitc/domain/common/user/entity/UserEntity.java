@@ -6,6 +6,8 @@ import java.util.Collections;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import com.lsitc.global.auditing.Auditable;
+import com.lsitc.global.auditing.SoftDeletable;
 import com.lsitc.global.common.BaseAbstractEntity;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -14,37 +16,27 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class UserEntity extends BaseAbstractEntity implements UserDetails {
+public class UserEntity extends BaseAbstractEntity
+    implements UserDetails, Auditable<Long, LocalDateTime>, SoftDeletable<Long, LocalDateTime> {
 
   private static final long serialVersionUID = 7428290075155619330L;
-  
+
   private Long id;
   private String userId;
   private String password;
   private String name;
   private String email;
   private String phoneNumber;
-  private boolean isDeleted;
-  private Long deletedBy;
-  private LocalDateTime deletedDate;
 
   @Builder
   public UserEntity(Long id, String userId, String password, String name, String email,
-      String phoneNumber, boolean isDeleted, Long deletedBy,
-      LocalDateTime deletedDate) {
+      String phoneNumber) {
     this.id = id;
     this.userId = userId;
     this.password = password;
     this.name = name;
     this.email = email;
     this.phoneNumber = phoneNumber;
-    this.isDeleted = isDeleted;
-    this.deletedBy = deletedBy;
-    this.deletedDate = deletedDate;
-  }
-
-  public void delete() {
-    this.isDeleted = true;
   }
 
   @Override
@@ -52,10 +44,10 @@ public class UserEntity extends BaseAbstractEntity implements UserDetails {
     // FIXME 권한 관련 로직이 들어가는 곳
     return Collections.singletonList(new SimpleGrantedAuthority("ROLE_ADMIN"));
   }
-  
+
   @Override
   public String getPassword() {
-      return this.password;
+    return this.password;
   }
 
   @Override
@@ -80,6 +72,6 @@ public class UserEntity extends BaseAbstractEntity implements UserDetails {
 
   @Override
   public boolean isEnabled() {
-    return !this.isDeleted;
+    return !isDeleted();
   }
 }
