@@ -18,4 +18,6 @@ public interface SampleDAO {
   int insertSampleWithId(SampleEntity sampleEntity);
 
   int deleteSampleById(SampleEntity sampleEntity);
+
+  int updateSampleIsDeletedById(SampleEntity sampleEntity);
 }

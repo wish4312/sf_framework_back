@@ -1,6 +1,9 @@
 package com.lsitc.domain.sample.entity;
 
+import com.lsitc.global.auditing.Auditable;
+import com.lsitc.global.auditing.SoftDeletable;
 import com.lsitc.global.common.BaseAbstractEntity;
+import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -8,7 +11,8 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class SampleEntity extends BaseAbstractEntity {
+public class SampleEntity extends BaseAbstractEntity implements Auditable<Long, LocalDateTime>,
+    SoftDeletable<Long, LocalDateTime> {
 
   private Long id;
   private String foo;
