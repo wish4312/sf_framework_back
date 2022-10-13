@@ -12,7 +12,7 @@ public class BlocInfoGetRequestVO {
 
   @NotNull
   @PositiveOrZero(message = "사업장 ID에는 음수가 들어올 수 없습니다.")
-  private final long id;
+  private final Long id;
 
   public BlocEntity toEntity() {
     return BlocEntity.builder()

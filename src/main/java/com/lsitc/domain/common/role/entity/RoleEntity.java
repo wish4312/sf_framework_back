@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 public class RoleEntity extends BaseAbstractEntity
     implements Auditable<Long, LocalDateTime>, SoftDeletable<Long, LocalDateTime> {
 
-  private long id;
+  private Long id;
   private String name;
   private String remark;
 

@@ -7,7 +7,7 @@ import lombok.Getter;
 @Getter
 public class RoleListGetResponseVO {
 
-  private final long id;
+  private final Long id;
   private final String name;
   private final boolean isDeleted;
   private final String remark;

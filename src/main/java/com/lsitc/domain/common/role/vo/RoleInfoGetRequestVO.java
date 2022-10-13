@@ -12,7 +12,7 @@ public class RoleInfoGetRequestVO {
 
   @NotNull
   @PositiveOrZero(message = "권한 ID에는 음수가 들어올 수 없습니다.")
-  private final long id;
+  private final Long id;
 
   public RoleEntity toEntity() {
     return RoleEntity.builder()

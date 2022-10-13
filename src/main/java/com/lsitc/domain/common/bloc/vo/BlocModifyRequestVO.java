@@ -13,7 +13,7 @@ public class BlocModifyRequestVO {
 
   @NotNull
   @PositiveOrZero(message = "음수의 ID는 사용할 수 없습니다.")
-  private final long id;
+  private final Long id;
 
   @NotBlank(message = "사업장명이 필요합니다.")
   private final String name;
