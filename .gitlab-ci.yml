@@ -3,7 +3,7 @@ stages:
   - deploy
 
 maven-build:
-  image: maven:3.6.3-openjdk-11
+  image: openjdk:11-jdk
   stage: build
   before_script:
       - export M2_HOME=/opt/maven
