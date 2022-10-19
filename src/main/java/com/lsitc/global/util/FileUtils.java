@@ -18,6 +18,7 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -40,10 +41,10 @@ public class FileUtils {
   public static String FILE_PATH = "tmp";
   @Value("${file.fileTmpPath}")
   public static String FILE_TMP_PATH = "tmp";
-  @Value("${file.allowType}")
-  public static List<String> FILE_ALLOW_TYPE;
-  @Value("${file.allowMimeType}")
-  public static List<String> ALLOW_MIME_TYPE;
+  @Value("${file.valid-extensions}")
+  public static List<String> VALID_EXTENSIONS;
+  @Value("${file.valid-mime-types}")
+  public static List<String> VALID_MIME_TYPES;
 
 
   @SuppressWarnings("static-access")
@@ -59,15 +60,15 @@ public class FileUtils {
   }
 
   @SuppressWarnings("static-access")
-  @Value("${file.allowType}")
-  private void setAllowType(List<String> allowType) {
-    this.FILE_ALLOW_TYPE = allowType;
+  @Value("${file.valid-extensions}")
+  private void setAllowType(List<String> validExtensions) {
+    this.VALID_EXTENSIONS = validExtensions;
   }
 
   @SuppressWarnings("static-access")
-  @Value("${file.allowMimeType}")
-  private void setAllowMINEType(List<String> allowMimeType) {
-    this.ALLOW_MIME_TYPE = allowMimeType;
+  @Value("${file.valid-mime-types}")
+  private void setAllowMINEType(List<String> validMimeTypes) {
+    this.VALID_MIME_TYPES = validMimeTypes;
   }
 
   //uuid에서 '-'를 제거하여 리턴한다.
@@ -80,11 +81,27 @@ public class FileUtils {
     return file.exists();
   }
 
+  private boolean isValidExtension(String extension) {
+    return VALID_EXTENSIONS.contains(extension);
+  }
+
+  private boolean isValidMimeType(String contentType) {
+    return VALID_MIME_TYPES.stream().anyMatch(type -> type.startsWith(contentType));
+  }
+
+  private String getExtension(String filename) {
+    if (filename.contains(".")) {
+      return filename.substring(filename.lastIndexOf(".") + 1);
+    } else {
+      return "";
+    }
+  }
+
   //파일 유효성 검증
-  public boolean isVaildFile(MultipartFile uploadfile) {
-    String fileNm = uploadfile.getOriginalFilename();
-    String ext = fileNm.substring(fileNm.lastIndexOf(".") + 1);
-    if (!FILE_ALLOW_TYPE.contains(ext)) {
+  public boolean isValidFile(MultipartFile uploadfile) {
+    String filename = Optional.ofNullable(uploadfile.getOriginalFilename()).orElse("");
+    String extension = getExtension(filename);
+    if (!isValidExtension(extension)) {
       return false;
     }
 
@@ -93,12 +110,7 @@ public class FileUtils {
     try {
       is = uploadfile.getInputStream();
       String mimeType = tika.detect(is);
-      for (String allowMineType : ALLOW_MIME_TYPE) {
-        if (mimeType.startsWith(allowMineType)) {
-          return true;
-        }
-      }
-      return false;
+      return isValidMimeType(mimeType);
     } catch (IOException e) {
       //FIXME 다국어 처리
       throw new BisiExcp("첨부파일 업로드중(유효성검증) 오류발생");
@@ -116,7 +128,7 @@ public class FileUtils {
 
   //uploadFile
   public void uplaodFile(MultipartFile uploadfile, String path) throws IOException {
-    if (isVaildFile(uploadfile)) {
+    if (isValidFile(uploadfile)) {
       File targetFile = new File(path);
       // 없으면 생성
       org.apache.commons.io.FileUtils.touch(targetFile);
