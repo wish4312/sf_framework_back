@@ -24,18 +24,16 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.tika.Tika;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 @Component
+@Slf4j
 //@ConfigurationProperties(prefix="file")
-public class FileUtils {
-
-  protected final Logger logger = LoggerFactory.getLogger(this.getClass());
+public final class FileUtils extends org.apache.commons.io.FileUtils {
 
   @Value("${file.filePath}")
   public static String FILE_PATH = "tmp";
@@ -131,7 +129,7 @@ public class FileUtils {
     if (isValidFile(uploadfile)) {
       File targetFile = new File(path);
       // 없으면 생성
-      org.apache.commons.io.FileUtils.touch(targetFile);
+      touch(targetFile);
       // 파일 업로드
       uploadfile.transferTo(targetFile);
     } else {
@@ -152,9 +150,9 @@ public class FileUtils {
     File srcFile = new File(srcPath);
     File destFile = new File(destPath);
     //없으면 생성
-    org.apache.commons.io.FileUtils.touch(destFile);
+    touch(destFile);
     //복제
-    org.apache.commons.io.FileUtils.copyFile(srcFile, destFile);
+    copyFile(srcFile, destFile);
     if (srcDeleteYn) {
       //tmp파일 삭제
       srcFile.delete();
@@ -211,7 +209,7 @@ public class FileUtils {
       try {
         encodedFilename = URLEncoder.encode(filename, "UTF-8").replaceAll("\\+", "%20");
       } catch (UnsupportedEncodingException e) {
-        logger.error("IE 엑셀 파일명 변환중 에러 발생하였음");
+        log.error("IE 엑셀 파일명 변환중 에러 발생하였음");
       }
 
     } else if ("Chrome".equals(browser) || "Firefox".equals(browser)) {
@@ -262,8 +260,7 @@ public class FileUtils {
     //zip foler 공간을 생성
     String zipFilePath = FILE_TMP_PATH + File.separator + getUUID();
     try {
-      FileOutputStream fout = new FileOutputStream(
-          org.apache.commons.io.FileUtils.getFile(zipFilePath));
+      FileOutputStream fout = new FileOutputStream(getFile(zipFilePath));
       ZipOutputStream zout = new ZipOutputStream(fout, Charset.forName("UTF-8"));
       byte[] buffer = new byte[8096];
       int bytesRead;
