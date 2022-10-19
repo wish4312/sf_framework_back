@@ -21,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
-public class FileSvc extends BaseSvc {
+public class FileService extends BaseSvc {
 
   @Autowired
   private FileUtils fileUtils;

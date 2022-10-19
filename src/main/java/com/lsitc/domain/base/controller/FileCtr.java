@@ -14,12 +14,12 @@
 */
 package com.lsitc.domain.base.controller;
 
+import com.lsitc.global.common.BaseResponse;
+import com.lsitc.global.common.share.service.FileService;
 import java.util.HashMap;
 import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,14 +27,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.lsitc.global.common.BaseResponse;
-import com.lsitc.global.common.share.service.FileSvc;
-
 @Controller
 public class FileCtr {
 	
 	@Autowired
-	FileSvc fileSvc;
+	FileService fileService;
 
 	//업로드 파일 조회
 	@RequestMapping("/comm/base/selectUploadFile")
@@ -43,7 +40,7 @@ public class FileCtr {
 		BaseResponse result = new BaseResponse();
 		Map<String, String> paramMap = new HashMap<String, String>();
 		
-		result.add("uploadFileList", fileSvc.selectUploadFile(paramMap));
+		result.add("uploadFileList", fileService.selectUploadFile(paramMap));
 		return result;
 	}
 
@@ -57,7 +54,7 @@ public class FileCtr {
     							 @RequestParam(name = "sortSeq", required = false, defaultValue = "1")String sortSeq) throws Exception {
     	BaseResponse result = new BaseResponse();
     	
-    	result.add("fileVo", fileSvc.saveUploadFileToTemp(apndFileUuid, menuId, sortSeq, uploadfile));
+    	result.add("fileVo", fileService.saveUploadFileToTemp(apndFileUuid, menuId, sortSeq, uploadfile));
     	
     	return result;
     }
@@ -72,7 +69,7 @@ public class FileCtr {
     							 @RequestParam(name = "sortSeq", required = false, defaultValue = "1")String sortSeq) throws Exception {
     	BaseResponse result = new BaseResponse();
     	
-    	result.add("fileVo", fileSvc.saveUploadFile(apndFileUuid, menuId, sortSeq, uploadfile));
+    	result.add("fileVo", fileService.saveUploadFile(apndFileUuid, menuId, sortSeq, uploadfile));
     	
     	return result;
     }
@@ -83,7 +80,7 @@ public class FileCtr {
     public Object deleteUploadFile(@RequestParam(name = "apndFileUuid")String apndFileUuid,
     							   @RequestParam(name = "apndFileId", required = false)String apndFileId) throws Exception {
     	BaseResponse result = new BaseResponse();
-    	fileSvc.deleteUploadFile(apndFileUuid, apndFileId);
+    	fileService.deleteUploadFile(apndFileUuid, apndFileId);
     	return result;
     }
 
@@ -91,12 +88,12 @@ public class FileCtr {
 	@RequestMapping("/comm/base/downloadFile")
     public void downloadFile(HttpServletRequest request, HttpServletResponse response,@RequestParam(name = "apndFileUuid", required = false) String apndFileUuid,
     							   @RequestParam(name = "apndFileId", required = false) String apndFileId) throws Exception {
-    	fileSvc.downloadFile(request, response, apndFileUuid, apndFileId);
+    	fileService.downloadFile(request, response, apndFileUuid, apndFileId);
     }
 	//파일다운로드(zip)
 	@RequestMapping("/comm/base/downloadFiles")
     public void downloadFiles(HttpServletRequest request, HttpServletResponse response,@RequestParam(name = "apndFileUuid", required = false) String apndFileUuid,
     							   @RequestParam(name = "fileNm", required = false) String fileNm) throws Exception {
-    	fileSvc.downloadFiles(request, response, apndFileUuid, fileNm);
+    	fileService.downloadFiles(request, response, apndFileUuid, fileNm);
     }
 }
