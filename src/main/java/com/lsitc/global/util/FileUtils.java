@@ -87,7 +87,7 @@ public final class FileUtils extends org.apache.commons.io.FileUtils {
     return VALID_MIME_TYPES.stream().anyMatch(type -> type.startsWith(contentType));
   }
 
-  private String getExtension(String filename) {
+  public static String getExtension(String filename) {
     if (filename.contains(".")) {
       return filename.substring(filename.lastIndexOf(".") + 1);
     } else {
