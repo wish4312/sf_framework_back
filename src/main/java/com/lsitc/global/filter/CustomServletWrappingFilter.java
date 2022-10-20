@@ -11,11 +11,14 @@ import org.springframework.web.util.ContentCachingResponseWrapper;
 
 @Component
 public class CustomServletWrappingFilter extends OncePerRequestFilter {
-    @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
-        ReadableHttpServletRequestWrapper wrappingRequest = new ReadableHttpServletRequestWrapper(request);
-        ContentCachingResponseWrapper wrappingResponse = new ContentCachingResponseWrapper(response);
-        chain.doFilter(wrappingRequest, wrappingResponse);
-        wrappingResponse.copyBodyToResponse();
-    }
+
+  @Override
+  protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
+      FilterChain chain) throws ServletException, IOException {
+    ReadableHttpServletRequestWrapper wrappingRequest = new ReadableHttpServletRequestWrapper(
+        request);
+    ContentCachingResponseWrapper wrappingResponse = new ContentCachingResponseWrapper(response);
+    chain.doFilter(wrappingRequest, wrappingResponse);
+    wrappingResponse.copyBodyToResponse();
+  }
 }
