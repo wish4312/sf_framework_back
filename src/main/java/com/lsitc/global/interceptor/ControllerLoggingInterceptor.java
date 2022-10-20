@@ -10,9 +10,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.util.ContentCachingRequestWrapper;
 import org.springframework.web.util.ContentCachingResponseWrapper;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.lsitc.global.filter.ReadableHttpServletRequestWrapper;
 import com.lsitc.global.util.JsonUtils;
 import lombok.extern.slf4j.Slf4j;
 
@@ -45,7 +45,6 @@ public class ControllerLoggingInterceptor implements HandlerInterceptor {
   public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
       ModelAndView modelAndView) throws Exception {
     HandlerInterceptor.super.postHandle(request, response, handler, modelAndView);
-
     log.debug(
         "\n=== Response-{} ====\n" 
        +    "HttpStatus : {}\n"
@@ -81,12 +80,12 @@ public class ControllerLoggingInterceptor implements HandlerInterceptor {
   }
 
   private String getRequestParam(HttpServletRequest request) throws IOException {
-    ContentCachingRequestWrapper cachingRequest = (ContentCachingRequestWrapper) request;
+    ReadableHttpServletRequestWrapper cachingRequest = (ReadableHttpServletRequestWrapper) request;
     return JsonUtils.objectToJson(cachingRequest.getParameterMap());
   }
 
   private String getRequestBody(HttpServletRequest request) throws IOException {
-    ContentCachingRequestWrapper cachingRequest = (ContentCachingRequestWrapper) request;
+    ReadableHttpServletRequestWrapper cachingRequest = (ReadableHttpServletRequestWrapper) request;
     ObjectMapper objectMapper = new ObjectMapper();
     return objectMapper.readTree(cachingRequest.getContentAsByteArray()).toString();
   }
