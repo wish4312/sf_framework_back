@@ -124,20 +124,6 @@ public final class FileUtils extends org.apache.commons.io.FileUtils {
     }
   }
 
-  //uploadFile
-  public void uplaodFile(MultipartFile uploadfile, String path) throws IOException {
-    if (isValidFile(uploadfile)) {
-      File targetFile = new File(path);
-      // 없으면 생성
-      touch(targetFile);
-      // 파일 업로드
-      uploadfile.transferTo(targetFile);
-    } else {
-      //FIXME 다국어 처리
-      throw new BisiExcp("첨부할 수 없는 파일입니다.");
-    }
-  }
-
   //Delete file
   public void deleteFile(String path) {
     File file = new File(path);

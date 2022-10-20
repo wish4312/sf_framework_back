@@ -8,7 +8,6 @@ import com.lsitc.global.error.exception.BisiExcp;
 import com.lsitc.global.util.FileUtils;
 import java.io.File;
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class FileService extends BaseSvc {
@@ -35,116 +33,6 @@ public class FileService extends BaseSvc {
    */
   public List<FileVo> selectUploadFile(Map<String, String> paramMap) {
     return dao.selectList("core.uploadFile.selectUploadFile", paramMap);
-  }
-
-  /**
-   * @param apndFileUuid : 첨부파일 그룹번호, 없으면 신규채번
-   * @param menuId       : 메뉴ID
-   * @param sortSeq      : 정렬순서
-   * @param uploadfile   : 업로드된 파일
-   * @return
-   * @methodName : saveUploadFileToTemp
-   * @date : 2021.02.19
-   * @desc : 파일을 임시폴더로 업로드 하고, DB에 저장한다.
-   */
-  @Transactional
-  public Object saveUploadFileToTemp(String apndFileUuid, String menuId, String sortSeq,
-      MultipartFile uploadfile) {
-    FileVo fileVo = new FileVo();
-
-    //Path 셋팅(tmp로 보낸다.)
-    fileVo.setApndFilePath(FileUtils.FILE_TMP_PATH);
-
-    if ("new".equals(apndFileUuid)) {
-      //그룹마저 신규라면 채번하여 생성한다
-      apndFileUuid = fileUtils.getUUID();
-      fileVo.setApndFileUuid(apndFileUuid);
-      fileVo.setMenuId(menuId);
-      //신규 파일의 사용여부는 무조건'n'이다
-      fileVo.setUseFg("N");
-      //그룹코드를 db에 추가하고
-      dao.insert("core.uploadFile.insertUploadFileGrp", fileVo);
-    } else {
-      //신규가 아니라면 기존 grpID셋팅
-      fileVo.setApndFileUuid(apndFileUuid);
-    }
-
-    String fileNm = uploadfile.getOriginalFilename();
-    String ext = fileNm.substring(fileNm.lastIndexOf(".") + 1);
-    //파일ID 셋팅
-    String apndFileId = fileUtils.getUUID();
-    fileVo.setApndFileId(apndFileId);
-    //파일명 셋팅
-    fileVo.setApndFileNm(fileNm.substring(0, fileNm.lastIndexOf(".")));
-    //확장자 셋팅
-    fileVo.setApndFileExt(ext);
-    //사이즈 셋팅
-    fileVo.setApndFileSize(new BigDecimal(uploadfile.getSize()));
-    //순서 셋팅
-    fileVo.setSortSeq(new BigDecimal(sortSeq));
-    //사용여부는 Y로 셋팅한다.
-    fileVo.setUseFg("Y");
-    //신규파일 추가하고
-    dao.insert("core.uploadFile.insertUploadFile", fileVo);
-
-    //신규파일 tmp에 파일생성
-    try {
-      fileUtils.uplaodFile(uploadfile, FileUtils.FILE_TMP_PATH + File.separator + apndFileId);
-    } catch (IOException e) {
-      //FIXME 다국어 처리
-      throw new BisiExcp("파일 업로드 시 에러 발생");
-    }
-
-    return fileVo;
-  }
-
-  /**
-   * @param apndFileUuid : 첨부파일 그룹번호
-   * @param menuId       : 메뉴ID
-   * @param sortSeq      : 정렬순서
-   * @param uploadfile   : 업로드 파일
-   * @return
-   * @methodName : saveUploadFile
-   * @date : 2021.02.19
-   * @desc : 업로드된 파일을 실제 파일저장 위치로 업로드 한다.
-   */
-  @Transactional
-  public Object saveUploadFile(String apndFileUuid, String menuId, String sortSeq,
-      MultipartFile uploadfile) {
-    FileVo fileVo = new FileVo();
-
-    //Path 셋팅(tmp로 보낸다.)
-    fileVo.setApndFilePath(FileUtils.FILE_PATH);
-    //그룹코드
-    fileVo.setApndFileUuid(apndFileUuid);
-
-    String fileNm = uploadfile.getOriginalFilename();
-    String ext = fileNm.substring(fileNm.lastIndexOf(".") + 1);
-    //파일ID 셋팅
-    String apndFileId = fileUtils.getUUID();
-    fileVo.setApndFileId(apndFileId);
-    //파일명 셋팅
-    fileVo.setApndFileNm(fileNm.substring(0, fileNm.lastIndexOf(".")));
-    //확장자 셋팅
-    fileVo.setApndFileExt(ext);
-    //사이즈 셋팅
-    fileVo.setApndFileSize(new BigDecimal(uploadfile.getSize()));
-    //순서 셋팅
-    fileVo.setSortSeq(new BigDecimal(sortSeq));
-    //사용여부는 Y로 셋팅한다.
-    fileVo.setUseFg("Y");
-    //신규파일 추가하고
-    dao.insert("core.uploadFile.insertUploadFile", fileVo);
-
-    //신규파일 tmp에 파일생성
-    try {
-      fileUtils.uplaodFile(uploadfile, FileUtils.FILE_TMP_PATH + File.separator + apndFileId);
-    } catch (IOException e) {
-      //FIXME 다국어 처리
-      throw new BisiExcp("파일 업로드 시 에러 발생");
-    }
-
-    return fileVo;
   }
 
   /**
