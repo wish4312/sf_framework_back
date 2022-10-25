@@ -87,7 +87,7 @@ public final class FileUtils extends org.apache.commons.io.FileUtils {
     return VALID_MIME_TYPES.stream().anyMatch(type -> type.startsWith(contentType));
   }
 
-  private String getExtension(String filename) {
+  public static String getExtension(String filename) {
     if (filename.contains(".")) {
       return filename.substring(filename.lastIndexOf(".") + 1);
     } else {
@@ -121,20 +121,6 @@ public final class FileUtils extends org.apache.commons.io.FileUtils {
         //FIXME 다국어 처리
         throw new BisiExcp("첨부파일 업로드중(유효성검증) 오류발생");
       }
-    }
-  }
-
-  //uploadFile
-  public void uplaodFile(MultipartFile uploadfile, String path) throws IOException {
-    if (isValidFile(uploadfile)) {
-      File targetFile = new File(path);
-      // 없으면 생성
-      touch(targetFile);
-      // 파일 업로드
-      uploadfile.transferTo(targetFile);
-    } else {
-      //FIXME 다국어 처리
-      throw new BisiExcp("첨부할 수 없는 파일입니다.");
     }
   }
 

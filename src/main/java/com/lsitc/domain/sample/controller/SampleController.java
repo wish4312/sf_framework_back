@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 @Slf4j
 @RequestMapping("/sample")
@@ -96,5 +97,10 @@ public class SampleController {
         sampleRemoveRequestVO);
     log.info(sampleRemoveResponseVO.toString());
     return sampleRemoveResponseVO;
+  }
+
+  @PostMapping("/files-upload")
+  public void uploadSampleFiles(MultipartFile[] file) {
+    sampleService.uploadSampleFiles(file);
   }
 }

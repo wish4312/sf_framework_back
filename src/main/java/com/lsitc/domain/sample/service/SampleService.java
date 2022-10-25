@@ -13,11 +13,18 @@ import com.lsitc.domain.sample.vo.SampleModifyResponseVO;
 import com.lsitc.domain.sample.vo.SampleRemoveRequestVO;
 import com.lsitc.domain.sample.vo.SampleRemoveResponseVO;
 import com.lsitc.global.paging.Pageable;
+import com.lsitc.global.util.FileUtils;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 @Slf4j
 @Service
@@ -81,5 +88,35 @@ public class SampleService {
     sampleEntity.delete();
     log.info(sampleEntity.toString());
     return sampleDAO.updateSampleIsDeletedById(sampleEntity);
+  }
+
+  public void uploadSampleFiles(MultipartFile[] files) {
+    for (MultipartFile file : files) {
+      uploadSampleFile(file);
+    }
+  }
+
+  public void uploadSampleFile(MultipartFile file) {
+    FileUtils fileUtils = new FileUtils();
+    String originalFilename = getOriginalFilename(file);
+    String filename = UUID.randomUUID().toString();
+    String extension = FileUtils.getExtension(originalFilename);
+
+    if (!fileUtils.isValidFile(file)) {
+      throw new SampleException("This file is invalid.");
+    }
+
+    try {
+      File targetFile = new File(FileUtils.FILE_TMP_PATH + File.separator + filename);
+      FileUtils.touch(targetFile);
+      file.transferTo(targetFile);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  private String getOriginalFilename(MultipartFile file) {
+    return Optional.ofNullable(file.getOriginalFilename()).filter(StringUtils::isNotBlank)
+        .orElseThrow(() -> new SampleException("Filename is empty"));
   }
 }
