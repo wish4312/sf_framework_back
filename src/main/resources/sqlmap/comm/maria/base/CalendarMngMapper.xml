@@ -194,11 +194,11 @@
 			#{blocId},
 			(SELECT IFNULL(MAX(CAST(PLAN_SEQ AS UNSIGNED INTEGER))+1,1) AS PLAN_SEQ FROM COMM_WORKCALD_DETL A WHERE A.COM_ID = #{session.comId} AND A.BLOC_ID = #{blocId}),
 			STR_TO_DATE(#{strtDt}, '%Y-%m-%d 00:00:00'),
-			if(length(#{strtHh}) <![CDATA[ < ]]> 2, concat('0', #{strtHh}), #{strtHh}),
-			if(length(#{strtMm}) <![CDATA[ < ]]> 2, concat('0', #{strtMm}), #{strtMm}),
+			#{strtHh},
+			#{strtMm},
 			STR_TO_DATE(#{endDt}, '%Y-%m-%d 00:00:00'),
-			if(length(#{endMm}) <![CDATA[ < ]]> 2, concat('0', #{endHh}), #{endHh}),
-			if(length(#{endMm}) <![CDATA[ < ]]> 2, concat('0', #{endMm}), #{endMm}),
+			#{endHh},
+			#{endMm},
 			#{planTitle},
 			#{planCntn},
 			#{planColor},
@@ -213,11 +213,11 @@
     /* comm.calendarMng.updatePlanDetl : 일정 수정 */
         UPDATE COMM_WORKCALD_DETL SET
              STRT_DT = STR_TO_DATE(#{strtDt}, '%Y-%m-%d 00:00:00')
-			,STRT_HH = if(length(#{strtHh}) <![CDATA[ < ]]> 2, concat('0', #{strtHh}), #{strtHh})
-			,STRT_MM = if(length(#{strtMm}) <![CDATA[ < ]]> 2, concat('0', #{strtMm}), #{strtMm})
+			,STRT_HH = #{strtHh}
+			,STRT_MM = #{strtMm}
 			,END_DT = STR_TO_DATE(#{endDt}, '%Y-%m-%d 00:00:00')
-			,END_HH = if(length(#{endHh}) <![CDATA[ < ]]> 2, concat('0', #{endHh}), #{endHh})
-			,END_MM = if(length(#{endMm}) <![CDATA[ < ]]> 2, concat('0', #{endMm}), #{endMm})
+			,END_HH = #{endHh}
+			,END_MM = #{endMm}
 			,PLAN_TITLE = #{planTitle}
 			,PLAN_CNTN = #{planCntn}
 			,PLAN_COLOR = #{planColor}
