@@ -181,7 +181,7 @@
               LEFT OUTER JOIN COMM_MENU_ROLE_AUTH C ON ( B.COM_ID=C.COM_ID and B.ROLE_ID = C.ROLE_ID AND B.MENU_ID = C.MENU_ID ) /* 역할별 권한 */ 
              INNER JOIN COMM_MENU D ON ( A.COM_ID=D.COM_ID and B.MENU_ID = D.MENU_ID ) /* 메뉴 */
               LEFT OUTER JOIN COMM_PRGM E ON ( D.PRGM_ID = E.PRGM_ID ) /* 프로그램 */
-             WHERE A.COM_ID=#{session.comId}
+             WHERE A.COM_ID= 'FEMS'
                /* essential */
                AND A.USER_NO = #{session.userNo} /* USER_NO */
                AND NOW() BETWEEN A.APLY_START_DT AND A.APLY_END_DT /* 현재 유효한것만 */

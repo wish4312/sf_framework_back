@@ -18,9 +18,6 @@ import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import com.lsitc.global.common.BaseResponse;
 import com.lsitc.global.error.exception.BisiExcp;
 
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.JwtException;
-
 /**
  * ExcpHandler
  */
@@ -65,26 +62,6 @@ public class BaseControllerAdvice {
         logger.error(e.toString());
         return result;
     }
-    
-    /**
-     * 
-     * @methodName  : expiredJwtExcpProc
-     * @date        : 2021.02.19
-     * @desc        : ExpiredJwtException.class 예외처리
-     * @param request
-     * @param e
-     * @return
-     */
-    @ExceptionHandler(ExpiredJwtException.class)
-    @ResponseBody
-    public Object expiredJwtExcpProc(HttpServletRequest request, ExpiredJwtException e) {      
-        BaseResponse result = new BaseResponse();
-        result.setRetnCd(-1);
-        // FIXME 다국어처리
-        result.setRetnMsg("토큰이 만료되었습니다.");
-        logger.error(e.toString());
-        return result;
-    }
         
     @ExceptionHandler(MaxUploadSizeExceededException.class)
     @ResponseBody
@@ -105,26 +82,6 @@ public class BaseControllerAdvice {
         result.setRetnCd(-1);
         // FIXME 다국어처리
         result.setRetnMsg("허용 리퀘스트 사이즈(" + MAX_REQUEST_SIZE + ")를 초과했습니다.");
-        logger.error(e.toString());
-        return result;
-    }
-    
-    /**
-     * 
-     * @methodName  : jwtExcpProc
-     * @date        : 2021.02.19
-     * @desc        : JwtException.class 예외처리
-     * @param request
-     * @param e
-     * @return
-     */
-    @ExceptionHandler(JwtException.class)
-    @ResponseBody
-    public Object jwtExcpProc(HttpServletRequest request, JwtException e) {      
-        BaseResponse result = new BaseResponse();
-        result.setRetnCd(-1);
-        // FIXME 다국어처리
-        result.setRetnMsg("토큰이 변조되었습니다.");
         logger.error(e.toString());
         return result;
     }

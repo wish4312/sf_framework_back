@@ -22,11 +22,6 @@ spring:
     #프로파일(local:개발자 환경, dev:개발서버, prod:운영 택1, 향후 runtime argument로 넘어갈 예정)
     active: local
 
-jwt:
-  cookieId: "FEMS_SESSION"
-  secretKey: "32cdd8f65ec9344d3394dde288d0c8133f9dc7b783709a2e3fbe44285d4596d522e99506422f14d66187ea2c56d1542573922fff697a9915817b95f85bc34336" #256 bits이상 (default: secretKeysecretKeysecretKeysecretKeysecretKeysecretKey)
-  tokenValidTime: -1 #분단위 (default: 30)
-
 #로깅관련
 logging:
   loginLogEnable: true

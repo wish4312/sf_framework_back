@@ -1,5 +1,6 @@
 package com.lsitc.global.mybatis;
 
+import com.lsitc.domain.common.user.entity.UserEntity;
 import com.lsitc.global.auditing.Auditable;
 import com.lsitc.global.auditing.CurrentDateTimeProvider;
 import com.lsitc.global.auditing.CurrentUserInfoProvider;
@@ -8,7 +9,6 @@ import com.lsitc.global.auditing.SoftDeletable;
 import com.lsitc.global.auditing.UserProvider;
 import com.lsitc.global.common.BaseVo;
 import com.lsitc.global.common.SessionVo;
-import com.lsitc.global.util.JwtTokenUtils;
 import java.util.HashMap;
 import java.util.Map;
 import org.apache.ibatis.cache.CacheKey;
@@ -22,6 +22,8 @@ import org.apache.ibatis.plugin.Invocation;
 import org.apache.ibatis.plugin.Signature;
 import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -54,9 +56,6 @@ public class DefaultInterceptor implements Interceptor {
     //mybatis mapping params
     Object parameter = invocation.getArgs()[1];
 
-    //세션객체
-    SessionVo sessionVo = JwtTokenUtils.getSessionVo();
-
     if (parameter instanceof Auditable) {
       Auditable baseAbstractEntity = (Auditable) parameter;
       if ("update".equals(invocation.getMethod().getName())) {
@@ -80,16 +79,35 @@ public class DefaultInterceptor implements Interceptor {
         }
       }
     } else if (parameter instanceof Map || parameter instanceof HashMap) {
-      //map일때
+      SessionVo sessionVo = getSessionVoFromSecurityCtx();
       Map<String, Object> map = (Map<String, Object>) parameter;
       map.put("session", sessionVo);
     } else if (parameter instanceof BaseVo) {
-      //baseVo일때
+      SessionVo sessionVo = getSessionVoFromSecurityCtx();
       BaseVo<?> vo = (BaseVo<?>) parameter;
       vo.setSession(sessionVo);
     }
 
     //바인딩된 파라미터를 바탕으로 수행
     return invocation.proceed();
+  }
+
+  private SessionVo getSessionVoFromSecurityCtx() {
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    SessionVo sessionVo = null;
+    if (authentication.getPrincipal() instanceof UserEntity) {
+      sessionVo = new SessionVo();
+      UserEntity userEntity = (UserEntity) authentication.getPrincipal();
+      sessionVo.setUserNm(userEntity.getName());
+      sessionVo.setUserNo(String.valueOf(userEntity.getId()));
+    } else if (authentication.getPrincipal() instanceof Map) {
+      sessionVo = new SessionVo();
+      Map<String, String> userInfo = (Map<String, String>) authentication.getPrincipal();
+      sessionVo.setUserNm(userInfo.get("userNm"));
+      sessionVo.setUserNo(userInfo.get("userNo"));
+      sessionVo.setBlocId(userInfo.get("blocId"));
+      sessionVo.setComId(userInfo.get("comId"));
+    }
+    return sessionVo;
   }
 }

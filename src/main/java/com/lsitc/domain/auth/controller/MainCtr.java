@@ -27,7 +27,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.lsitc.global.util.JwtTokenUtils;
 import com.lsitc.global.util.CommonUtils;
 import com.lsitc.domain.auth.vo.CommMenuVo;
 
@@ -46,9 +45,6 @@ public class MainCtr {
         
         treeMenuList = CommonUtils.getTree(menuList, "menuId", "upMenuId");
         menuList.remove(0);
-        mav.addObject("userNm", JwtTokenUtils.getSessionValue("userNm"));
-        mav.addObject("userInfo", JwtTokenUtils.getSessionMap());
-        mav.addObject("jwt", JwtTokenUtils.getSessionMap());
         mav.addObject("menuList", menuList);
         mav.addObject("treeMenuList", treeMenuList.get(0).getChildeVo());
         mav.setViewName("index");
@@ -63,7 +59,6 @@ public class MainCtr {
     	
         mav.setViewName(busiDiv + "/" + PageNm.substring(0, PageNm.length() - 4));
         systemLogReadSvc.saveMenuCnctLog(menuId); //메뉴접근로그 저장
-        mav.addObject("userInfo", JwtTokenUtils.getSessionMap());
         mav.addObject("$menuId", menuId);
         return mav;
     }
