@@ -29,7 +29,7 @@ public class GroupCodeInfoGetResponseVO {
         .commGrpCdId(String.valueOf(groupCodeEntity.getId()))
         .commGrpCd(String.valueOf(groupCodeEntity.getCode()))
         .commGrpNm(groupCodeEntity.getName())
-        .useFg(String.valueOf(groupCodeEntity.isUsed()))
+        .useFg(groupCodeEntity.isUsed()?"Y":"N")
         .rmrk(groupCodeEntity.getRemark())
         .build();
   }

@@ -10,4 +10,6 @@ public interface GroupCodeDAO {
   GroupCodeEntity selectGroupCodeById(GroupCodeEntity groupCodeEntity);
 
   List<GroupCodeEntity> selectAll();
+
+  int insertGroupCode(GroupCodeEntity groupCodeEntity);
 }

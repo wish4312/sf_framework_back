@@ -2,6 +2,8 @@ package com.lsitc.domain.common.code.service;
 
 import com.lsitc.domain.common.code.dao.GroupCodeDAO;
 import com.lsitc.domain.common.code.entity.GroupCodeEntity;
+import com.lsitc.domain.common.code.vo.GroupCodeAddRequestVO;
+import com.lsitc.domain.common.code.vo.GroupCodeAddResponseVO;
 import com.lsitc.domain.common.code.vo.GroupCodeInfoGetRequestVO;
 import com.lsitc.domain.common.code.vo.GroupCodeInfoGetResponseVO;
 import com.lsitc.domain.common.code.vo.GroupCodeListGetResponseVO;
@@ -19,7 +21,7 @@ public class CodeService {
   private final GroupCodeDAO groupCodeDAO;
 
   public GroupCodeInfoGetResponseVO getGroupCodeInfo(
-      GroupCodeInfoGetRequestVO groupCodeInfoGetRequestVO) {
+      final GroupCodeInfoGetRequestVO groupCodeInfoGetRequestVO) {
     GroupCodeEntity groupCodeEntity = groupCodeInfoGetRequestVO.toEntity();
     log.info(groupCodeEntity.toString());
     GroupCodeEntity groupCodeInfo = groupCodeDAO.selectGroupCodeById(groupCodeEntity);
@@ -30,5 +32,12 @@ public class CodeService {
     List<GroupCodeEntity> groupCodeEntityList = groupCodeDAO.selectAll();
     return groupCodeEntityList.stream().map(GroupCodeListGetResponseVO::of)
         .collect(Collectors.toList());
+  }
+
+  public GroupCodeAddResponseVO addGroupCode(final GroupCodeAddRequestVO groupCodeAddRequestVO) {
+    GroupCodeEntity groupCodeEntity = groupCodeAddRequestVO.toEntity();
+    log.info(groupCodeEntity.toString());
+    int addRows = groupCodeDAO.insertGroupCode(groupCodeEntity);
+    return GroupCodeAddResponseVO.of(addRows);
   }
 }
