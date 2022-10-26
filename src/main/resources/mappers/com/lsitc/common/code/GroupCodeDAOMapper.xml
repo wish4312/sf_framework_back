@@ -3,6 +3,22 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lsitc.domain.common.code.dao.GroupCodeDAO">
+  <select id="selectGroupCodeById"
+    parameterType="com.lsitc.domain.common.code.entity.GroupCodeEntity"
+    resultType="com.lsitc.domain.common.code.entity.GroupCodeEntity">
+    SELECT id
+         , code
+         , name
+         , is_used
+         , remark
+         , created_by
+         , created_date
+         , last_modified_by
+         , last_modified_date
+    FROM sf_group_code
+    WHERE id = #{id}
+  </select>
+
   <select id="selectAll"
     resultType="com.lsitc.domain.common.code.entity.GroupCodeEntity">
     SELECT id

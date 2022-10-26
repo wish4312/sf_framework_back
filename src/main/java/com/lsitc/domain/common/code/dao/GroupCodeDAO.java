@@ -7,5 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface GroupCodeDAO {
 
+  GroupCodeEntity selectGroupCodeById(GroupCodeEntity groupCodeEntity);
+
   List<GroupCodeEntity> selectAll();
 }
