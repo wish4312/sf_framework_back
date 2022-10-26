@@ -55,6 +55,30 @@
            , #{lastModifiedDate})
   </insert>
 
+  <insert id="insertGroupCodeList"
+    parameterType="com.lsitc.domain.common.code.entity.GroupCodeEntity">
+    INSERT INTO sf_group_code
+    ( code
+    , name
+    , is_used
+    , remark
+    , created_by
+    , created_date
+    , last_modified_by
+    , last_modified_date)
+    VALUES
+      <foreach collection="list" item="item" separator=",">
+        ( #{item.code}
+        , #{item.name}
+        , #{item.isUsed}
+        , #{item.remark}
+        , #{item.createdBy}
+        , #{item.createdDate}
+        , #{item.lastModifiedBy}
+        , #{item.lastModifiedDate})
+      </foreach>
+  </insert>
+
   <update id="updateGroupCodeById"
     parameterType="com.lsitc.domain.common.code.entity.GroupCodeEntity">
     UPDATE sf_group_code

@@ -6,6 +6,8 @@ import com.lsitc.domain.common.code.vo.GroupCodeAddRequestVO;
 import com.lsitc.domain.common.code.vo.GroupCodeAddResponseVO;
 import com.lsitc.domain.common.code.vo.GroupCodeInfoGetRequestVO;
 import com.lsitc.domain.common.code.vo.GroupCodeInfoGetResponseVO;
+import com.lsitc.domain.common.code.vo.GroupCodeListAddRequestVO;
+import com.lsitc.domain.common.code.vo.GroupCodeListAddResponseVO;
 import com.lsitc.domain.common.code.vo.GroupCodeListGetResponseVO;
 import com.lsitc.domain.common.code.vo.GroupCodeModifyRequestVO;
 import com.lsitc.domain.common.code.vo.GroupCodeModifyResponseVO;
@@ -55,6 +57,16 @@ public class CodeController {
     GroupCodeAddResponseVO groupCodeAddResponseVO = codeService.addGroupCode(groupCodeAddRequestVO);
     log.info(groupCodeAddResponseVO.toString());
     return groupCodeAddResponseVO;
+  }
+
+  @PostMapping("/group-code/list")
+  public GroupCodeListAddResponseVO addGroupCodeList(
+      @RequestBody @Valid final List<GroupCodeListAddRequestVO> groupCodeListAddRequestVOList)
+      throws CodeException {
+    GroupCodeListAddResponseVO groupCodeListAddResponseVO = codeService.addGroupCodeList(
+        groupCodeListAddRequestVOList);
+    log.info(groupCodeListAddResponseVO.toString());
+    return groupCodeListAddResponseVO;
   }
 
   @PutMapping("/group-code")

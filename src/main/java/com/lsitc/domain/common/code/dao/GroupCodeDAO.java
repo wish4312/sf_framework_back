@@ -17,5 +17,7 @@ public interface GroupCodeDAO {
 
   int insertGroupCodeWithId(GroupCodeEntity groupCodeEntity);
 
+  int insertGroupCodeList(List<GroupCodeEntity> groupCodeEntityList);
+
   int deleteGroupCodeById(GroupCodeEntity groupCodeEntity);
 }

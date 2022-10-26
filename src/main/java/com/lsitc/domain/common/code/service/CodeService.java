@@ -7,6 +7,8 @@ import com.lsitc.domain.common.code.vo.GroupCodeAddRequestVO;
 import com.lsitc.domain.common.code.vo.GroupCodeAddResponseVO;
 import com.lsitc.domain.common.code.vo.GroupCodeInfoGetRequestVO;
 import com.lsitc.domain.common.code.vo.GroupCodeInfoGetResponseVO;
+import com.lsitc.domain.common.code.vo.GroupCodeListAddRequestVO;
+import com.lsitc.domain.common.code.vo.GroupCodeListAddResponseVO;
 import com.lsitc.domain.common.code.vo.GroupCodeListGetResponseVO;
 import com.lsitc.domain.common.code.vo.GroupCodeModifyRequestVO;
 import com.lsitc.domain.common.code.vo.GroupCodeModifyResponseVO;
@@ -44,6 +46,15 @@ public class CodeService {
     log.info(groupCodeEntity.toString());
     int addRows = groupCodeDAO.insertGroupCode(groupCodeEntity);
     return GroupCodeAddResponseVO.of(addRows);
+  }
+
+  public GroupCodeListAddResponseVO addGroupCodeList(
+      final List<GroupCodeListAddRequestVO> groupCodeListAddRequestVOList) {
+    List<GroupCodeEntity> groupCodeEntityList =
+        groupCodeListAddRequestVOList.stream().map(GroupCodeListAddRequestVO::toEntity)
+            .collect(Collectors.toList());
+    int addRows = groupCodeDAO.insertGroupCodeList(groupCodeEntityList);
+    return GroupCodeListAddResponseVO.of(addRows);
   }
 
   public GroupCodeModifyResponseVO modifyGroupCode(
