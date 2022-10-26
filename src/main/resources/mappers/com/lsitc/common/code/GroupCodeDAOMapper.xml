@@ -89,4 +89,11 @@
            , #{lastModifiedBy}
            , #{lastModifiedDate})
   </insert>
+
+  <delete id="deleteGroupCodeById"
+    parameterType="com.lsitc.domain.common.code.entity.GroupCodeEntity">
+    DELETE
+    FROM sf_group_code
+    WHERE id = #{id}
+  </delete>
 </mapper>

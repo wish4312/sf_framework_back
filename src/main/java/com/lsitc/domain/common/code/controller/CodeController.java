@@ -9,10 +9,13 @@ import com.lsitc.domain.common.code.vo.GroupCodeInfoGetResponseVO;
 import com.lsitc.domain.common.code.vo.GroupCodeListGetResponseVO;
 import com.lsitc.domain.common.code.vo.GroupCodeModifyRequestVO;
 import com.lsitc.domain.common.code.vo.GroupCodeModifyResponseVO;
+import com.lsitc.domain.common.code.vo.GroupCodeRemoveRequestVO;
+import com.lsitc.domain.common.code.vo.GroupCodeRemoveResponseVO;
 import java.util.List;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -63,5 +66,16 @@ public class CodeController {
         groupCodeModifyRequestVO);
     log.info(groupCodeModifyResponseVO.toString());
     return groupCodeModifyResponseVO;
+  }
+
+  @DeleteMapping("/group-code")
+  public GroupCodeRemoveResponseVO removeGroupCode(
+      @RequestBody @Valid final GroupCodeRemoveRequestVO groupCodeRemoveRequestVO)
+      throws CodeException {
+    log.info(groupCodeRemoveRequestVO.toString());
+    GroupCodeRemoveResponseVO groupCodeRemoveResponseVO = codeService.removeGroupCode(
+        groupCodeRemoveRequestVO);
+    log.info(groupCodeRemoveResponseVO.toString());
+    return groupCodeRemoveResponseVO;
   }
 }
