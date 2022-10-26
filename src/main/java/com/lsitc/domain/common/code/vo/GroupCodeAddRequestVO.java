@@ -22,7 +22,7 @@ public class GroupCodeAddRequestVO {
     return GroupCodeEntity.builder()
         .code(commGrpCd)
         .name(commGrpNm)
-        .isUsed("Y".equals(useFg))
+        .isUsed("1".equals(useFg))
         .remark(rmrk)
         .build();
   }
