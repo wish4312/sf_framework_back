@@ -47,7 +47,7 @@ public class RoleController {
     return roleListGetResponseVOList;
   }
 
-  @PostMapping("")
+  @PostMapping
   public RoleAddResponseVO addRole(@RequestBody @Valid final RoleAddRequestVO roleAddRequestVO)
       throws RoleException {
     log.info(roleAddRequestVO.toString());
@@ -56,22 +56,20 @@ public class RoleController {
     return roleAddResponseVO;
   }
 
-  @PutMapping("")
+  @PutMapping
   public RoleModifyResponseVO modifyRole(
-      @RequestBody @Valid final RoleModifyRequestVO roleModifyRequestVO)
-      throws RoleException {
+      @RequestBody @Valid final RoleModifyRequestVO roleModifyRequestVO) throws RoleException {
     log.info(roleModifyRequestVO.toString());
     RoleModifyResponseVO roleModifyResponseVO = roleService.modifyRole(roleModifyRequestVO);
     log.info(roleModifyResponseVO.toString());
     return roleModifyResponseVO;
   }
 
-  @DeleteMapping("")
+  @DeleteMapping
   public RoleRemoveResponseVO removeRole(@Valid final RoleRemoveRequestVO roleRemoveRequestVO)
       throws RoleException {
     log.info(roleRemoveRequestVO.toString());
-    RoleRemoveResponseVO roleRemoveResponseVO = roleService.removeRole(
-        roleRemoveRequestVO);
+    RoleRemoveResponseVO roleRemoveResponseVO = roleService.removeRole(roleRemoveRequestVO);
     log.info(roleRemoveResponseVO.toString());
     return roleRemoveResponseVO;
   }

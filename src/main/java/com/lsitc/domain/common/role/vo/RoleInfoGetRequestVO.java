@@ -12,18 +12,18 @@ public class RoleInfoGetRequestVO {
 
   @NotNull
   @PositiveOrZero(message = "권한 ID에는 음수가 들어올 수 없습니다.")
-  private final Long id;
+  private final Long roleId;
 
   public RoleEntity toEntity() {
     return RoleEntity.builder()
-        .id(id)
+        .id(roleId)
         .build();
   }
 
   @Override
   public String toString() {
     return "RoleInfoGetRequestVO{" +
-        "id=" + id +
+        "roleId=" + roleId +
         '}';
   }
 }

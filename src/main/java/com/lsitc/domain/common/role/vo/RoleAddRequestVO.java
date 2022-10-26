@@ -2,6 +2,7 @@ package com.lsitc.domain.common.role.vo;
 
 import com.lsitc.domain.common.role.entity.RoleEntity;
 import javax.validation.constraints.NotBlank;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -10,22 +11,19 @@ import lombok.Getter;
 public class RoleAddRequestVO {
 
   @NotBlank(message = "권한명이 필요합니다.")
-  private final String name;
+  private final String roleNm;
 
-  private final String remark;
+  private final String rmrk;
 
   public RoleEntity toEntity() {
     return RoleEntity.builder()
-        .name(name)
-        .remark(remark)
+        .name(roleNm)
+        .remark(rmrk)
         .build();
   }
 
   @Override
   public String toString() {
-    return "RoleAddRequestVO{" +
-        "name='" + name + '\'' +
-        ", remark='" + remark + '\'' +
-        '}';
-  }
+    return ToStringBuilder.reflectionToString(this);
+    }
 }

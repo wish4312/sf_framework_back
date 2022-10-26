@@ -1,5 +1,6 @@
 package com.lsitc.domain.common.role.vo;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -20,8 +21,6 @@ public class RoleRemoveResponseVO {
 
   @Override
   public String toString() {
-    return "RoleRemoveResponseVO{" +
-        "result='" + result + '\'' +
-        '}';
+    return ToStringBuilder.reflectionToString(this);
   }
 }

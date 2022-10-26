@@ -1,5 +1,8 @@
 package com.lsitc.domain.common.role.service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+import org.springframework.stereotype.Service;
 import com.lsitc.domain.common.role.dao.RoleDAO;
 import com.lsitc.domain.common.role.entity.RoleEntity;
 import com.lsitc.domain.common.role.exception.RoleException;
@@ -12,12 +15,8 @@ import com.lsitc.domain.common.role.vo.RoleModifyRequestVO;
 import com.lsitc.domain.common.role.vo.RoleModifyResponseVO;
 import com.lsitc.domain.common.role.vo.RoleRemoveRequestVO;
 import com.lsitc.domain.common.role.vo.RoleRemoveResponseVO;
-import com.lsitc.global.error.exception.ErrorCode;
-import java.util.List;
-import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service

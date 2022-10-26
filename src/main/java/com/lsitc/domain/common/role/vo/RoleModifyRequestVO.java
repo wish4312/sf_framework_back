@@ -4,6 +4,7 @@ import com.lsitc.domain.common.role.entity.RoleEntity;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -13,27 +14,19 @@ public class RoleModifyRequestVO {
 
   @NotNull
   @PositiveOrZero(message = "음수의 ID는 사용할 수 없습니다.")
-  private final Long id;
+  private final Long roleId;
 
   @NotBlank(message = "권한명이 필요합니다.")
-  private final String name;
+  private final String roleNm;
 
-  private final String remark;
+  private final String rmrk;
 
   public RoleEntity toEntity() {
-    return RoleEntity.builder()
-        .id(id)
-        .name(name)
-        .remark(remark)
-        .build();
+    return RoleEntity.builder().id(roleId).name(roleNm).remark(rmrk).build();
   }
 
   @Override
   public String toString() {
-    return "RoleModifyRequestVO{" +
-        "id=" + id +
-        ", name='" + name + '\'' +
-        ", remark='" + remark + '\'' +
-        '}';
+    return ToStringBuilder.reflectionToString(this);
   }
 }
