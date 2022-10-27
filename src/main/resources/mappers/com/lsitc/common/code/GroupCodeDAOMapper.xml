@@ -120,4 +120,15 @@
     FROM sf_group_code
     WHERE id = #{id}
   </delete>
+
+  <delete id="deleteGroupCodeListById"
+    parameterType="com.lsitc.domain.common.code.entity.GroupCodeEntity">
+    DELETE
+    FROM sf_group_code
+    <where>
+      <foreach collection="list" item="item" separator="OR">
+        id = #{item.id}
+      </foreach>
+    </where>
+  </delete>
 </mapper>

@@ -12,6 +12,8 @@ import com.lsitc.domain.common.code.vo.GroupCodeListAddResponseVO;
 import com.lsitc.domain.common.code.vo.GroupCodeListGetResponseVO;
 import com.lsitc.domain.common.code.vo.GroupCodeListModifyRequestVO;
 import com.lsitc.domain.common.code.vo.GroupCodeListModifyResponseVO;
+import com.lsitc.domain.common.code.vo.GroupCodeListRemoveRequestVO;
+import com.lsitc.domain.common.code.vo.GroupCodeListRemoveResponseVO;
 import com.lsitc.domain.common.code.vo.GroupCodeModifyRequestVO;
 import com.lsitc.domain.common.code.vo.GroupCodeModifyResponseVO;
 import com.lsitc.domain.common.code.vo.GroupCodeRemoveRequestVO;
@@ -67,9 +69,9 @@ public class CodeService {
   }
 
   public GroupCodeListModifyResponseVO modifyGroupCodeList(
-      final List<GroupCodeListModifyRequestVO> groupCodeListModifyRequestVO) {
+      final List<GroupCodeListModifyRequestVO> groupCodeListModifyRequestVOList) {
     List<GroupCodeEntity> groupCodeEntityList =
-        groupCodeListModifyRequestVO.stream().map(GroupCodeListModifyRequestVO::toEntity)
+        groupCodeListModifyRequestVOList.stream().map(GroupCodeListModifyRequestVO::toEntity)
             .collect(Collectors.toList());
     int upsertRows = groupCodeEntityList.stream().map(this::upsertGroupCode).mapToInt(i -> i).sum();
     if (upsertRows != groupCodeEntityList.size()) {
@@ -90,5 +92,17 @@ public class CodeService {
     log.info(groupCodeEntity.toString());
     int deleteRows = groupCodeDAO.deleteGroupCodeById(groupCodeEntity);
     return GroupCodeRemoveResponseVO.of(deleteRows);
+  }
+
+  public GroupCodeListRemoveResponseVO removeGroupCodeList(
+      final List<GroupCodeListRemoveRequestVO> groupCodeListRemoveRequestVOList) {
+    List<GroupCodeEntity> groupCodeEntityList =
+        groupCodeListRemoveRequestVOList.stream().map(GroupCodeListRemoveRequestVO::toEntity)
+            .collect(Collectors.toList());
+    if (groupCodeEntityList.size() < 1) {
+      throw new CodeException("Parameter is empty");
+    }
+    int deleteRows = groupCodeDAO.deleteGroupCodeListById(groupCodeEntityList);
+    return GroupCodeListRemoveResponseVO.of(deleteRows);
   }
 }

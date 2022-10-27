@@ -11,6 +11,8 @@ import com.lsitc.domain.common.code.vo.GroupCodeListAddResponseVO;
 import com.lsitc.domain.common.code.vo.GroupCodeListGetResponseVO;
 import com.lsitc.domain.common.code.vo.GroupCodeListModifyRequestVO;
 import com.lsitc.domain.common.code.vo.GroupCodeListModifyResponseVO;
+import com.lsitc.domain.common.code.vo.GroupCodeListRemoveRequestVO;
+import com.lsitc.domain.common.code.vo.GroupCodeListRemoveResponseVO;
 import com.lsitc.domain.common.code.vo.GroupCodeModifyRequestVO;
 import com.lsitc.domain.common.code.vo.GroupCodeModifyResponseVO;
 import com.lsitc.domain.common.code.vo.GroupCodeRemoveRequestVO;
@@ -84,10 +86,10 @@ public class CodeController {
 
   @PutMapping("/group-code/list")
   public GroupCodeListModifyResponseVO modifyGroupCodeList(
-      @RequestBody @Valid final List<GroupCodeListModifyRequestVO> groupCodeListModifyRequestVO)
+      @RequestBody @Valid final List<GroupCodeListModifyRequestVO> groupCodeListModifyRequestVOList)
       throws CodeException {
     GroupCodeListModifyResponseVO groupCodeListModifyResponseVO = codeService.modifyGroupCodeList(
-        groupCodeListModifyRequestVO);
+        groupCodeListModifyRequestVOList);
     log.info(groupCodeListModifyResponseVO.toString());
     return groupCodeListModifyResponseVO;
   }
@@ -101,5 +103,15 @@ public class CodeController {
         groupCodeRemoveRequestVO);
     log.info(groupCodeRemoveResponseVO.toString());
     return groupCodeRemoveResponseVO;
+  }
+
+  @DeleteMapping("/group-code/list")
+  public GroupCodeListRemoveResponseVO removeGroupCodeList(
+      @RequestBody @Valid final List<GroupCodeListRemoveRequestVO> groupCodeListRemoveRequestVOList)
+      throws CodeException {
+    GroupCodeListRemoveResponseVO groupCodeListRemoveResponseVO = codeService.removeGroupCodeList(
+        groupCodeListRemoveRequestVOList);
+    log.info(groupCodeListRemoveResponseVO.toString());
+    return groupCodeListRemoveResponseVO;
   }
 }

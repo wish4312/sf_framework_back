@@ -20,4 +20,6 @@ public interface GroupCodeDAO {
   int insertGroupCodeList(List<GroupCodeEntity> groupCodeEntityList);
 
   int deleteGroupCodeById(GroupCodeEntity groupCodeEntity);
+
+  int deleteGroupCodeListById(List<GroupCodeEntity> groupCodeEntityList);
 }
