@@ -30,7 +30,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
-@RequestMapping("/common")
+@RequestMapping("/common/group-code")
 @RestController
 @RequiredArgsConstructor
 public class GroupCodeController {
@@ -49,6 +49,14 @@ public class GroupCodeController {
 
   @GetMapping("/list")
   public List<GroupCodeListGetResponseVO> getGroupCodeList() throws CodeException {
+    List<GroupCodeListGetResponseVO> groupCodeListGetResponseVOList = codeService.getGroupCodeList();
+    log.info(groupCodeListGetResponseVOList.toString());
+    return groupCodeListGetResponseVOList;
+  }
+
+  @GetMapping("/search")
+  public List<GroupCodeListGetResponseVO> searchGroupCodeList() throws CodeException {
+    // TODO 코드 검색조검에 맞춰서 새로 개발 (DTO 포함)
     List<GroupCodeListGetResponseVO> groupCodeListGetResponseVOList = codeService.getGroupCodeList();
     log.info(groupCodeListGetResponseVOList.toString());
     return groupCodeListGetResponseVOList;
