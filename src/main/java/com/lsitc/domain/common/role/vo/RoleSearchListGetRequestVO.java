@@ -1,6 +1,5 @@
 package com.lsitc.domain.common.role.vo;
 
-import javax.validation.constraints.PositiveOrZero;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import com.lsitc.domain.common.role.entity.RoleEntity;
 import lombok.AllArgsConstructor;
@@ -10,7 +9,6 @@ import lombok.Getter;
 @AllArgsConstructor
 public class RoleSearchListGetRequestVO {
 
-  @PositiveOrZero(message = "권한 ID에는 음수가 들어올 수 없습니다.")
   private final Long roleId;
   private final String roleNm;
   

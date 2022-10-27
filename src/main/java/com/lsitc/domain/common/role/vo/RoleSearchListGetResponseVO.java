@@ -1,6 +1,5 @@
 package com.lsitc.domain.common.role.vo;
 
-import java.time.format.DateTimeFormatter;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import com.lsitc.domain.common.role.entity.RoleEntity;
 import lombok.Builder;
@@ -35,9 +34,9 @@ public class RoleSearchListGetResponseVO {
         .roleNm(roleInfo.getName())
         .rmrk(roleInfo.getRemark())
         .regUserNo(String.valueOf(roleInfo.getCreatedBy()))
-        .regDttm(roleInfo.getCreatedDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
+        .regDttm(String.valueOf(roleInfo.getCreatedDate()))
         .procUserNo(String.valueOf(roleInfo.getLastModifiedBy()))
-        .procDttm(roleInfo.getLastModifiedDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
+        .procDttm(String.valueOf(roleInfo.getLastModifiedDate()))
         .build();
   }
 
