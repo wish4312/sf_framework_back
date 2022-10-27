@@ -22,8 +22,9 @@ public class SecurityConfig {
         .permitAll()
         .and()
         .formLogin()
-        .disable()
-        .apply(CustomFilterDsl.customFilterDsl("/signin"))
+        .loginProcessingUrl("/signin")
+        .usernameParameter("userId")
+        .passwordParameter("password")
         .and()
         .sessionManagement()
         .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED);
