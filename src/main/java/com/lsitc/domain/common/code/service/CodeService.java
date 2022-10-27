@@ -23,6 +23,7 @@ import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
@@ -31,6 +32,7 @@ public class CodeService {
 
   private final GroupCodeDAO groupCodeDAO;
 
+  @Transactional
   public GroupCodeInfoGetResponseVO getGroupCodeInfo(
       final GroupCodeInfoGetRequestVO groupCodeInfoGetRequestVO) {
     GroupCodeEntity groupCodeEntity = groupCodeInfoGetRequestVO.toEntity();
@@ -39,12 +41,14 @@ public class CodeService {
     return GroupCodeInfoGetResponseVO.of(groupCodeInfo);
   }
 
+  @Transactional
   public List<GroupCodeListGetResponseVO> getGroupCodeList() {
     List<GroupCodeEntity> groupCodeEntityList = groupCodeDAO.selectAll();
     return groupCodeEntityList.stream().map(GroupCodeListGetResponseVO::of)
         .collect(Collectors.toList());
   }
 
+  @Transactional
   public GroupCodeAddResponseVO addGroupCode(final GroupCodeAddRequestVO groupCodeAddRequestVO) {
     GroupCodeEntity groupCodeEntity = groupCodeAddRequestVO.toEntity();
     log.info(groupCodeEntity.toString());
@@ -52,6 +56,7 @@ public class CodeService {
     return GroupCodeAddResponseVO.of(addRows);
   }
 
+  @Transactional
   public GroupCodeListAddResponseVO addGroupCodeList(
       final List<GroupCodeListAddRequestVO> groupCodeListAddRequestVOList) {
     List<GroupCodeEntity> groupCodeEntityList =
@@ -61,6 +66,7 @@ public class CodeService {
     return GroupCodeListAddResponseVO.of(addRows);
   }
 
+  @Transactional
   public GroupCodeModifyResponseVO modifyGroupCode(
       final GroupCodeModifyRequestVO groupCodeModifyRequestVO) {
     GroupCodeEntity groupCodeEntity = groupCodeModifyRequestVO.toEntity();
@@ -68,6 +74,7 @@ public class CodeService {
     return GroupCodeModifyResponseVO.of(upsertRows);
   }
 
+  @Transactional
   public GroupCodeListModifyResponseVO modifyGroupCodeList(
       final List<GroupCodeListModifyRequestVO> groupCodeListModifyRequestVOList) {
     List<GroupCodeEntity> groupCodeEntityList =
@@ -86,6 +93,7 @@ public class CodeService {
         : groupCodeDAO.insertGroupCodeWithId(targetEntity);
   }
 
+  @Transactional
   public GroupCodeRemoveResponseVO removeGroupCode(
       final GroupCodeRemoveRequestVO groupCodeRemoveRequestVO) throws CodeException {
     GroupCodeEntity groupCodeEntity = groupCodeRemoveRequestVO.toEntity();
@@ -94,6 +102,7 @@ public class CodeService {
     return GroupCodeRemoveResponseVO.of(deleteRows);
   }
 
+  @Transactional
   public GroupCodeListRemoveResponseVO removeGroupCodeList(
       final List<GroupCodeListRemoveRequestVO> groupCodeListRemoveRequestVOList) {
     List<GroupCodeEntity> groupCodeEntityList =
