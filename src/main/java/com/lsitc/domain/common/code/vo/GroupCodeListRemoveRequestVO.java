@@ -25,7 +25,7 @@ public class GroupCodeListRemoveRequestVO {
   @Override
   public String toString() {
     return "GroupCodeListRemoveRequestVO{" +
-        "id=" + commGrpCdId +
+        "commGrpCdId=" + commGrpCdId +
         '}';
   }
 }

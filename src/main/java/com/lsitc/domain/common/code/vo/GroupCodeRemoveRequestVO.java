@@ -9,23 +9,23 @@ import lombok.Getter;
 public class GroupCodeRemoveRequestVO {
 
   @NotNull
-  private final String commGrpCdIdid;
+  private final String commGrpCdId;
 
   @JsonCreator
-  public GroupCodeRemoveRequestVO(String commGrpCdIdid) {
-    this.commGrpCdIdid = commGrpCdIdid;
+  public GroupCodeRemoveRequestVO(String commGrpCdId) {
+    this.commGrpCdId = commGrpCdId;
   }
 
   public GroupCodeEntity toEntity() {
     return GroupCodeEntity.builder()
-        .id(Long.valueOf(commGrpCdIdid))
+        .id(Long.valueOf(commGrpCdId))
         .build();
   }
 
   @Override
   public String toString() {
     return "GroupCodeRemoveRequestVO{" +
-        "id=" + commGrpCdIdid +
+        "commGrpCdId=" + commGrpCdId +
         '}';
   }
 }
