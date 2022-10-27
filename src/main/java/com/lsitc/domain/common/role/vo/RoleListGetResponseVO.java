@@ -1,6 +1,5 @@
 package com.lsitc.domain.common.role.vo;
 
-import java.time.format.DateTimeFormatter;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import com.lsitc.domain.common.role.entity.RoleEntity;
 import lombok.Builder;
@@ -12,6 +11,8 @@ public class RoleListGetResponseVO {
   private final String roleId;
   private final String roleNm;
   private final String isDeleted;
+  private final String deletedBy;
+  private final String deletedDate;
   private final String rmrk;
   private final String regUserNo;
   private final String regDttm;
@@ -19,11 +20,14 @@ public class RoleListGetResponseVO {
   private final String procDttm;
 
   @Builder
-  private RoleListGetResponseVO(String roleId, String roleNm, String isDeleted, String rmrk,
-      String regUserNo, String regDttm, String procUserNo, String procDttm) {
+  private RoleListGetResponseVO(String roleId, String roleNm, String isDeleted, String deletedBy,
+      String deletedDate, String rmrk, String regUserNo, String regDttm, String procUserNo,
+      String procDttm) {
     this.roleId = roleId;
     this.roleNm = roleNm;
     this.isDeleted = isDeleted;
+    this.deletedBy = deletedBy;
+    this.deletedDate = deletedDate;
     this.rmrk = rmrk;
     this.regUserNo = regUserNo;
     this.regDttm = regDttm;
@@ -36,11 +40,13 @@ public class RoleListGetResponseVO {
         .roleId(String.valueOf(roleInfo.getId()))
         .roleNm(roleInfo.getName())
         .isDeleted((roleInfo.isDeleted() ? "1" : "0"))
+        .deletedBy(String.valueOf(roleInfo.getDeletedBy()))
+        .deletedDate(String.valueOf(roleInfo.getDeletedDate()))
         .rmrk(roleInfo.getRemark())
         .regUserNo(String.valueOf(roleInfo.getCreatedBy()))
-        .regDttm(roleInfo.getCreatedDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
+        .regDttm(String.valueOf(roleInfo.getCreatedDate()))
         .procUserNo(String.valueOf(roleInfo.getLastModifiedBy()))
-        .procDttm(roleInfo.getLastModifiedDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
+        .procDttm(String.valueOf(roleInfo.getLastModifiedDate()))
         .build();
   }
 

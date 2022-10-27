@@ -5,17 +5,17 @@ import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-public class RoleRemoveResponseVO {
+public class RoleListAddResponseVO {
 
   private final String result;
 
   @Builder
-  private RoleRemoveResponseVO(String result) {
+  private RoleListAddResponseVO(String result) {
     this.result = result;
   }
 
-  public static RoleRemoveResponseVO of(int deleteRows) {
-    String result = 0 < deleteRows ? "success" : "no data";
+  public static RoleListAddResponseVO of(final int tryRow, final int addRows) {
+    String result = tryRow == addRows ? "success" : "failure";
     return builder().result(result).build();
   }
 

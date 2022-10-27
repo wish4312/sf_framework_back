@@ -7,11 +7,10 @@ import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-public class RoleInfoGetResponseVO {
+public class RoleSearchListGetResponseVO {
 
   private final String roleId;
   private final String roleNm;
-  private final String isDeleted;
   private final String rmrk;
   private final String regUserNo;
   private final String regDttm;
@@ -19,11 +18,10 @@ public class RoleInfoGetResponseVO {
   private final String procDttm;
 
   @Builder
-  private RoleInfoGetResponseVO(String roleId, String roleNm, String isDeleted, String rmrk,
-      String regUserNo, String regDttm, String procUserNo, String procDttm) {
+  private RoleSearchListGetResponseVO(String roleId, String roleNm, String rmrk, String regUserNo,
+      String regDttm, String procUserNo, String procDttm) {
     this.roleId = roleId;
     this.roleNm = roleNm;
-    this.isDeleted = isDeleted;
     this.rmrk = rmrk;
     this.regUserNo = regUserNo;
     this.regDttm = regDttm;
@@ -31,11 +29,10 @@ public class RoleInfoGetResponseVO {
     this.procDttm = procDttm;
   }
 
-  public static RoleInfoGetResponseVO of(RoleEntity roleInfo) {
+  public static RoleSearchListGetResponseVO of(RoleEntity roleInfo) {
     return builder()
         .roleId(String.valueOf(roleInfo.getId()))
         .roleNm(roleInfo.getName())
-        .isDeleted((roleInfo.isDeleted() ? "1" : "0"))
         .rmrk(roleInfo.getRemark())
         .regUserNo(String.valueOf(roleInfo.getCreatedBy()))
         .regDttm(roleInfo.getCreatedDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))

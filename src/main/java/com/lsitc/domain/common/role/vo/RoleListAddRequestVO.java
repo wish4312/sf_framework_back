@@ -8,7 +8,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class RoleAddRequestVO {
+public class RoleListAddRequestVO {
 
   @NotBlank(message = "권한명이 필요합니다.")
   private final String roleNm;
@@ -25,5 +25,5 @@ public class RoleAddRequestVO {
   @Override
   public String toString() {
     return ToStringBuilder.reflectionToString(this);
-    }
+  }
 }

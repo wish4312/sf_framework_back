@@ -6,16 +6,18 @@ import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface RoleDAO {
-
+  
   RoleEntity selectRoleById(RoleEntity roleEntity);
 
   List<RoleEntity> selectAll();
+  
+  List<RoleEntity> selectRoleByConditions(RoleEntity roleEntity);
 
-  int insertRole(RoleEntity roleEntity);
+  int insertRoleList(List<RoleEntity> roleEntityList);
 
-  int updateRoleById(RoleEntity roleEntity);
+  int updateRoleById(List<RoleEntity> roleEntity);
 
-  int insertRoleWithId(RoleEntity roleEntity);
+  int insertRoleWithId(List<RoleEntity> roleEntity);
 
-  int updateRoleIsDeletedById(RoleEntity roleEntity);
+  int updateRoleIsDeletedById(List<RoleEntity> roleEntity);
 }
