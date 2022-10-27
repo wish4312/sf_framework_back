@@ -10,6 +10,8 @@ import com.lsitc.domain.common.code.vo.GroupCodeInfoGetResponseVO;
 import com.lsitc.domain.common.code.vo.GroupCodeListAddRequestVO;
 import com.lsitc.domain.common.code.vo.GroupCodeListAddResponseVO;
 import com.lsitc.domain.common.code.vo.GroupCodeListGetResponseVO;
+import com.lsitc.domain.common.code.vo.GroupCodeListModifyRequestVO;
+import com.lsitc.domain.common.code.vo.GroupCodeListModifyResponseVO;
 import com.lsitc.domain.common.code.vo.GroupCodeModifyRequestVO;
 import com.lsitc.domain.common.code.vo.GroupCodeModifyResponseVO;
 import com.lsitc.domain.common.code.vo.GroupCodeRemoveRequestVO;
@@ -60,11 +62,23 @@ public class CodeService {
   public GroupCodeModifyResponseVO modifyGroupCode(
       final GroupCodeModifyRequestVO groupCodeModifyRequestVO) {
     GroupCodeEntity groupCodeEntity = groupCodeModifyRequestVO.toEntity();
-    int upsertRows = upsertSample(groupCodeEntity);
+    int upsertRows = upsertGroupCode(groupCodeEntity);
     return GroupCodeModifyResponseVO.of(upsertRows);
   }
 
-  private int upsertSample(GroupCodeEntity targetEntity) {
+  public GroupCodeListModifyResponseVO modifyGroupCodeList(
+      final List<GroupCodeListModifyRequestVO> groupCodeListModifyRequestVO) {
+    List<GroupCodeEntity> groupCodeEntityList =
+        groupCodeListModifyRequestVO.stream().map(GroupCodeListModifyRequestVO::toEntity)
+            .collect(Collectors.toList());
+    int upsertRows = groupCodeEntityList.stream().map(this::upsertGroupCode).mapToInt(i -> i).sum();
+    if (upsertRows != groupCodeEntityList.size()) {
+      throw new CodeException("Upsert 오류");
+    }
+    return GroupCodeListModifyResponseVO.of(upsertRows);
+  }
+
+  private int upsertGroupCode(GroupCodeEntity targetEntity) {
     GroupCodeEntity groupCodeEntity = groupCodeDAO.selectGroupCodeById(targetEntity);
     return groupCodeEntity != null ? groupCodeDAO.updateGroupCodeById(targetEntity)
         : groupCodeDAO.insertGroupCodeWithId(targetEntity);
