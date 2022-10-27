@@ -32,7 +32,6 @@ public class CodeService {
 
   private final GroupCodeDAO groupCodeDAO;
 
-  @Transactional
   public GroupCodeInfoGetResponseVO getGroupCodeInfo(
       final GroupCodeInfoGetRequestVO groupCodeInfoGetRequestVO) {
     GroupCodeEntity groupCodeEntity = groupCodeInfoGetRequestVO.toEntity();
@@ -41,7 +40,6 @@ public class CodeService {
     return GroupCodeInfoGetResponseVO.of(groupCodeInfo);
   }
 
-  @Transactional
   public List<GroupCodeListGetResponseVO> getGroupCodeList() {
     List<GroupCodeEntity> groupCodeEntityList = groupCodeDAO.selectAll();
     return groupCodeEntityList.stream().map(GroupCodeListGetResponseVO::of)
