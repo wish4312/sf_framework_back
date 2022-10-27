@@ -30,14 +30,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
-@RequestMapping("/common")
+@RequestMapping("/common/group-code")
 @RestController
 @RequiredArgsConstructor
-public class CodeController {
+public class GroupCodeController {
 
   private final CodeService codeService;
 
-  @GetMapping("/group-code")
+  @GetMapping
   public GroupCodeInfoGetResponseVO getGroupCodeInfo(
       @Valid final GroupCodeInfoGetRequestVO groupCodeInfoGetRequestVO) throws CodeException {
     log.info(groupCodeInfoGetRequestVO.toString());
@@ -47,14 +47,22 @@ public class CodeController {
     return groupCodeInfoGetResponseVO;
   }
 
-  @GetMapping("/group-code/list")
+  @GetMapping("/list")
   public List<GroupCodeListGetResponseVO> getGroupCodeList() throws CodeException {
     List<GroupCodeListGetResponseVO> groupCodeListGetResponseVOList = codeService.getGroupCodeList();
     log.info(groupCodeListGetResponseVOList.toString());
     return groupCodeListGetResponseVOList;
   }
 
-  @PostMapping("/group-code")
+  @GetMapping("/search")
+  public List<GroupCodeListGetResponseVO> searchGroupCodeList() throws CodeException {
+    // TODO 코드 검색조검에 맞춰서 새로 개발 (DTO 포함)
+    List<GroupCodeListGetResponseVO> groupCodeListGetResponseVOList = codeService.getGroupCodeList();
+    log.info(groupCodeListGetResponseVOList.toString());
+    return groupCodeListGetResponseVOList;
+  }
+
+  @PostMapping
   public GroupCodeAddResponseVO addGroupCode(
       @RequestBody @Valid final GroupCodeAddRequestVO groupCodeAddRequestVO) throws CodeException {
     log.info(groupCodeAddRequestVO.toString());
@@ -63,7 +71,7 @@ public class CodeController {
     return groupCodeAddResponseVO;
   }
 
-  @PostMapping("/group-code/list")
+  @PostMapping("/list")
   public GroupCodeListAddResponseVO addGroupCodeList(
       @RequestBody @Valid final List<GroupCodeListAddRequestVO> groupCodeListAddRequestVOList)
       throws CodeException {
@@ -73,7 +81,7 @@ public class CodeController {
     return groupCodeListAddResponseVO;
   }
 
-  @PutMapping("/group-code")
+  @PutMapping
   public GroupCodeModifyResponseVO modifyGroupCode(
       @RequestBody @Valid final GroupCodeModifyRequestVO groupCodeModifyRequestVO)
       throws CodeException {
@@ -84,7 +92,7 @@ public class CodeController {
     return groupCodeModifyResponseVO;
   }
 
-  @PutMapping("/group-code/list")
+  @PutMapping("/list")
   public GroupCodeListModifyResponseVO modifyGroupCodeList(
       @RequestBody @Valid final List<GroupCodeListModifyRequestVO> groupCodeListModifyRequestVOList)
       throws CodeException {
@@ -94,7 +102,7 @@ public class CodeController {
     return groupCodeListModifyResponseVO;
   }
 
-  @DeleteMapping("/group-code")
+  @DeleteMapping
   public GroupCodeRemoveResponseVO removeGroupCode(
       @RequestBody @Valid final GroupCodeRemoveRequestVO groupCodeRemoveRequestVO)
       throws CodeException {
@@ -105,7 +113,7 @@ public class CodeController {
     return groupCodeRemoveResponseVO;
   }
 
-  @DeleteMapping("/group-code/list")
+  @DeleteMapping("/list")
   public GroupCodeListRemoveResponseVO removeGroupCodeList(
       @RequestBody @Valid final List<GroupCodeListRemoveRequestVO> groupCodeListRemoveRequestVOList)
       throws CodeException {
