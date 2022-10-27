@@ -3,18 +3,19 @@ package com.lsitc.domain.common.role.service;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import com.lsitc.domain.common.role.dao.RoleDAO;
 import com.lsitc.domain.common.role.entity.RoleEntity;
 import com.lsitc.domain.common.role.exception.RoleException;
-import com.lsitc.domain.common.role.vo.RoleAddRequestVO;
-import com.lsitc.domain.common.role.vo.RoleAddResponseVO;
-import com.lsitc.domain.common.role.vo.RoleInfoGetRequestVO;
-import com.lsitc.domain.common.role.vo.RoleInfoGetResponseVO;
+import com.lsitc.domain.common.role.vo.RoleListAddRequestVO;
+import com.lsitc.domain.common.role.vo.RoleListAddResponseVO;
 import com.lsitc.domain.common.role.vo.RoleListGetResponseVO;
-import com.lsitc.domain.common.role.vo.RoleModifyRequestVO;
-import com.lsitc.domain.common.role.vo.RoleModifyResponseVO;
-import com.lsitc.domain.common.role.vo.RoleRemoveRequestVO;
-import com.lsitc.domain.common.role.vo.RoleRemoveResponseVO;
+import com.lsitc.domain.common.role.vo.RoleListModifyRequestVO;
+import com.lsitc.domain.common.role.vo.RoleListModifyResponseVO;
+import com.lsitc.domain.common.role.vo.RoleListRemoveRequestVO;
+import com.lsitc.domain.common.role.vo.RoleListRemoveResponseVO;
+import com.lsitc.domain.common.role.vo.RoleSearchListGetRequestVO;
+import com.lsitc.domain.common.role.vo.RoleSearchListGetResponseVO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -25,47 +26,70 @@ public class RoleService {
 
   private final RoleDAO roleDAO;
 
-  public RoleInfoGetResponseVO getRoleInfo(final RoleInfoGetRequestVO roleInfoGetRequestVO) {
-    RoleEntity roleEntity = roleInfoGetRequestVO.toEntity();
-    log.info(roleEntity.toString());
-    RoleEntity roleInfo = roleDAO.selectRoleById(roleEntity);
-    return RoleInfoGetResponseVO.of(roleInfo);
-  }
-
   public List<RoleListGetResponseVO> getRoleList() {
     List<RoleEntity> roleEntityList = roleDAO.selectAll();
     return roleEntityList.stream().map(RoleListGetResponseVO::of).collect(Collectors.toList());
   }
 
-  public RoleAddResponseVO addRole(final RoleAddRequestVO roleAddRequestVO) {
-    RoleEntity roleEntity = roleAddRequestVO.toEntity();
+  public List<RoleSearchListGetResponseVO> searchRoleList(
+      final RoleSearchListGetRequestVO deptInfoGetRequestVO) {
+    RoleEntity roleEntity = deptInfoGetRequestVO.toEntity();
     log.info(roleEntity.toString());
-    int addRows = roleDAO.insertRole(roleEntity);
-    return RoleAddResponseVO.of(addRows);
+    List<RoleEntity> roleEntityList = roleDAO.selectRoleByConditions(roleEntity);
+    return roleEntityList.stream().map(RoleSearchListGetResponseVO::of)
+        .collect(Collectors.toList());
   }
 
-  public RoleModifyResponseVO modifyRole(final RoleModifyRequestVO roleModifyRequestVO) {
-    RoleEntity roleEntity = roleModifyRequestVO.toEntity();
-    int upsertRows = upsertRole(roleEntity);
-    log.info(roleEntity.toString());
-    return RoleModifyResponseVO.of(upsertRows);
+  @Transactional
+  public RoleListAddResponseVO addRoleList(final List<RoleListAddRequestVO> roleListAddRequestVO) {
+    List<RoleEntity> roleEntityList = roleListAddRequestVO.stream()
+        .map(RoleListAddRequestVO::toEntity).collect(Collectors.toList());
+    log.info(roleEntityList.toString());
+    int addRows = roleDAO.insertRoleList(roleEntityList);
+    return RoleListAddResponseVO.of(roleEntityList.size(), addRows);
   }
 
-  private int upsertRole(RoleEntity targetEntity) {
+  @Transactional
+  public RoleListModifyResponseVO modifyRoleList(
+      final List<RoleListModifyRequestVO> roleListModifyRequestVO) {
+    List<RoleEntity> roleEntityList = roleListModifyRequestVO.stream()
+        .map(RoleListModifyRequestVO::toEntity).collect(Collectors.toList());
+
+    List<RoleEntity> updateList =
+        roleEntityList.stream().filter(vo -> isUpdate(vo)).collect(Collectors.toList());
+    List<RoleEntity> insertList =
+        roleEntityList.stream().filter(vo -> !isUpdate(vo)).collect(Collectors.toList());
+
+    int upsertRows = (updateList.size() > 0 ? roleDAO.updateRoleById(updateList) : 0)
+        + (insertList.size() > 0 ? roleDAO.insertRoleWithId(insertList) : 0);
+
+    log.info(roleEntityList.toString());
+    return RoleListModifyResponseVO.of(upsertRows);
+  }
+
+  private boolean isUpdate(RoleEntity targetEntity) {
     RoleEntity roleEntity = roleDAO.selectRoleById(targetEntity);
-    return roleEntity != null ? roleDAO.updateRoleById(targetEntity)
-        : roleDAO.insertRoleWithId(targetEntity);
+    return roleEntity != null;
   }
 
-  public RoleRemoveResponseVO removeRole(final RoleRemoveRequestVO roleRemoveRequestVO)
-      throws RoleException {
-    RoleEntity roleEntity = roleDAO.selectRoleById(roleRemoveRequestVO.toEntity());
+  @Transactional
+  public RoleListRemoveResponseVO removeRoleList(
+      final List<RoleListRemoveRequestVO> roleListRemoveRequestVO) throws RoleException {
+    List<RoleEntity> roleEntityList =
+        roleListRemoveRequestVO.stream().map(RoleListRemoveRequestVO::toEntity)
+            .map(vo -> setDelete(vo)).collect(Collectors.toList());
+
+    log.info(roleEntityList.toString());
+    int deleteRows = roleDAO.updateRoleIsDeletedById(roleEntityList);
+    return RoleListRemoveResponseVO.of(deleteRows);
+  }
+
+  private RoleEntity setDelete(RoleEntity targetEntity) {
+    RoleEntity roleEntity = roleDAO.selectRoleById(targetEntity);
     if (roleEntity == null) {
       throw new RoleException("roleEntity is null");
     }
     roleEntity.delete();
-    log.info(roleEntity.toString());
-    int deleteRows = roleDAO.updateRoleIsDeletedById(roleEntity);
-    return RoleRemoveResponseVO.of(deleteRows);
+    return roleEntity;
   }
 }

@@ -19,7 +19,7 @@ public class RoleEntity extends BaseAbstractEntity
   private String remark;
 
   @Builder
-  private RoleEntity(long id, String name, String remark) {
+  private RoleEntity(Long id, String name, String remark) {
     this.id = id;
     this.name = name;
     this.remark = remark;

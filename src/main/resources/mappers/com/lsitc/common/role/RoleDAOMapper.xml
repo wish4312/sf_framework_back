@@ -35,24 +35,49 @@
     FROM sf_role
   </select>
 
-  <insert id="insertRole"
+  <select id="selectRoleByConditions"
     parameterType="com.lsitc.domain.common.role.entity.RoleEntity"
-    useGeneratedKeys="true" keyProperty="id" keyColumn="id">
-    INSERT INTO sf_role
-    ( name
-    , is_deleted
-    , remark
-    , created_by
-    , created_date
-    , last_modified_by
-    , last_modified_date)
-    VALUES ( #{name}
-           , #{isDeleted}
-           , #{remark}
-           , #{createdBy}
-           , #{createdDate}
-           , #{lastModifiedBy}
-           , #{lastModifiedDate})
+    resultType="com.lsitc.domain.common.role.entity.RoleEntity">
+    SELECT id
+         , name
+         , is_deleted
+         , deleted_by
+         , deleted_date
+         , remark
+         , created_by
+         , created_date
+         , last_modified_by
+         , last_modified_date
+    FROM sf_role
+    WHERE is_deleted = #{isDeleted}
+    <if test="id != null and id != ''">
+    AND id = #{id}
+    </if>
+    <if test="name != null and name != ''">
+    AND name LIKE CONCAT('%', #{name}, '%')
+    </if>
+  </select>
+
+  <insert id="insertRoleList"
+    parameterType="com.lsitc.domain.common.role.entity.RoleEntity">
+	    INSERT INTO sf_role
+	    ( name
+	    , is_deleted
+	    , remark
+	    , created_by
+	    , created_date
+	    , last_modified_by
+	    , last_modified_date)
+	    VALUES
+    <foreach item="item" collection="list" separator=",">
+	    ( #{item.name}
+	    , #{item.isDeleted}
+	    , #{item.remark}
+	    , #{item.createdBy}
+	    , #{item.createdDate}
+	    , #{item.lastModifiedBy}
+	    , #{item.lastModifiedDate})
+    </foreach>
   </insert>
 
   <insert id="insertRoleWithId"
@@ -66,34 +91,41 @@
     , created_date
     , last_modified_by
     , last_modified_date)
-    VALUES ( #{id}
-           , #{name}
-           , #{isDeleted}
-           , #{remark}
-           , #{createdBy}
-           , #{createdDate}
-           , #{lastModifiedBy}
-           , #{lastModifiedDate})
+    VALUES 
+    <foreach item="item" collection="list" separator=",">
+    ( #{item.id}
+    , #{item.name}
+    , #{item.isDeleted}
+    , #{item.remark}
+    , #{item.createdBy}
+    , #{item.createdDate}
+    , #{item.lastModifiedBy}
+    , #{item.lastModifiedDate})
+    </foreach>
   </insert>
 
   <update id="updateRoleById"
     parameterType="com.lsitc.domain.common.role.entity.RoleEntity">
+    <foreach item="item" collection="list" separator=";">
     UPDATE sf_role
-    SET name               = #{name}
-      , remark             = #{remark}
-      , last_modified_by   = #{lastModifiedBy}
-      , last_modified_date = #{lastModifiedDate}
-    WHERE id = #{id}
+    SET name               = #{item.name}
+      , remark             = #{item.remark}
+      , last_modified_by   = #{item.lastModifiedBy}
+      , last_modified_date = #{item.lastModifiedDate}
+    WHERE id = #{item.id}
+    </foreach>
   </update>
 
   <update id="updateRoleIsDeletedById"
     parameterType="com.lsitc.domain.common.role.entity.RoleEntity">
+    <foreach item="item" collection="list" separator=";">
     UPDATE sf_role
-    SET is_deleted         = #{isDeleted}
-      , deleted_date       = #{deletedDate}
-      , deleted_by         = #{deletedBy}
-      , last_modified_by   = #{lastModifiedBy}
-      , last_modified_date = #{lastModifiedDate}
-    WHERE id = #{id}
+    SET is_deleted         = #{item.isDeleted}
+      , deleted_date       = #{item.deletedDate}
+      , deleted_by         = #{item.deletedBy}
+      , last_modified_by   = #{item.lastModifiedBy}
+      , last_modified_date = #{item.lastModifiedDate}
+    WHERE id = #{item.id}
+    </foreach>
   </update>
 </mapper>
