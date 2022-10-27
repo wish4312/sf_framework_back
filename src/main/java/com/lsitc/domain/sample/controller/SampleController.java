@@ -34,7 +34,7 @@ public class SampleController {
 
   private final SampleService sampleService;
 
-  @GetMapping("/info")
+  @GetMapping
   public SampleInfoGetResponseVO getSampleInfo(
       @Valid final SampleInfoGetRequestVO sampleInfoGetRequestVO) throws SampleException {
     log.info("get 메소드가 호출되었습니다.");
@@ -57,7 +57,7 @@ public class SampleController {
     return sampleListGetResponseVOList;
   }
 
-  @PostMapping("")
+  @PostMapping
   public SampleAddResponseVO addSample(
       @RequestBody @Valid final SampleAddRequestVO sampleAddRequestVO) throws SampleException {
     log.info("post 메소드가 호출되었습니다.");
@@ -70,7 +70,7 @@ public class SampleController {
     return sampleAddResponseVO;
   }
 
-  @PutMapping("")
+  @PutMapping
   public SampleModifyResponseVO modifySample(
       @RequestBody @Valid final SampleModifyRequestVO sampleModifyRequestVO)
       throws SampleException {
@@ -85,7 +85,7 @@ public class SampleController {
     return sampleModifyResponseVO;
   }
 
-  @DeleteMapping("")
+  @DeleteMapping
   public SampleRemoveResponseVO removeSample(
       @Valid final SampleRemoveRequestVO sampleRemoveRequestVO) throws SampleException {
     log.info("delete 메소드가 호출되었습니다.");

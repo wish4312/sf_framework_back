@@ -24,6 +24,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 @Slf4j
@@ -46,6 +47,7 @@ public class SampleService {
     return resultEntityList.stream().map(SampleListGetResponseVO::of).collect(Collectors.toList());
   }
 
+  @Transactional
   public SampleAddResponseVO addSample(final SampleAddRequestVO sampleAddRequestVO) {
     SampleEntity sampleEntity = sampleAddRequestVO.toEntity();
     log.info(sampleEntity.toString());
@@ -54,6 +56,7 @@ public class SampleService {
     return SampleAddResponseVO.of(addRows);
   }
 
+  @Transactional
   public SampleModifyResponseVO modifySample(final SampleModifyRequestVO sampleModifyRequestVO) {
     SampleEntity sampleEntity = sampleModifyRequestVO.toEntity();
     log.info(sampleEntity.toString());
@@ -68,6 +71,7 @@ public class SampleService {
         : sampleDAO.insertSampleWithId(targetEntity);
   }
 
+  @Transactional
   public SampleRemoveResponseVO removeSample(SampleRemoveRequestVO sampleRemoveRequestVO) {
     SampleEntity sampleEntity = sampleRemoveRequestVO.toEntity();
     log.info(sampleEntity.toString());
