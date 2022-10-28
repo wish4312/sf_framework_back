@@ -48,12 +48,19 @@ public class SampleService {
   }
 
   @Transactional
-  public SampleAddResponseVO addSample(final SampleAddRequestVO sampleAddRequestVO) {
-    SampleEntity sampleEntity = sampleAddRequestVO.toEntity();
-    log.info(sampleEntity.toString());
-    int addRows = sampleDAO.insertSample(sampleEntity);
-    log.info("sample entity id: {}", sampleEntity.getId());
-    return SampleAddResponseVO.of(addRows);
+  public SampleAddResponseVO addSample(final List<SampleAddRequestVO> sampleAddRequestVO) {
+    List<SampleEntity> sampleEntityList =
+        sampleAddRequestVO.stream().map(SampleAddRequestVO::toEntity).collect(Collectors.toList());
+    log.info(sampleEntityList.toString());
+
+    if (sampleEntityList.size() == 1) {
+      sampleDAO.insertSample(sampleEntityList.get(0));
+      log.info("sample entity id: {}", sampleEntityList.get(0).getId());
+      return SampleAddResponseVO.of(sampleEntityList.get(0).getId());
+    } else {
+      int addRows = sampleDAO.insertSampleList(sampleEntityList);
+      return SampleAddResponseVO.of(addRows);
+    }
   }
 
   @Transactional

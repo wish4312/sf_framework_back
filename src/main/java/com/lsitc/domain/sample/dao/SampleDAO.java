@@ -16,7 +16,9 @@ public interface SampleDAO {
   List<SampleEntity> selectAll(/*@Param("entity") SampleEntity sampleEntity,*/
       @Param("pageable") Pageable pageable);
 
-  int insertSample(SampleEntity sampleEntity);
+  void insertSample(SampleEntity sampleEntity);
+
+  int insertSampleList(List<SampleEntity> sampleEntityList);
 
   int updateSampleById(SampleEntity sampleEntity);
 

@@ -1,16 +1,23 @@
 package com.lsitc.domain.sample.vo;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import lombok.Builder;
 import lombok.Getter;
 
 @Getter
 public class SampleAddResponseVO {
 
+  @JsonInclude(Include.NON_EMPTY)
   private final String result;
 
+  @JsonInclude(Include.NON_EMPTY)
+  private final String id;
+
   @Builder
-  private SampleAddResponseVO(String result) {
+  private SampleAddResponseVO(String result, String id) {
     this.result = result;
+    this.id = id;
   }
 
   public static SampleAddResponseVO of(final int addRows) {
@@ -18,10 +25,17 @@ public class SampleAddResponseVO {
     return builder().result(result).build();
   }
 
+  public static SampleAddResponseVO of(final long id) {
+    return builder()
+        .id(String.valueOf(id))
+        .build();
+  }
+
   @Override
   public String toString() {
     return "SampleAddResponseVO{" +
         "result='" + result + '\'' +
+        ", id='" + id + '\'' +
         '}';
   }
 }
