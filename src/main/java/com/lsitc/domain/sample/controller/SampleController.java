@@ -59,9 +59,10 @@ public class SampleController {
 
   @PostMapping
   public SampleAddResponseVO addSample(
-      @RequestBody @Valid final SampleAddRequestVO sampleAddRequestVO) throws SampleException {
+      @RequestBody @Valid final List<SampleAddRequestVO> sampleAddRequestVO)
+      throws SampleException {
     log.info("post 메소드가 호출되었습니다.");
-    if ("ERROR".equals(sampleAddRequestVO.getFoo())) {
+    if ("ERROR".equals(sampleAddRequestVO.get(0).getFoo())) {
       throw new SampleException("오류발생", ErrorCode.INTERNAL_SERVER_ERROR);
     }
     log.info(sampleAddRequestVO.toString());

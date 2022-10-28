@@ -21,6 +21,9 @@ spring:
   profiles:
     #프로파일(local:개발자 환경, dev:개발서버, prod:운영 택1, 향후 runtime argument로 넘어갈 예정)
     active: local
+  jackson:
+    deserialization:
+      accept-single-value-as-array: true
 
 #로깅관련
 logging:
