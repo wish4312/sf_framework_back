@@ -16,6 +16,7 @@ import com.lsitc.global.paging.Pageable;
 import com.lsitc.global.util.FileUtils;
 import java.io.File;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -49,8 +50,8 @@ public class SampleService {
 
   @Transactional
   public SampleAddResponseVO addSample(final List<SampleAddRequestVO> sampleAddRequestVO) {
-    List<SampleEntity> sampleEntityList =
-        sampleAddRequestVO.stream().map(SampleAddRequestVO::toEntity).collect(Collectors.toList());
+    List<SampleEntity> sampleEntityList = sampleAddRequestVO.stream()
+        .map(SampleAddRequestVO::toEntity).collect(Collectors.toList());
     log.info(sampleEntityList.toString());
 
     if (sampleEntityList.size() == 1) {
@@ -87,18 +88,36 @@ public class SampleService {
     return SampleRemoveResponseVO.of(deleteRows);
   }
 
+  @Transactional
+  public SampleRemoveResponseVO removeSample(List<SampleRemoveRequestVO> sampleRemoveRequestVO) {
+    List<SampleEntity> sampleEntityList = sampleRemoveRequestVO.stream()
+        .map(SampleRemoveRequestVO::toEntity).collect(Collectors.toList());
+    log.info(sampleEntityList.toString());
+//    int deleteRows = hardDeleteSample(sampleEntityList);
+    int deleteRows = softDeleteSample(sampleEntityList);
+    return SampleRemoveResponseVO.of(deleteRows);
+  }
+
   private int hardDeleteSample(SampleEntity targetEntity) {
-    return sampleDAO.deleteSampleById(targetEntity);
+    return sampleDAO.deleteSampleById(Collections.singletonList(targetEntity));
+  }
+
+  private int hardDeleteSample(List<SampleEntity> targetEntityList) {
+    return sampleDAO.deleteSampleById(targetEntityList);
   }
 
   private int softDeleteSample(SampleEntity targetEntity) {
-    SampleEntity sampleEntity = sampleDAO.selectSampleById(targetEntity);
-    if (sampleEntity == null) {
-      throw new SampleException("sampleEntity is null");
+    return softDeleteSample(Collections.singletonList(targetEntity));
+  }
+
+  private int softDeleteSample(List<SampleEntity> targetEntityList) {
+    List<SampleEntity> sampleEntityList = sampleDAO.selectSampleByIds(targetEntityList);
+    if (sampleEntityList.isEmpty()) {
+      throw new SampleException("sampleEntity is not exist");
     }
-    sampleEntity.delete();
-    log.info(sampleEntity.toString());
-    return sampleDAO.updateSampleIsDeletedById(sampleEntity);
+    sampleEntityList.forEach(SampleEntity::delete);
+    log.info(sampleEntityList.toString());
+    return sampleDAO.updateSampleIsDeletedById(sampleEntityList);
   }
 
   public void uploadSampleFiles(MultipartFile[] files) {

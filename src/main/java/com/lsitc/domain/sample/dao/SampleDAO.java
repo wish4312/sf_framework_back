@@ -11,6 +11,8 @@ public interface SampleDAO {
 
   SampleEntity selectSampleById(SampleEntity sampleEntity);
 
+  List<SampleEntity> selectSampleByIds(List<SampleEntity> sampleEntityList);
+
   List<SampleEntity> selectAll();
 
   List<SampleEntity> selectAll(/*@Param("entity") SampleEntity sampleEntity,*/
@@ -24,7 +26,7 @@ public interface SampleDAO {
 
   int insertSampleWithId(SampleEntity sampleEntity);
 
-  int deleteSampleById(SampleEntity sampleEntity);
+  int deleteSampleById(List<SampleEntity> sampleEntityList);
 
-  int updateSampleIsDeletedById(SampleEntity sampleEntity);
+  int updateSampleIsDeletedById(List<SampleEntity> sampleEntityList);
 }

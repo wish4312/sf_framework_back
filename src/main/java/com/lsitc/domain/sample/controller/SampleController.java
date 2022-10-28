@@ -86,11 +86,26 @@ public class SampleController {
     return sampleModifyResponseVO;
   }
 
-  @DeleteMapping
-  public SampleRemoveResponseVO removeSample(
+  @DeleteMapping("/query-string")
+  public SampleRemoveResponseVO removeSampleWithQueryString(
       @Valid final SampleRemoveRequestVO sampleRemoveRequestVO) throws SampleException {
     log.info("delete 메소드가 호출되었습니다.");
     if ("ERROR".equals(sampleRemoveRequestVO.getFoo())) {
+      throw new SampleException("오류발생", ErrorCode.INTERNAL_SERVER_ERROR);
+    }
+    log.info(sampleRemoveRequestVO.toString());
+    SampleRemoveResponseVO sampleRemoveResponseVO = sampleService.removeSample(
+        sampleRemoveRequestVO);
+    log.info(sampleRemoveResponseVO.toString());
+    return sampleRemoveResponseVO;
+  }
+
+  @DeleteMapping
+  public SampleRemoveResponseVO removeSample(
+      @RequestBody @Valid final List<SampleRemoveRequestVO> sampleRemoveRequestVO)
+      throws SampleException {
+    log.info("delete 메소드가 호출되었습니다.");
+    if ("ERROR".equals(sampleRemoveRequestVO.get(0).getFoo())) {
       throw new SampleException("오류발생", ErrorCode.INTERNAL_SERVER_ERROR);
     }
     log.info(sampleRemoveRequestVO.toString());

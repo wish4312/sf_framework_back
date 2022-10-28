@@ -21,6 +21,27 @@
     WHERE id = #{id}
   </select>
 
+  <select id="selectSampleByIds"
+    parameterType="com.lsitc.domain.sample.entity.SampleEntity"
+    resultType="com.lsitc.domain.sample.entity.SampleEntity">
+    SELECT id
+         , foo
+         , bar
+         , comment
+         , created_by
+         , created_date
+         , last_modified_by
+         , last_modified_date
+         , is_deleted
+         , deleted_by
+         , deleted_date
+    FROM sf_sample
+    WHERE
+        <foreach collection="list" item="item" separator="OR">
+        id = #{item.id}
+        </foreach>
+  </select>
+
   <select id="selectAll"
     resultType="com.lsitc.domain.sample.entity.SampleEntity">
     SELECT id
@@ -121,17 +142,22 @@
     parameterType="com.lsitc.domain.sample.entity.SampleEntity">
     DELETE
     FROM sf_sample
-    WHERE id = #{id}
+    WHERE
+    <foreach collection="list" item="item" separator="OR">
+        id = #{item.id}
+    </foreach>
   </delete>
 
   <update id="updateSampleIsDeletedById"
     parameterType="com.lsitc.domain.sample.entity.SampleEntity">
-    UPDATE sf_sample
-    SET is_deleted         = #{isDeleted}
-      , deleted_date       = #{deletedDate}
-      , deleted_by         = #{deletedBy}
-      , last_modified_by   = #{lastModifiedBy}
-      , last_modified_date = #{lastModifiedDate}
-    WHERE id = #{id}
+    <foreach collection="list" item="item" separator=";">
+      UPDATE sf_sample
+      SET is_deleted         = #{item.isDeleted}
+        , deleted_date       = #{item.deletedDate}
+        , deleted_by         = #{item.deletedBy}
+        , last_modified_by   = #{item.lastModifiedBy}
+        , last_modified_date = #{item.lastModifiedDate}
+      WHERE id = #{item.id}
+    </foreach>
   </update>
 </mapper>
