@@ -34,7 +34,7 @@ public class SampleController {
 
   private final SampleService sampleService;
 
-  @GetMapping
+  @GetMapping("/info")
   public SampleInfoGetResponseVO getSampleInfo(
       @Valid final SampleInfoGetRequestVO sampleInfoGetRequestVO) throws SampleException {
     log.info("get 메소드가 호출되었습니다.");
