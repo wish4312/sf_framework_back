@@ -2,7 +2,6 @@ package com.lsitc.global.common;
 
 import com.lsitc.global.auditing.SoftDeletable;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,9 +21,5 @@ public abstract class BaseAbstractEntity {
     if (this instanceof SoftDeletable) {
       setDeleted(true);
     }
-  }
-  
-  public String dateFormat(LocalDateTime localDateTime) {
-    return localDateTime != null ? localDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")) : null;
   }
 }
