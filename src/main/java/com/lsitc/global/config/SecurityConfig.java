@@ -23,6 +23,8 @@ public class SecurityConfig {
         .and()
         .formLogin()
         .loginProcessingUrl("/signin")
+        .defaultSuccessUrl("/common/auth/success")
+        .failureForwardUrl("/common/auth/failure")
         .usernameParameter("userId")
         .passwordParameter("password")
         .and()
