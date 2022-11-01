@@ -125,10 +125,9 @@
     parameterType="com.lsitc.domain.common.menu.entity.MenuEntity">
     DELETE
     FROM sf_menu
-    WHERE 1=1
-    AND id = 
-    <foreach item="item" collection="list" separator=" OR id=">
-    #{item.id}
+    WHERE
+    <foreach collection="list" item="item" separator="OR">
+        id = #{item.id}
     </foreach>
   </delete>
 
