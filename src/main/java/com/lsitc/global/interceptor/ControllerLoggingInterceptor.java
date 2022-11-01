@@ -26,20 +26,12 @@ public class ControllerLoggingInterceptor implements HandlerInterceptor {
       throws Exception {
     HandlerInterceptor.super.preHandle(request, response, handler);
 
-    if (isContentTypeJson(request)) {
+    if (isContentTypeJson(request.getContentType())) {
       log.debug(
-          "\n=== Request-{} ====\n" 
-              +    "{} {}\n"
-              +    "Headers : {}\n"
-              +    "RequestParam : {}\n"
-              +    "RequestBody : {}\n"
-              + "==================================================\n",
-              request.getRequestedSessionId(),
-              request.getMethod(), request.getRequestURI(),
-              getHeaders(request),
-              getRequestParam(request),
-              getRequestBody(request)
-          );
+          "\n=== Request-{} ====\n" + "{} {}\n" + "Headers : {}\n" + "RequestParam : {}\n"
+              + "RequestBody : {}\n" + "==================================================\n",
+          request.getRequestedSessionId(), request.getMethod(), request.getRequestURI(),
+          getHeaders(request), getRequestParam(request), getRequestBody(request));
     }
 
     return true;
@@ -50,23 +42,17 @@ public class ControllerLoggingInterceptor implements HandlerInterceptor {
       ModelAndView modelAndView) throws Exception {
     HandlerInterceptor.super.postHandle(request, response, handler, modelAndView);
 
-    if (isContentTypeJson(request)) {
+    if (isContentTypeJson(response.getContentType())) {
       log.debug(
-          "\n=== Response-{} ====\n" 
-              +    "HttpStatus : {}\n"
-              +    "Headers : {}\n"
-              +    "ResponseBody : {}\n"
-              + "==================================================\n",
-              request.getRequestedSessionId(),
-              response.getStatus(),
-              getHeaders(response),
-              getResponseBody(response)
-          );
+          "\n=== Response-{} ====\n" + "HttpStatus : {}\n" + "Headers : {}\n"
+              + "ResponseBody : {}\n" + "==================================================\n",
+          request.getRequestedSessionId(), response.getStatus(), getHeaders(response),
+          getResponseBody(response));
     }
   }
-  
-  private boolean isContentTypeJson(HttpServletRequest request) {
-    return request.getContentType().contains(MediaType.APPLICATION_JSON_VALUE);
+
+  private boolean isContentTypeJson(String contentType) {
+    return contentType != null && contentType.contains(MediaType.APPLICATION_JSON_VALUE);
   }
 
   private String getHeaders(HttpServletRequest request) {
