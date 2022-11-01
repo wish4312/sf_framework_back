@@ -1,5 +1,7 @@
 package com.lsitc.domain.common.auth.controller;
 
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,15 +21,20 @@ import lombok.extern.slf4j.Slf4j;
 public class AuthController {
 
   @PostMapping("/success")
-  public AuthSuccessGetResponseVO loginSuccess() {
-    UserEntity userEntity = (UserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    log.info("login success {}", userEntity.getName());
+  public AuthSuccessGetResponseVO loginSuccess(HttpSession session) {
+    UserEntity userEntity =
+        (UserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    log.info("login success : {}({}) - {}", userEntity.getUserId(), userEntity.getName(),
+        session.getId());
     return AuthSuccessGetResponseVO.of(userEntity);
   }
-  
+
   @PostMapping("/failure")
-  public AuthFailureGetResponseVO loginFailure(@Valid final AuthFailureGetRequestVO authFailureGetRequestVO) {
-    log.info("login failure {}", authFailureGetRequestVO);
+  public AuthFailureGetResponseVO loginFailure(
+      @Valid final AuthFailureGetRequestVO authFailureGetRequestVO, HttpServletResponse response) {
+    log.info("login failure : {} / {}", authFailureGetRequestVO.getUserId(),
+        authFailureGetRequestVO.getPassword());
+    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
     return AuthFailureGetResponseVO.of("로그인에 실패했습니다.");
   }
 }
