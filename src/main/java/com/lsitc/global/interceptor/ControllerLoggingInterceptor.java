@@ -26,7 +26,7 @@ public class ControllerLoggingInterceptor implements HandlerInterceptor {
       throws Exception {
     HandlerInterceptor.super.preHandle(request, response, handler);
 
-    if (request.getContentType().contains(MediaType.APPLICATION_JSON_VALUE)) {
+    if (isContentTypeJson(request)) {
       log.debug(
           "\n=== Request-{} ====\n" 
               +    "{} {}\n"
@@ -50,7 +50,7 @@ public class ControllerLoggingInterceptor implements HandlerInterceptor {
       ModelAndView modelAndView) throws Exception {
     HandlerInterceptor.super.postHandle(request, response, handler, modelAndView);
 
-    if (request.getContentType().contains(MediaType.APPLICATION_JSON_VALUE)) {
+    if (isContentTypeJson(request)) {
       log.debug(
           "\n=== Response-{} ====\n" 
               +    "HttpStatus : {}\n"
@@ -63,6 +63,10 @@ public class ControllerLoggingInterceptor implements HandlerInterceptor {
               getResponseBody(response)
           );
     }
+  }
+  
+  private boolean isContentTypeJson(HttpServletRequest request) {
+    return request.getContentType().contains(MediaType.APPLICATION_JSON_VALUE);
   }
 
   private String getHeaders(HttpServletRequest request) {
