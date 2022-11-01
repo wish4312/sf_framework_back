@@ -11,6 +11,8 @@ public interface GroupCodeDAO {
 
   List<GroupCodeEntity> selectAll();
 
+  List<GroupCodeEntity> selectGroupCodeByConditions(GroupCodeEntity groupCodeEntity);
+
   int insertGroupCode(GroupCodeEntity groupCodeEntity);
 
   int updateGroupCodeById(GroupCodeEntity groupCodeEntity);

@@ -13,6 +13,8 @@ import com.lsitc.domain.common.code.vo.GroupCodeListModifyRequestVO;
 import com.lsitc.domain.common.code.vo.GroupCodeListModifyResponseVO;
 import com.lsitc.domain.common.code.vo.GroupCodeListRemoveRequestVO;
 import com.lsitc.domain.common.code.vo.GroupCodeListRemoveResponseVO;
+import com.lsitc.domain.common.code.vo.GroupCodeListSearchRequestVO;
+import com.lsitc.domain.common.code.vo.GroupCodeListSearchResponseVO;
 import com.lsitc.domain.common.code.vo.GroupCodeModifyRequestVO;
 import com.lsitc.domain.common.code.vo.GroupCodeModifyResponseVO;
 import com.lsitc.domain.common.code.vo.GroupCodeRemoveRequestVO;
@@ -55,11 +57,12 @@ public class GroupCodeController {
   }
 
   @GetMapping("/search")
-  public List<GroupCodeListGetResponseVO> searchGroupCodeList() throws CodeException {
-    // TODO 코드 검색조검에 맞춰서 새로 개발 (DTO 포함)
-    List<GroupCodeListGetResponseVO> groupCodeListGetResponseVOList = codeService.getGroupCodeList();
-    log.info(groupCodeListGetResponseVOList.toString());
-    return groupCodeListGetResponseVOList;
+  public List<GroupCodeListSearchResponseVO> searchGroupCodeList(
+      @Valid final GroupCodeListSearchRequestVO groupCodeListSearchRequestVO) throws CodeException {
+    List<GroupCodeListSearchResponseVO> groupCodeListSearchGetResponseVO
+        = codeService.searchGroupCodeList(groupCodeListSearchRequestVO);
+    log.info(groupCodeListSearchGetResponseVO.toString());
+    return groupCodeListSearchGetResponseVO;
   }
 
   @PostMapping

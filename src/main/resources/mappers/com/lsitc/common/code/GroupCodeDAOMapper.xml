@@ -33,6 +33,30 @@
     FROM sf_group_code
   </select>
 
+  <select id="selectGroupCodeByConditions"
+    resultType="com.lsitc.domain.common.code.entity.GroupCodeEntity">
+    SELECT id
+         , code
+         , name
+         , is_used
+         , remark
+         , created_by
+         , created_date
+         , last_modified_by
+         , last_modified_date
+    FROM sf_group_code
+    WHERE 1=1
+    <if test='code != null and code != ""'>
+      AND code LIKE CONCAT('%', #{code}, '%')
+    </if>
+    <if test='name != null and name != ""'>
+      AND name LIKE CONCAT('%', #{name}, '%')
+    </if>
+    <if test='isUsed != null and isUsed != ""'>
+      AND is_used = #{isUsed}
+    </if>
+  </select>
+
   <insert id="insertGroupCode"
     parameterType="com.lsitc.domain.common.code.entity.GroupCodeEntity"
     useGeneratedKeys="true" keyProperty="id" keyColumn="id">
