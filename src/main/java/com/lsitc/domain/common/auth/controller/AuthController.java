@@ -2,7 +2,6 @@ package com.lsitc.domain.common.auth.controller;
 
 import javax.validation.Valid;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,7 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class AuthController {
 
-  @GetMapping("/success")
+  @PostMapping("/success")
   public AuthSuccessGetResponseVO loginSuccess() {
     UserEntity userEntity = (UserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     log.info("login success {}", userEntity.getName());
