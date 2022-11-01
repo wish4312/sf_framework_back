@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -24,19 +25,22 @@ public class ControllerLoggingInterceptor implements HandlerInterceptor {
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
       throws Exception {
     HandlerInterceptor.super.preHandle(request, response, handler);
-    log.debug(
-        "\n=== Request-{} ====\n" 
-       +    "{} {}\n"
-       +    "Headers : {}\n"
-       +    "RequestParam : {}\n"
-       +    "RequestBody : {}\n"
-       + "==================================================\n",
-        request.getRequestedSessionId(),
-        request.getMethod(), request.getRequestURI(),
-        getHeaders(request),
-        getRequestParam(request),
-        getRequestBody(request)
-    );
+
+    if (request.getContentType().contains(MediaType.APPLICATION_JSON_VALUE)) {
+      log.debug(
+          "\n=== Request-{} ====\n" 
+              +    "{} {}\n"
+              +    "Headers : {}\n"
+              +    "RequestParam : {}\n"
+              +    "RequestBody : {}\n"
+              + "==================================================\n",
+              request.getRequestedSessionId(),
+              request.getMethod(), request.getRequestURI(),
+              getHeaders(request),
+              getRequestParam(request),
+              getRequestBody(request)
+          );
+    }
 
     return true;
   }
@@ -45,17 +49,20 @@ public class ControllerLoggingInterceptor implements HandlerInterceptor {
   public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
       ModelAndView modelAndView) throws Exception {
     HandlerInterceptor.super.postHandle(request, response, handler, modelAndView);
-    log.debug(
-        "\n=== Response-{} ====\n" 
-       +    "HttpStatus : {}\n"
-       +    "Headers : {}\n"
-       +    "ResponseBody : {}\n"
-       + "==================================================\n",
-        request.getRequestedSessionId(),
-        response.getStatus(),
-        getHeaders(response),
-        getResponseBody(response)
-    );
+
+    if (request.getContentType().contains(MediaType.APPLICATION_JSON_VALUE)) {
+      log.debug(
+          "\n=== Response-{} ====\n" 
+              +    "HttpStatus : {}\n"
+              +    "Headers : {}\n"
+              +    "ResponseBody : {}\n"
+              + "==================================================\n",
+              request.getRequestedSessionId(),
+              response.getStatus(),
+              getHeaders(response),
+              getResponseBody(response)
+          );
+    }
   }
 
   private String getHeaders(HttpServletRequest request) {
