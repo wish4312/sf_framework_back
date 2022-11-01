@@ -106,8 +106,7 @@
   </insert>
 
   <insert id="insertSampleWithId"
-    parameterType="com.lsitc.domain.sample.entity.SampleEntity"
-    useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+    parameterType="com.lsitc.domain.sample.entity.SampleEntity">
     INSERT INTO sf_sample
     ( id
     , foo
@@ -117,25 +116,30 @@
     , created_date
     , last_modified_by
     , last_modified_date)
-    VALUES ( #{id}
-           , #{foo}
-           , #{bar}
-           , #{comment}
-           , #{createdBy}
-           , #{createdDate}
-           , #{lastModifiedBy}
-           , #{lastModifiedDate})
+    VALUES
+    <foreach collection="list" item="item" separator=",">
+      ( #{item.id}
+      , #{item.foo}
+      , #{item.bar}
+      , #{item.comment}
+      , #{item.createdBy}
+      , #{item.createdDate}
+      , #{item.lastModifiedBy}
+      , #{item.lastModifiedDate})
+    </foreach>
   </insert>
 
   <update id="updateSampleById"
     parameterType="com.lsitc.domain.sample.entity.SampleEntity">
-    UPDATE sf_sample
-    SET foo                = #{foo}
-      , bar                = #{bar}
-      , comment            = #{comment}
-      , last_modified_by   = #{lastModifiedBy}
-      , last_modified_date = #{lastModifiedDate}
-    WHERE id = #{id}
+    <foreach item="item" collection="list" separator=";">
+      UPDATE sf_sample
+      SET foo                = #{item.foo}
+        , bar                = #{item.bar}
+        , comment            = #{item.comment}
+        , last_modified_by   = #{item.lastModifiedBy}
+        , last_modified_date = #{item.lastModifiedDate}
+      WHERE id = #{item.id}
+      </foreach>
   </update>
 
   <delete id="deleteSampleById"

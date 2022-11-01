@@ -73,10 +73,10 @@ public class SampleController {
 
   @PutMapping
   public SampleModifyResponseVO modifySample(
-      @RequestBody @Valid final SampleModifyRequestVO sampleModifyRequestVO)
+      @RequestBody @Valid final List<SampleModifyRequestVO> sampleModifyRequestVO)
       throws SampleException {
     log.info("put 메소드가 호출되었습니다.");
-    if ("ERROR".equals(sampleModifyRequestVO.getFoo())) {
+    if ("ERROR".equals(sampleModifyRequestVO.get(0).getFoo())) {
       throw new SampleException("오류발생", ErrorCode.INTERNAL_SERVER_ERROR);
     }
     log.info(sampleModifyRequestVO.toString());

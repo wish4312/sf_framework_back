@@ -22,9 +22,9 @@ public interface SampleDAO {
 
   int insertSampleList(List<SampleEntity> sampleEntityList);
 
-  int updateSampleById(SampleEntity sampleEntity);
+  int updateSampleById(List<SampleEntity> sampleEntityList);
 
-  int insertSampleWithId(SampleEntity sampleEntity);
+  int insertSampleWithId(List<SampleEntity> sampleEntityList);
 
   int deleteSampleById(List<SampleEntity> sampleEntityList);
 

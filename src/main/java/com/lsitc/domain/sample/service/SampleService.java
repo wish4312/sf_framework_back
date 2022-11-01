@@ -16,6 +16,7 @@ import com.lsitc.global.paging.Pageable;
 import com.lsitc.global.util.FileUtils;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -65,18 +66,29 @@ public class SampleService {
   }
 
   @Transactional
-  public SampleModifyResponseVO modifySample(final SampleModifyRequestVO sampleModifyRequestVO) {
-    SampleEntity sampleEntity = sampleModifyRequestVO.toEntity();
-    log.info(sampleEntity.toString());
-    int upsertRows = upsertSample(sampleEntity);
-    log.info("sample entity id: {}", sampleEntity.getId());
+  public SampleModifyResponseVO modifySample(
+      final List<SampleModifyRequestVO> sampleModifyRequestVO) {
+    List<SampleEntity> sampleEntityList = sampleModifyRequestVO.stream()
+        .map(SampleModifyRequestVO::toEntity).collect(Collectors.toList());
+    log.info(sampleEntityList.toString());
+
+    List<SampleEntity> updateList = new ArrayList<>();
+    List<SampleEntity> insertList = new ArrayList<>();
+    sampleEntityList.forEach(sampleEntity -> {
+      if (isUpdate(sampleEntity)) {
+        updateList.add(sampleEntity);
+      } else {
+        insertList.add(sampleEntity);
+      }
+    });
+
+    int upsertRows = (updateList.size() > 0 ? sampleDAO.updateSampleById(updateList) : 0)
+        + (insertList.size() > 0 ? sampleDAO.insertSampleWithId(insertList) : 0);
     return SampleModifyResponseVO.of(upsertRows);
   }
 
-  private int upsertSample(SampleEntity targetEntity) {
-    SampleEntity sampleEntity = sampleDAO.selectSampleById(targetEntity);
-    return sampleEntity != null ? sampleDAO.updateSampleById(targetEntity)
-        : sampleDAO.insertSampleWithId(targetEntity);
+  private boolean isUpdate(SampleEntity targetEntity) {
+    return sampleDAO.selectSampleById(targetEntity) != null;
   }
 
   @Transactional
