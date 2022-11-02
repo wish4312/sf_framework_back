@@ -1,8 +1,12 @@
 package com.lsitc.domain.common.code.service;
 
+import com.lsitc.domain.common.code.dao.CodeDAO;
 import com.lsitc.domain.common.code.dao.GroupCodeDAO;
+import com.lsitc.domain.common.code.entity.CodeEntity;
 import com.lsitc.domain.common.code.entity.GroupCodeEntity;
 import com.lsitc.domain.common.code.exception.CodeException;
+import com.lsitc.domain.common.code.vo.CodeAddRequestVO;
+import com.lsitc.domain.common.code.vo.CodeAddResponseVO;
 import com.lsitc.domain.common.code.vo.GroupCodeAddRequestVO;
 import com.lsitc.domain.common.code.vo.GroupCodeAddResponseVO;
 import com.lsitc.domain.common.code.vo.GroupCodeModifyRequestVO;
@@ -24,6 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class CodeService {
 
   private final GroupCodeDAO groupCodeDAO;
+  private final CodeDAO codeDAO;
 
   public List<GroupCodeListSearchResponseVO> searchGroupCodeList(
       final GroupCodeListSearchRequestVO groupCodeListSearchRequestVO) {
@@ -44,6 +49,16 @@ public class CodeService {
             .collect(Collectors.toList());
     int addRows = groupCodeDAO.insertGroupCode(groupCodeEntityList);
     return GroupCodeAddResponseVO.of(addRows);
+  }
+
+  @Transactional
+  public CodeAddResponseVO addCode(
+      final List<CodeAddRequestVO> codeAddRequestVOList) {
+    List<CodeEntity> codeEntityList = codeAddRequestVOList.stream()
+        .map(CodeAddRequestVO::toEntity)
+        .collect(Collectors.toList());
+    int addRows = codeDAO.insertCode(codeEntityList);
+    return CodeAddResponseVO.of(addRows);
   }
 
   @Transactional

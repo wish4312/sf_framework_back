@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lsitc.domain.common.code.dao.CodeDAO">
+  <insert id="insertCode"
+    parameterType="com.lsitc.domain.common.code.entity.CodeEntity">
+    INSERT INTO sf_code
+    ( id
+    , group_code_id
+    , code
+    , name
+    , sort_sequence
+    , is_used
+    , remark
+    , created_by
+    , created_date
+    , last_modified_by
+    , last_modified_date)
+    VALUES
+    <foreach collection="list" item="item" separator=",">
+      ( #{item.id}
+      , #{item.groupCodeId}
+      , #{item.code}
+      , #{item.name}
+      , #{item.sortSequence}
+      , #{item.isUsed}
+      , #{item.remark}
+      , #{item.createdBy}
+      , #{item.createdDate}
+      , #{item.lastModifiedBy}
+      , #{item.lastModifiedDate})
+    </foreach>
+  </insert>
+</mapper>
