@@ -15,7 +15,7 @@ public class AuthSuccessGetResponseVO {
   private final String phoneNumber;
 
   @Builder
-  public AuthSuccessGetResponseVO(Long id, String userId, String name, String email,
+  private AuthSuccessGetResponseVO(Long id, String userId, String name, String email,
       String phoneNumber) {
     this.id = id;
     this.userId = userId;

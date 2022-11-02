@@ -29,7 +29,7 @@ public class UserEntity extends BaseAbstractEntity
   private String phoneNumber;
 
   @Builder
-  public UserEntity(Long id, String userId, String password, String name, String email,
+  private UserEntity(Long id, String userId, String password, String name, String email,
       String phoneNumber) {
     this.id = id;
     this.userId = userId;

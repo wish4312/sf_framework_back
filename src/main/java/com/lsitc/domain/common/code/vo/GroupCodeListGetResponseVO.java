@@ -14,7 +14,7 @@ public class GroupCodeListGetResponseVO {
   private final String rmrk;
 
   @Builder
-  public GroupCodeListGetResponseVO(String commGrpCdId, String commGrpCd, String commGrpNm,
+  private GroupCodeListGetResponseVO(String commGrpCdId, String commGrpCd, String commGrpNm,
       String useFg, String rmrk) {
     this.commGrpCdId = commGrpCdId;
     this.commGrpCd = commGrpCd;

@@ -11,7 +11,7 @@ public class AuthFailureGetRequestVO {
   private final String password;
 
   @Builder
-  public AuthFailureGetRequestVO(String userId, String password) {
+  private AuthFailureGetRequestVO(String userId, String password) {
     this.userId = userId;
     this.password = password;
   }

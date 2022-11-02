@@ -20,7 +20,7 @@ public class UserInfoGetResponseVO {
   private final LocalDateTime lastModifiedDate;
 
   @Builder
-  public UserInfoGetResponseVO(Long id, String userId, String name, String email,
+  private UserInfoGetResponseVO(Long id, String userId, String name, String email,
       String phoneNumber, Long createdBy, LocalDateTime createdDate, Long lastModifiedBy,
       LocalDateTime lastModifiedDate) {
     this.id = id;

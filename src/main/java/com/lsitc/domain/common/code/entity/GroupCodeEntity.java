@@ -19,7 +19,7 @@ public class GroupCodeEntity extends BaseAbstractEntity implements Auditable<Lon
   private String remark;
 
   @Builder
-  public GroupCodeEntity(Long id, String code, String name, boolean isUsed, String remark) {
+  private GroupCodeEntity(Long id, String code, String name, boolean isUsed, String remark) {
     this.id = id;
     this.code = code;
     this.name = name;

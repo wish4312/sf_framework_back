@@ -10,7 +10,7 @@ public class AuthFailureGetResponseVO {
   private final String message;
 
   @Builder
-  public AuthFailureGetResponseVO(String message) {
+  private AuthFailureGetResponseVO(String message) {
     this.message = message;
   }
 

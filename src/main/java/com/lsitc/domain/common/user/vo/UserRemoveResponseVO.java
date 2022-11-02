@@ -10,7 +10,7 @@ public class UserRemoveResponseVO {
   private final String result;
 
   @Builder
-  public UserRemoveResponseVO(String result) {
+  private UserRemoveResponseVO(String result) {
     this.result = result;
   }
 
