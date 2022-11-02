@@ -4,21 +4,12 @@ import com.lsitc.domain.common.code.exception.CodeException;
 import com.lsitc.domain.common.code.service.CodeService;
 import com.lsitc.domain.common.code.vo.GroupCodeAddRequestVO;
 import com.lsitc.domain.common.code.vo.GroupCodeAddResponseVO;
-import com.lsitc.domain.common.code.vo.GroupCodeInfoGetRequestVO;
-import com.lsitc.domain.common.code.vo.GroupCodeInfoGetResponseVO;
-import com.lsitc.domain.common.code.vo.GroupCodeListAddRequestVO;
-import com.lsitc.domain.common.code.vo.GroupCodeListAddResponseVO;
-import com.lsitc.domain.common.code.vo.GroupCodeListGetResponseVO;
-import com.lsitc.domain.common.code.vo.GroupCodeListModifyRequestVO;
-import com.lsitc.domain.common.code.vo.GroupCodeListModifyResponseVO;
-import com.lsitc.domain.common.code.vo.GroupCodeListRemoveRequestVO;
-import com.lsitc.domain.common.code.vo.GroupCodeListRemoveResponseVO;
-import com.lsitc.domain.common.code.vo.GroupCodeListSearchRequestVO;
-import com.lsitc.domain.common.code.vo.GroupCodeListSearchResponseVO;
 import com.lsitc.domain.common.code.vo.GroupCodeModifyRequestVO;
 import com.lsitc.domain.common.code.vo.GroupCodeModifyResponseVO;
 import com.lsitc.domain.common.code.vo.GroupCodeRemoveRequestVO;
 import com.lsitc.domain.common.code.vo.GroupCodeRemoveResponseVO;
+import com.lsitc.domain.common.code.vo.GroupCodeListSearchRequestVO;
+import com.lsitc.domain.common.code.vo.GroupCodeListSearchResponseVO;
 import java.util.List;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -39,23 +30,6 @@ public class GroupCodeController {
 
   private final CodeService codeService;
 
-  @GetMapping
-  public GroupCodeInfoGetResponseVO getGroupCodeInfo(
-      @Valid final GroupCodeInfoGetRequestVO groupCodeInfoGetRequestVO) throws CodeException {
-    log.info(groupCodeInfoGetRequestVO.toString());
-    GroupCodeInfoGetResponseVO groupCodeInfoGetResponseVO = codeService.getGroupCodeInfo(
-        groupCodeInfoGetRequestVO);
-    log.info(groupCodeInfoGetResponseVO.toString());
-    return groupCodeInfoGetResponseVO;
-  }
-
-  @GetMapping("/list")
-  public List<GroupCodeListGetResponseVO> getGroupCodeList() throws CodeException {
-    List<GroupCodeListGetResponseVO> groupCodeListGetResponseVOList = codeService.getGroupCodeList();
-    log.info(groupCodeListGetResponseVOList.toString());
-    return groupCodeListGetResponseVOList;
-  }
-
   @GetMapping("/search")
   public List<GroupCodeListSearchResponseVO> searchGroupCodeList(
       @Valid final GroupCodeListSearchRequestVO groupCodeListSearchRequestVO) throws CodeException {
@@ -67,62 +41,31 @@ public class GroupCodeController {
 
   @PostMapping
   public GroupCodeAddResponseVO addGroupCode(
-      @RequestBody @Valid final GroupCodeAddRequestVO groupCodeAddRequestVO) throws CodeException {
-    log.info(groupCodeAddRequestVO.toString());
-    GroupCodeAddResponseVO groupCodeAddResponseVO = codeService.addGroupCode(groupCodeAddRequestVO);
+      @RequestBody @Valid final List<GroupCodeAddRequestVO> groupCodeAddRequestVOList)
+      throws CodeException {
+    GroupCodeAddResponseVO groupCodeAddResponseVO = codeService.addGroupCode(
+        groupCodeAddRequestVOList);
     log.info(groupCodeAddResponseVO.toString());
     return groupCodeAddResponseVO;
   }
 
-  @PostMapping("/list")
-  public GroupCodeListAddResponseVO addGroupCodeList(
-      @RequestBody @Valid final List<GroupCodeListAddRequestVO> groupCodeListAddRequestVOList)
-      throws CodeException {
-    GroupCodeListAddResponseVO groupCodeListAddResponseVO = codeService.addGroupCodeList(
-        groupCodeListAddRequestVOList);
-    log.info(groupCodeListAddResponseVO.toString());
-    return groupCodeListAddResponseVO;
-  }
-
   @PutMapping
   public GroupCodeModifyResponseVO modifyGroupCode(
-      @RequestBody @Valid final GroupCodeModifyRequestVO groupCodeModifyRequestVO)
+      @RequestBody @Valid final List<GroupCodeModifyRequestVO> groupCodeModifyRequestVOList)
       throws CodeException {
-    log.info(groupCodeModifyRequestVO.toString());
     GroupCodeModifyResponseVO groupCodeModifyResponseVO = codeService.modifyGroupCode(
-        groupCodeModifyRequestVO);
+        groupCodeModifyRequestVOList);
     log.info(groupCodeModifyResponseVO.toString());
     return groupCodeModifyResponseVO;
   }
 
-  @PutMapping("/list")
-  public GroupCodeListModifyResponseVO modifyGroupCodeList(
-      @RequestBody @Valid final List<GroupCodeListModifyRequestVO> groupCodeListModifyRequestVOList)
-      throws CodeException {
-    GroupCodeListModifyResponseVO groupCodeListModifyResponseVO = codeService.modifyGroupCodeList(
-        groupCodeListModifyRequestVOList);
-    log.info(groupCodeListModifyResponseVO.toString());
-    return groupCodeListModifyResponseVO;
-  }
-
   @DeleteMapping
   public GroupCodeRemoveResponseVO removeGroupCode(
-      @RequestBody @Valid final GroupCodeRemoveRequestVO groupCodeRemoveRequestVO)
+      @RequestBody @Valid final List<GroupCodeRemoveRequestVO> groupCodeRemoveRequestVOList)
       throws CodeException {
-    log.info(groupCodeRemoveRequestVO.toString());
     GroupCodeRemoveResponseVO groupCodeRemoveResponseVO = codeService.removeGroupCode(
-        groupCodeRemoveRequestVO);
+        groupCodeRemoveRequestVOList);
     log.info(groupCodeRemoveResponseVO.toString());
     return groupCodeRemoveResponseVO;
-  }
-
-  @DeleteMapping("/list")
-  public GroupCodeListRemoveResponseVO removeGroupCodeList(
-      @RequestBody @Valid final List<GroupCodeListRemoveRequestVO> groupCodeListRemoveRequestVOList)
-      throws CodeException {
-    GroupCodeListRemoveResponseVO groupCodeListRemoveResponseVO = codeService.removeGroupCodeList(
-        groupCodeListRemoveRequestVOList);
-    log.info(groupCodeListRemoveResponseVO.toString());
-    return groupCodeListRemoveResponseVO;
   }
 }

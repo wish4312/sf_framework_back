@@ -19,20 +19,6 @@
     WHERE id = #{id}
   </select>
 
-  <select id="selectAll"
-    resultType="com.lsitc.domain.common.code.entity.GroupCodeEntity">
-    SELECT id
-         , code
-         , name
-         , is_used
-         , remark
-         , created_by
-         , created_date
-         , last_modified_by
-         , last_modified_date
-    FROM sf_group_code
-  </select>
-
   <select id="selectGroupCodeByConditions"
     resultType="com.lsitc.domain.common.code.entity.GroupCodeEntity">
     SELECT id
@@ -58,28 +44,6 @@
   </select>
 
   <insert id="insertGroupCode"
-    parameterType="com.lsitc.domain.common.code.entity.GroupCodeEntity"
-    useGeneratedKeys="true" keyProperty="id" keyColumn="id">
-    INSERT INTO sf_group_code
-    ( code
-    , name
-    , is_used
-    , remark
-    , created_by
-    , created_date
-    , last_modified_by
-    , last_modified_date)
-    VALUES ( #{code}
-           , #{name}
-           , #{isUsed}
-           , #{remark}
-           , #{createdBy}
-           , #{createdDate}
-           , #{lastModifiedBy}
-           , #{lastModifiedDate})
-  </insert>
-
-  <insert id="insertGroupCodeList"
     parameterType="com.lsitc.domain.common.code.entity.GroupCodeEntity">
     INSERT INTO sf_group_code
     ( code
@@ -142,17 +106,9 @@
     parameterType="com.lsitc.domain.common.code.entity.GroupCodeEntity">
     DELETE
     FROM sf_group_code
-    WHERE id = #{id}
-  </delete>
-
-  <delete id="deleteGroupCodeListById"
-    parameterType="com.lsitc.domain.common.code.entity.GroupCodeEntity">
-    DELETE
-    FROM sf_group_code
-    <where>
-      <foreach collection="list" item="item" separator="OR">
-        id = #{item.id}
-      </foreach>
-    </where>
+    WHERE
+    <foreach collection="list" item="item" separator="OR">
+      id = #{item.id}
+    </foreach>
   </delete>
 </mapper>
