@@ -10,7 +10,6 @@ import com.lsitc.domain.common.menu.entity.MenuEntity;
 import com.lsitc.domain.common.menu.exception.MenuException;
 import com.lsitc.domain.common.menu.vo.MenuAddRequestVO;
 import com.lsitc.domain.common.menu.vo.MenuAddResponseVO;
-import com.lsitc.domain.common.menu.vo.MenuInfoGetResponseVO;
 import com.lsitc.domain.common.menu.vo.MenuListGetResponseVO;
 import com.lsitc.domain.common.menu.vo.MenuModifyRequestVO;
 import com.lsitc.domain.common.menu.vo.MenuModifyResponseVO;
@@ -18,7 +17,6 @@ import com.lsitc.domain.common.menu.vo.MenuRemoveRequestVO;
 import com.lsitc.domain.common.menu.vo.MenuRemoveResponseVO;
 import com.lsitc.domain.common.menu.vo.MenuSearchListGetRequestVO;
 import com.lsitc.domain.common.menu.vo.MenuSearchListGetResponseVO;
-import com.lsitc.global.common.TreeAbstractVO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -31,20 +29,14 @@ public class MenuService {
 
   public MenuListGetResponseVO getMenuList() throws MenuException {
     List<MenuEntity> menuEntityList = menuDAO.selectAll();
-    List<MenuInfoGetResponseVO> menuList =
-        menuEntityList.stream().map(MenuInfoGetResponseVO::of).collect(Collectors.toList());
-    List<TreeAbstractVO> treeList = TreeAbstractVO.getTree(menuList);
-    return MenuListGetResponseVO.of(menuList, treeList);
+    return MenuListGetResponseVO.of(menuEntityList);
   }
 
   public MenuSearchListGetResponseVO searchMenuList(
       final MenuSearchListGetRequestVO menuSearchListGetRequestVO) {
     MenuEntity menuEntity = menuSearchListGetRequestVO.toEntity();
     List<MenuEntity> menuEntityList = menuDAO.selectMenuByConditions(menuEntity);
-    List<MenuInfoGetResponseVO> menuList =
-        menuEntityList.stream().map(MenuInfoGetResponseVO::of).collect(Collectors.toList());
-    List<TreeAbstractVO> treeList = TreeAbstractVO.getTree(menuList);
-    return MenuSearchListGetResponseVO.of(menuList, treeList);
+    return MenuSearchListGetResponseVO.of(menuEntityList);
   }
 
   @Transactional

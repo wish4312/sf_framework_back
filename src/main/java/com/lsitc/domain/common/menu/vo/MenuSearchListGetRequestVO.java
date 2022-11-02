@@ -9,14 +9,10 @@ import lombok.Getter;
 @AllArgsConstructor
 public class MenuSearchListGetRequestVO {
 
-  private final String useFg;
-
   public MenuEntity toEntity() {
-    return MenuEntity.builder()
-        .isUsed("1".equals(useFg))
-        .build();
+    return MenuEntity.builder().build();
   }
-  
+
   @Override
   public String toString() {
     return ToStringBuilder.reflectionToString(this);

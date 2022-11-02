@@ -2,13 +2,14 @@ package com.lsitc.domain.common.menu.vo;
 
 import java.time.LocalDateTime;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 import com.lsitc.domain.common.menu.entity.MenuEntity;
 import com.lsitc.global.common.TreeAbstractVO;
 import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-public class MenuInfoGetResponseVO extends TreeAbstractVO{
+public class MenuTreeGetResponseVO extends TreeAbstractVO {
 
   private final Long menuId;
   private final String menuNm;
@@ -22,7 +23,7 @@ public class MenuInfoGetResponseVO extends TreeAbstractVO{
   private final LocalDateTime procDttm;
 
   @Builder
-  private MenuInfoGetResponseVO(Long menuId, String menuNm, Long upMenuId, String url,
+  private MenuTreeGetResponseVO(Long menuId, String menuNm, Long upMenuId, String url,
       String useFg, int sortSeq, Long regUserNo, LocalDateTime regDttm, Long procUserNo,
       LocalDateTime procDttm) {
     this.menuId = menuId;
@@ -37,7 +38,7 @@ public class MenuInfoGetResponseVO extends TreeAbstractVO{
     this.procDttm = procDttm;
   }
 
-  public static MenuInfoGetResponseVO of(MenuEntity menuEntity) {
+  public static MenuTreeGetResponseVO of(MenuEntity menuEntity) {
     return builder()
         .menuId(menuEntity.getId())
         .menuNm(menuEntity.getName())
@@ -54,16 +55,16 @@ public class MenuInfoGetResponseVO extends TreeAbstractVO{
 
   @Override
   public String toString() {
-    return ToStringBuilder.reflectionToString(this);
+    return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
   }
 
   @Override
-  public Long getId() {
+  public Long id() {
     return Long.valueOf(this.menuId);
   }
 
   @Override
-  public Long getParentsId() {
+  public Long parentsId() {
     return this.upMenuId != null ? Long.valueOf(this.upMenuId) : null;
   }
 }
