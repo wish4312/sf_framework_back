@@ -4,10 +4,13 @@ import com.lsitc.domain.common.code.exception.CodeException;
 import com.lsitc.domain.common.code.service.CodeService;
 import com.lsitc.domain.common.code.vo.CodeAddRequestVO;
 import com.lsitc.domain.common.code.vo.CodeAddResponseVO;
+import com.lsitc.domain.common.code.vo.CodeRemoveRequestVO;
+import com.lsitc.domain.common.code.vo.CodeRemoveResponseVO;
 import java.util.List;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,5 +31,15 @@ public class CodeController {
     CodeAddResponseVO codeAddResponseVO = codeService.addCode(codeListAddRequestVO);
     log.info(codeAddResponseVO.toString());
     return codeAddResponseVO;
+  }
+
+  @DeleteMapping
+  public CodeRemoveResponseVO removeCode(
+      @RequestBody @Valid final List<CodeRemoveRequestVO> codeRemoveRequestVOList)
+      throws CodeException {
+    CodeRemoveResponseVO codeRemoveResponseVO = codeService.removeCode(
+        codeRemoveRequestVOList);
+    log.info(codeRemoveResponseVO.toString());
+    return codeRemoveResponseVO;
   }
 }

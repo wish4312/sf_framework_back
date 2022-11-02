@@ -8,4 +8,6 @@ import org.apache.ibatis.annotations.Mapper;
 public interface CodeDAO {
 
   int insertCode(List<CodeEntity> codeEntityList);
+
+  int deleteCodeById(List<CodeEntity> codeEntityList);
 }

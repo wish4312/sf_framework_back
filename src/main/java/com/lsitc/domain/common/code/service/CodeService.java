@@ -7,14 +7,16 @@ import com.lsitc.domain.common.code.entity.GroupCodeEntity;
 import com.lsitc.domain.common.code.exception.CodeException;
 import com.lsitc.domain.common.code.vo.CodeAddRequestVO;
 import com.lsitc.domain.common.code.vo.CodeAddResponseVO;
+import com.lsitc.domain.common.code.vo.CodeRemoveRequestVO;
+import com.lsitc.domain.common.code.vo.CodeRemoveResponseVO;
 import com.lsitc.domain.common.code.vo.GroupCodeAddRequestVO;
 import com.lsitc.domain.common.code.vo.GroupCodeAddResponseVO;
+import com.lsitc.domain.common.code.vo.GroupCodeListSearchRequestVO;
+import com.lsitc.domain.common.code.vo.GroupCodeListSearchResponseVO;
 import com.lsitc.domain.common.code.vo.GroupCodeModifyRequestVO;
 import com.lsitc.domain.common.code.vo.GroupCodeModifyResponseVO;
 import com.lsitc.domain.common.code.vo.GroupCodeRemoveRequestVO;
 import com.lsitc.domain.common.code.vo.GroupCodeRemoveResponseVO;
-import com.lsitc.domain.common.code.vo.GroupCodeListSearchRequestVO;
-import com.lsitc.domain.common.code.vo.GroupCodeListSearchResponseVO;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
@@ -91,5 +93,16 @@ public class CodeService {
     }
     int deleteRows = groupCodeDAO.deleteGroupCodeById(groupCodeEntityList);
     return GroupCodeRemoveResponseVO.of(deleteRows);
+  }
+
+  public CodeRemoveResponseVO removeCode(final List<CodeRemoveRequestVO> codeRemoveRequestVOList) {
+    List<CodeEntity> codeEntityList =
+        codeRemoveRequestVOList.stream().map(CodeRemoveRequestVO::toEntity)
+            .collect(Collectors.toList());
+    if (codeEntityList.size() < 1) {
+      throw new CodeException("Parameter is empty");
+    }
+    int deleteRows = codeDAO.deleteCodeById(codeEntityList);
+    return CodeRemoveResponseVO.of(deleteRows);
   }
 }

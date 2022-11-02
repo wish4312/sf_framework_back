@@ -32,4 +32,14 @@
       , #{item.lastModifiedDate})
     </foreach>
   </insert>
+
+  <delete id="deleteCodeById"
+    parameterType="com.lsitc.domain.common.code.entity.CodeEntity">
+    DELETE
+    FROM sf_code
+    WHERE
+    <foreach collection="list" item="item" separator="OR">
+      id = #{item.id}
+    </foreach>
+  </delete>
 </mapper>
