@@ -8,18 +8,28 @@ import java.util.stream.Collectors;
 import com.lsitc.global.error.exception.BusinessException;
 import com.lsitc.global.error.exception.ErrorCode;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
+@Setter
 public abstract class TreeAbstractVO implements Cloneable {
   private List<TreeAbstractVO> children;
+  private Integer level;
 
   public abstract Long getId();
+
   public abstract Long getParentsId();
 
   private void addChild(TreeAbstractVO child) {
-    if (this.children == null)
-      this.children = new ArrayList<TreeAbstractVO>();
+    child.addLevel(this.level);
     this.children.add(child);
+  }
+
+  private void addLevel(int parentsLevel) {
+    this.level = parentsLevel + 1;
+    this.children.forEach(vo -> {
+      vo.addLevel(this.level);
+    });
   }
 
   public static <T extends TreeAbstractVO> List<TreeAbstractVO> getTree(List<T> list)
@@ -49,7 +59,10 @@ public abstract class TreeAbstractVO implements Cloneable {
 
   @Override
   protected Object clone() throws CloneNotSupportedException {
-    return super.clone();
+    TreeAbstractVO cloneVo = (TreeAbstractVO) super.clone();
+    cloneVo.setLevel(1);
+    cloneVo.setChildren(new ArrayList<TreeAbstractVO>());
+    return cloneVo;
   }
 
 }
