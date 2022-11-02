@@ -32,16 +32,17 @@ public class MenuController {
   private final MenuService menuService;
 
   @GetMapping("/list")
-  public List<MenuListGetResponseVO> getMenuList() {
-    List<MenuListGetResponseVO> menuListGetResponseVOList = menuService.getMenuList();
+  public MenuListGetResponseVO getMenuList() throws MenuException {
+    MenuListGetResponseVO menuListGetResponseVOList = menuService.getMenuList();
     log.info(menuListGetResponseVOList.toString());
     return menuListGetResponseVOList;
   }
 
   @GetMapping("/search")
-  public List<MenuSearchListGetResponseVO> searchMenuList(
-      @Valid final MenuSearchListGetRequestVO menuSearchListGetRequestVO) {
-    List<MenuSearchListGetResponseVO> menuSearchListGetResponseVO =
+  public MenuSearchListGetResponseVO searchMenuList(
+      @Valid final MenuSearchListGetRequestVO menuSearchListGetRequestVO) throws MenuException {
+    log.info(menuSearchListGetRequestVO.toString());
+    MenuSearchListGetResponseVO menuSearchListGetResponseVO =
         menuService.searchMenuList(menuSearchListGetRequestVO);
     log.info(menuSearchListGetResponseVO.toString());
     return menuSearchListGetResponseVO;
