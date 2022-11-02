@@ -10,4 +10,6 @@ public interface CodeDAO {
   int insertCode(List<CodeEntity> codeEntityList);
 
   int deleteCodeById(List<CodeEntity> codeEntityList);
+
+  List<CodeEntity> selectCodeByConditions(CodeEntity codeEntity);
 }

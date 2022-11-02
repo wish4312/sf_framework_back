@@ -7,6 +7,8 @@ import com.lsitc.domain.common.code.entity.GroupCodeEntity;
 import com.lsitc.domain.common.code.exception.CodeException;
 import com.lsitc.domain.common.code.vo.CodeAddRequestVO;
 import com.lsitc.domain.common.code.vo.CodeAddResponseVO;
+import com.lsitc.domain.common.code.vo.CodeListSearchRequestVO;
+import com.lsitc.domain.common.code.vo.CodeListSearchResponseVO;
 import com.lsitc.domain.common.code.vo.CodeRemoveRequestVO;
 import com.lsitc.domain.common.code.vo.CodeRemoveResponseVO;
 import com.lsitc.domain.common.code.vo.GroupCodeAddRequestVO;
@@ -39,6 +41,18 @@ public class CodeService {
     List<GroupCodeEntity> groupCodeEntityList = groupCodeDAO.selectGroupCodeByConditions(
         groupCodeEntity);
     return groupCodeEntityList.stream().map(GroupCodeListSearchResponseVO::of)
+        .collect(Collectors.toList());
+  }
+
+  public List<CodeListSearchResponseVO> searchCodeList(
+      final CodeListSearchRequestVO codeListSearchRequestVO) {
+    CodeEntity codeEntity = codeListSearchRequestVO.toEntity();
+    log.info(codeEntity.toString());
+    List<CodeEntity> codeEntityList = codeDAO.selectCodeByConditions(codeEntity);
+    GroupCodeEntity groupCodeEntity = groupCodeDAO.selectGroupCodeById(
+        GroupCodeEntity.builder().id(codeEntity.getGroupCodeId()).build());
+    return codeEntityList.stream()
+        .map(entity -> CodeListSearchResponseVO.of(entity, groupCodeEntity))
         .collect(Collectors.toList());
   }
 

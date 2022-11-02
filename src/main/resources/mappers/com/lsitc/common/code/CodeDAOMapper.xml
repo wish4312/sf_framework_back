@@ -3,11 +3,30 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lsitc.domain.common.code.dao.CodeDAO">
+  <select id="selectCodeByConditions"
+    resultType="com.lsitc.domain.common.code.entity.CodeEntity">
+    SELECT id
+    , group_code_id
+    , code
+    , name
+    , sort_sequence
+    , is_used
+    , remark
+    , created_by
+    , created_date
+    , last_modified_by
+    , last_modified_date
+    FROM sf_code
+    WHERE 1=1
+    <if test='groupCodeId != null and groupCodeId != ""'>
+      AND group_code_id = #{groupCodeId}
+    </if>
+  </select>
+
   <insert id="insertCode"
     parameterType="com.lsitc.domain.common.code.entity.CodeEntity">
     INSERT INTO sf_code
-    ( id
-    , group_code_id
+    ( group_code_id
     , code
     , name
     , sort_sequence
@@ -19,8 +38,7 @@
     , last_modified_date)
     VALUES
     <foreach collection="list" item="item" separator=",">
-      ( #{item.id}
-      , #{item.groupCodeId}
+      ( #{item.groupCodeId}
       , #{item.code}
       , #{item.name}
       , #{item.sortSequence}

@@ -4,6 +4,8 @@ import com.lsitc.domain.common.code.exception.CodeException;
 import com.lsitc.domain.common.code.service.CodeService;
 import com.lsitc.domain.common.code.vo.CodeAddRequestVO;
 import com.lsitc.domain.common.code.vo.CodeAddResponseVO;
+import com.lsitc.domain.common.code.vo.CodeListSearchRequestVO;
+import com.lsitc.domain.common.code.vo.CodeListSearchResponseVO;
 import com.lsitc.domain.common.code.vo.CodeRemoveRequestVO;
 import com.lsitc.domain.common.code.vo.CodeRemoveResponseVO;
 import java.util.List;
@@ -11,6 +13,7 @@ import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +26,15 @@ import org.springframework.web.bind.annotation.RestController;
 public class CodeController {
 
   private final CodeService codeService;
+
+  @GetMapping("/search")
+  public List<CodeListSearchResponseVO> searchCodeList(
+      @Valid final CodeListSearchRequestVO codeListSearchRequestVO) throws CodeException {
+    List<CodeListSearchResponseVO> codeListSearchGetResponseVO
+        = codeService.searchCodeList(codeListSearchRequestVO);
+    log.info(codeListSearchGetResponseVO.toString());
+    return codeListSearchGetResponseVO;
+  }
 
   @PostMapping
   public CodeAddResponseVO addCode(
