@@ -1,13 +1,16 @@
 package com.lsitc.domain.common.menu.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.lsitc.domain.common.menu.dao.MenuDAO;
 import com.lsitc.domain.common.menu.entity.MenuEntity;
+import com.lsitc.domain.common.menu.exception.MenuException;
 import com.lsitc.domain.common.menu.vo.MenuAddRequestVO;
 import com.lsitc.domain.common.menu.vo.MenuAddResponseVO;
+import com.lsitc.domain.common.menu.vo.MenuInfoGetResponseVO;
 import com.lsitc.domain.common.menu.vo.MenuListGetResponseVO;
 import com.lsitc.domain.common.menu.vo.MenuModifyRequestVO;
 import com.lsitc.domain.common.menu.vo.MenuModifyResponseVO;
@@ -15,6 +18,7 @@ import com.lsitc.domain.common.menu.vo.MenuRemoveRequestVO;
 import com.lsitc.domain.common.menu.vo.MenuRemoveResponseVO;
 import com.lsitc.domain.common.menu.vo.MenuSearchListGetRequestVO;
 import com.lsitc.domain.common.menu.vo.MenuSearchListGetResponseVO;
+import com.lsitc.global.common.TreeAbstractVO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -25,18 +29,22 @@ public class MenuService {
 
   private final MenuDAO menuDAO;
 
-  public List<MenuListGetResponseVO> getMenuList() {
-    List<MenuEntity> resultEntityList = menuDAO.selectAll();
-    return resultEntityList.stream().map(MenuListGetResponseVO::of).collect(Collectors.toList());
+  public MenuListGetResponseVO getMenuList() throws MenuException {
+    List<MenuEntity> menuEntityList = menuDAO.selectAll();
+    List<MenuInfoGetResponseVO> menuList =
+        menuEntityList.stream().map(MenuInfoGetResponseVO::of).collect(Collectors.toList());
+    List<TreeAbstractVO> treeList = TreeAbstractVO.getTree(menuList);
+    return MenuListGetResponseVO.of(menuList, treeList);
   }
 
-  public List<MenuSearchListGetResponseVO> searchMenuList(
+  public MenuSearchListGetResponseVO searchMenuList(
       final MenuSearchListGetRequestVO menuSearchListGetRequestVO) {
     MenuEntity menuEntity = menuSearchListGetRequestVO.toEntity();
-    log.info(menuEntity.toString());
     List<MenuEntity> menuEntityList = menuDAO.selectMenuByConditions(menuEntity);
-    return menuEntityList.stream().map(MenuSearchListGetResponseVO::of)
-        .collect(Collectors.toList());
+    List<MenuInfoGetResponseVO> menuList =
+        menuEntityList.stream().map(MenuInfoGetResponseVO::of).collect(Collectors.toList());
+    List<TreeAbstractVO> treeList = TreeAbstractVO.getTree(menuList);
+    return MenuSearchListGetResponseVO.of(menuList, treeList);
   }
 
   @Transactional
@@ -54,10 +62,16 @@ public class MenuService {
     List<MenuEntity> menuEntityList = menuModifyRequestVO.stream()
         .map(MenuModifyRequestVO::toEntity).collect(Collectors.toList());
 
-    List<MenuEntity> updateList =
-        menuEntityList.stream().filter(vo -> isUpdate(vo)).collect(Collectors.toList());
-    List<MenuEntity> insertList =
-        menuEntityList.stream().filter(vo -> !isUpdate(vo)).collect(Collectors.toList());
+    List<MenuEntity> updateList = new ArrayList<>();
+    List<MenuEntity> insertList = new ArrayList<>();
+
+    menuEntityList.forEach(menuEntity -> {
+      if (isUpdate(menuEntity)) {
+        updateList.add(menuEntity);
+      } else {
+        insertList.add(menuEntity);
+      }
+    });
 
     int upsertRows = (updateList.size() > 0 ? menuDAO.updateMenuById(updateList) : 0)
         + (insertList.size() > 0 ? menuDAO.insertMenuListWithId(insertList) : 0);
