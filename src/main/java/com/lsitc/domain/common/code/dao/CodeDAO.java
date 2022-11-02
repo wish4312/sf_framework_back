@@ -7,9 +7,15 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface CodeDAO {
 
-  int insertCode(List<CodeEntity> codeEntityList);
-
-  int deleteCodeById(List<CodeEntity> codeEntityList);
+  CodeEntity selectCodeById(CodeEntity codeEntity);
 
   List<CodeEntity> selectCodeByConditions(CodeEntity codeEntity);
+
+  int insertCode(List<CodeEntity> codeEntityList);
+
+  int insertCodeWithId(List<CodeEntity> codeEntityList);
+
+  int updateCodeById(List<CodeEntity> codeEntityList);
+
+  int deleteCodeById(List<CodeEntity> codeEntityList);
 }

@@ -9,6 +9,8 @@ import com.lsitc.domain.common.code.vo.CodeAddRequestVO;
 import com.lsitc.domain.common.code.vo.CodeAddResponseVO;
 import com.lsitc.domain.common.code.vo.CodeListSearchRequestVO;
 import com.lsitc.domain.common.code.vo.CodeListSearchResponseVO;
+import com.lsitc.domain.common.code.vo.CodeModifyRequestVO;
+import com.lsitc.domain.common.code.vo.CodeModifyResponseVO;
 import com.lsitc.domain.common.code.vo.CodeRemoveRequestVO;
 import com.lsitc.domain.common.code.vo.CodeRemoveResponseVO;
 import com.lsitc.domain.common.code.vo.GroupCodeAddRequestVO;
@@ -19,6 +21,7 @@ import com.lsitc.domain.common.code.vo.GroupCodeModifyRequestVO;
 import com.lsitc.domain.common.code.vo.GroupCodeModifyResponseVO;
 import com.lsitc.domain.common.code.vo.GroupCodeRemoveRequestVO;
 import com.lsitc.domain.common.code.vo.GroupCodeRemoveResponseVO;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
@@ -97,6 +100,31 @@ public class CodeService {
   }
 
   @Transactional
+  public CodeModifyResponseVO modifyCode(final List<CodeModifyRequestVO> codeModifyRequestVOList) {
+    List<CodeEntity> codeEntityList = codeModifyRequestVOList.stream()
+        .map(CodeModifyRequestVO::toEntity).collect(Collectors.toList());
+    log.info(codeEntityList.toString());
+
+    List<CodeEntity> updateList = new ArrayList<>();
+    List<CodeEntity> insertList = new ArrayList<>();
+    codeEntityList.forEach(codeEntity -> {
+      if (existsCode(codeEntity)) {
+        updateList.add(codeEntity);
+      } else {
+        insertList.add(codeEntity);
+      }
+    });
+
+    int upsertRows = (updateList.size() > 0 ? codeDAO.updateCodeById(updateList) : 0)
+        + (insertList.size() > 0 ? codeDAO.insertCodeWithId(insertList) : 0);
+    return CodeModifyResponseVO.of(upsertRows);
+  }
+
+  private boolean existsCode(CodeEntity targetEntity) {
+    return codeDAO.selectCodeById(targetEntity) != null;
+  }
+
+  @Transactional
   public GroupCodeRemoveResponseVO removeGroupCode(
       final List<GroupCodeRemoveRequestVO> groupCodeRemoveRequestVOList) {
     List<GroupCodeEntity> groupCodeEntityList =
@@ -109,6 +137,7 @@ public class CodeService {
     return GroupCodeRemoveResponseVO.of(deleteRows);
   }
 
+  @Transactional
   public CodeRemoveResponseVO removeCode(final List<CodeRemoveRequestVO> codeRemoveRequestVOList) {
     List<CodeEntity> codeEntityList =
         codeRemoveRequestVOList.stream().map(CodeRemoveRequestVO::toEntity)
