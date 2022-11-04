@@ -11,7 +11,7 @@ import lombok.Getter;
 @Getter
 public class MenuTreeGetResponseVO extends TreeAbstractVO {
 
-  private final Long menuId;
+  private final String menuId;
   private final String menuNm;
   private final Long upMenuId;
   private final String url;
@@ -23,7 +23,7 @@ public class MenuTreeGetResponseVO extends TreeAbstractVO {
   private final LocalDateTime procDttm;
 
   @Builder
-  private MenuTreeGetResponseVO(Long menuId, String menuNm, Long upMenuId, String url,
+  private MenuTreeGetResponseVO(String menuId, String menuNm, Long upMenuId, String url,
       String useFg, int sortSeq, Long regUserNo, LocalDateTime regDttm, Long procUserNo,
       LocalDateTime procDttm) {
     this.menuId = menuId;
@@ -40,7 +40,7 @@ public class MenuTreeGetResponseVO extends TreeAbstractVO {
 
   public static MenuTreeGetResponseVO of(MenuEntity menuEntity) {
     return builder()
-        .menuId(menuEntity.getId())
+        .menuId(String.valueOf(menuEntity.getId()))
         .menuNm(menuEntity.getName())
         .upMenuId(menuEntity.getParentsId())
         .url(menuEntity.getUrl())
