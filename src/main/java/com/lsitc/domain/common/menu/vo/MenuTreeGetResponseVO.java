@@ -13,7 +13,7 @@ public class MenuTreeGetResponseVO extends TreeAbstractVO {
 
   private final String menuId;
   private final String menuNm;
-  private final Long upMenuId;
+  private final String upMenuId;
   private final String url;
   private final String useFg;
   private final int sortSeq;
@@ -23,7 +23,7 @@ public class MenuTreeGetResponseVO extends TreeAbstractVO {
   private final LocalDateTime procDttm;
 
   @Builder
-  private MenuTreeGetResponseVO(String menuId, String menuNm, Long upMenuId, String url,
+  private MenuTreeGetResponseVO(String menuId, String menuNm, String upMenuId, String url,
       String useFg, int sortSeq, Long regUserNo, LocalDateTime regDttm, Long procUserNo,
       LocalDateTime procDttm) {
     this.menuId = menuId;
@@ -42,7 +42,7 @@ public class MenuTreeGetResponseVO extends TreeAbstractVO {
     return builder()
         .menuId(String.valueOf(menuEntity.getId()))
         .menuNm(menuEntity.getName())
-        .upMenuId(menuEntity.getParentsId())
+        .upMenuId((menuEntity.getParentsId() != null) ? String.valueOf(menuEntity.getParentsId()) : null)
         .url(menuEntity.getUrl())
         .useFg(menuEntity.isUsed() ? "1" : "0")
         .sortSeq(menuEntity.getSortSequence())
