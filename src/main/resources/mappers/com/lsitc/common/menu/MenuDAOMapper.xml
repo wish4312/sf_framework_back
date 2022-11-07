@@ -92,7 +92,7 @@
     </foreach>
   </update>
   
-  <insert id="insertMenuListWithId"
+  <insert id="insertMenuWithId"
     parameterType="com.lsitc.domain.common.menu.entity.MenuEntity">
     INSERT INTO sf_menu
     ( id

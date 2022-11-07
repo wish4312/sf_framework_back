@@ -17,7 +17,7 @@ public interface MenuDAO {
 
   int updateMenuById(List<MenuEntity> menuEntity);
 
-  int insertMenuListWithId(List<MenuEntity> menuEntity);
+  int insertMenuWithId(List<MenuEntity> menuEntity);
 
   int deleteMenuById(List<MenuEntity> menuEntity);
 
