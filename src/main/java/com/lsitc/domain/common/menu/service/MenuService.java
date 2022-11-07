@@ -66,7 +66,7 @@ public class MenuService {
     });
 
     int upsertRows = (updateList.size() > 0 ? menuDAO.updateMenuById(updateList) : 0)
-        + (insertList.size() > 0 ? menuDAO.insertMenuListWithId(insertList) : 0);
+        + (insertList.size() > 0 ? menuDAO.insertMenuWithId(insertList) : 0);
 
     log.info(menuEntityList.toString());
     return MenuModifyResponseVO.of(upsertRows);

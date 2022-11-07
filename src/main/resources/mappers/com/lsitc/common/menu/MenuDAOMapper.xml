@@ -49,6 +49,16 @@
          , last_modified_by
          , last_modified_date
     FROM sf_menu
+    <if test="isUsed != null and isUsed != ''">
+      <choose>
+        <when test='isUsed'>       
+        WHERE is_used = true
+        </when>
+        <otherwise>
+        WHERE is_used = false
+        </otherwise>
+      </choose>
+    </if>
   </select>
 
   <insert id="insertMenuList"

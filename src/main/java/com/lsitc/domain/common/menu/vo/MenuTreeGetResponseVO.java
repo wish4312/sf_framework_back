@@ -44,7 +44,7 @@ public class MenuTreeGetResponseVO extends TreeAbstractVO {
         .menuNm(menuEntity.getName())
         .upMenuId(menuEntity.getParentsId())
         .url(menuEntity.getUrl())
-        .useFg(menuEntity.isUsed() ? "1" : "0")
+        .useFg(menuEntity.getIsUsed() ? "1" : "0")
         .sortSeq(menuEntity.getSortSequence())
         .regUserNo(menuEntity.getCreatedBy())
         .regDttm(menuEntity.getCreatedDate())

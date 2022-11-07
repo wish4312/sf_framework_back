@@ -8,9 +8,13 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class MenuSearchListGetRequestVO {
+  
+  private String useFg;
 
   public MenuEntity toEntity() {
-    return MenuEntity.builder().build();
+    return MenuEntity.builder()
+        .isUsed(useFg != null ? (useFg.equals("1")) : null)
+        .build();
   }
 
   @Override

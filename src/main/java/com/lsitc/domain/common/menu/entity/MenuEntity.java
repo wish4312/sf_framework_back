@@ -16,11 +16,11 @@ public class MenuEntity extends BaseAbstractEntity implements Auditable<Long, Lo
   private String name;
   private Long parentsId;
   private String url;
-  private boolean isUsed;
+  private Boolean isUsed;
   private int sortSequence;
 
   @Builder
-  private MenuEntity(Long id, String name, Long parentsId, String url, boolean isUsed,
+  private MenuEntity(Long id, String name, Long parentsId, String url, Boolean isUsed,
       int sortSequence) {
     this.id = id;
     this.name = name;
