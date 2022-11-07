@@ -22,11 +22,11 @@
               <if test="rmrk != null and rmrk != ''">
 			  ,RMRK = #{rmrk}
 			  </if>
-              ,PROC_USER_NO = #{session.userNo}
+              ,PROC_USER_NO = '1'
               ,PROC_DTTM = NOW()
            </trim>
          WHERE 1=1
-           AND COM_ID = #{session.comId}
+           AND COM_ID = #{comId}
            AND BLOC_ID = #{blocId}
            AND DATE_FORMAT(DT,'%Y%m%d') = DATE_FORMAT(#{dt},'%Y%m%d')
     </update>
@@ -45,7 +45,7 @@
 	      FROM COMM_WORKCALD
 	     WHERE 1=1
 	       -- essential
-	       AND COM_ID = #{session.comId}
+	       AND COM_ID = #{comId}
 	       AND BLOC_ID = #{blocId}
 	       AND DT BETWEEN CONCAT(substr(#{yymm}, 1,4), '-', substr(#{yymm}, 5,2), '-01') AND LAST_DAY(CONCAT(substr(#{yymm}, 1,4), '-', substr(#{yymm}, 5,2), '-01'))
     </select>
@@ -69,7 +69,7 @@
               ,PROC_DTTM
           FROM COMM_WORKCALD
          WHERE 1=1 
-           AND COM_ID = #{session.comId}
+           AND COM_ID = #{comId}
            <if test="blocId != null and blocId != ''">
            AND BLOC_ID = #{blocId}
            </if>
@@ -139,7 +139,7 @@
 	        FROM COMM_WORKCALD C
 	        LEFT JOIN COMM_WORKCALD_DETL B ON C.COM_ID = B.COM_ID AND C.BLOC_ID = B.BLOC_ID AND C.DT BETWEEN B.STRT_DT AND B.END_DT
 	      WHERE 1=1
-	      	AND C.COM_ID = #{session.comId}
+	      	AND C.COM_ID = #{comId}
 			AND C.BLOC_ID = #{blocId}
 			AND C.DT BETWEEN CONCAT(substr(#{yymm}, 1,4), '-', substr(#{yymm}, 5,2), '-01') AND LAST_DAY(CONCAT(substr(#{yymm}, 1,4), '-', substr(#{yymm}, 5,2), '-01'))
 	      ORDER BY C.DT, B.PLAN_SEQ
@@ -165,7 +165,7 @@
 				,C.PROC_DTTM
 	        FROM COMM_WORKCALD_DETL C
 	      WHERE 1=1
-	      	AND C.COM_ID = #{session.comId}
+	      	AND C.COM_ID = #{comId}
 			AND C.BLOC_ID = #{blocId}
 			AND C.PLAN_SEQ = #{planSeq}
     </select>
@@ -190,9 +190,9 @@
 			PROC_USER_NO,
 			PROC_DTTM
 		)VALUES(
-			#{session.comId},
+			#{comId},
 			#{blocId},
-			(SELECT IFNULL(MAX(CAST(PLAN_SEQ AS UNSIGNED INTEGER))+1,1) AS PLAN_SEQ FROM COMM_WORKCALD_DETL A WHERE A.COM_ID = #{session.comId} AND A.BLOC_ID = #{blocId}),
+			(SELECT IFNULL(MAX(CAST(PLAN_SEQ AS UNSIGNED INTEGER))+1,1) AS PLAN_SEQ FROM COMM_WORKCALD_DETL A WHERE A.COM_ID = #{comId} AND A.BLOC_ID = #{blocId}),
 			STR_TO_DATE(#{strtDt}, '%Y-%m-%d 00:00:00'),
 			#{strtHh},
 			#{strtMm},
@@ -202,9 +202,9 @@
 			#{planTitle},
 			#{planCntn},
 			#{planColor},
-			#{session.userNo},
+			'1',
 			NOW(),
-			#{session.userNo},
+			'1',
 			NOW()
 		)
     </insert>
@@ -221,10 +221,10 @@
 			,PLAN_TITLE = #{planTitle}
 			,PLAN_CNTN = #{planCntn}
 			,PLAN_COLOR = #{planColor}
-            ,PROC_USER_NO = #{session.userNo}
+            ,PROC_USER_NO = '1'
             ,PROC_DTTM = NOW()
          WHERE 1=1
-           AND COM_ID = #{session.comId}
+           AND COM_ID = #{comId}
            AND BLOC_ID = #{blocId}
            AND PLAN_SEQ = #{planSeq}
     </update>
@@ -233,7 +233,7 @@
     /* comm.calendarMng.deletePlanDetl : 일정 삭제 */
         DELETE FROM COMM_WORKCALD_DETL
          WHERE 1=1
-           AND COM_ID = #{session.comId}
+           AND COM_ID = #{comId}
            AND BLOC_ID = #{blocId}
            AND PLAN_SEQ = #{planSeq}
     </delete>
@@ -252,8 +252,8 @@
 	          ,RMRK
 	      FROM COMM_WORKCALD
 	     WHERE 1=1
-	       AND COM_ID = #{session.comId}
-	       AND BLOC_ID = #{session.blocId}
+	       AND COM_ID = #{comId}
+	       AND BLOC_ID = #{blocId}
 	       AND DT BETWEEN ADDDATE( CURDATE(), - WEEKDAY(CURDATE()) + -1 ) AND ADDDATE( CURDATE(), - WEEKDAY(CURDATE()) + 12 )
     </select>
     
@@ -277,8 +277,8 @@
 	        FROM COMM_WORKCALD C
 	        LEFT JOIN COMM_WORKCALD_DETL B ON C.COM_ID = B.COM_ID AND C.BLOC_ID = B.BLOC_ID AND C.DT BETWEEN B.STRT_DT AND B.END_DT
 	      WHERE 1=1
-	      	AND C.COM_ID = #{session.comId}
-			AND C.BLOC_ID = #{session.blocId}
+	      	AND C.COM_ID = #{comId}
+			AND C.BLOC_ID = #{blocId}
 			AND C.DT BETWEEN ADDDATE( CURDATE(), - WEEKDAY(CURDATE()) + -1 ) AND ADDDATE( CURDATE(), - WEEKDAY(CURDATE()) + 12 )
 	      ORDER BY C.DT, B.PLAN_SEQ
     </select>

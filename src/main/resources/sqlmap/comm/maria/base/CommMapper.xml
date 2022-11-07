@@ -19,7 +19,7 @@
               ,PROC_DTTM
           FROM COMM_BLOC_INFO
          WHERE 1=1 
-           AND COM_ID = #{session.comId}
+           AND COM_ID = #{comId}
            <if test="blocId != null and blocId != ''">
            AND BLOC_ID = #{blocId}
            </if>
