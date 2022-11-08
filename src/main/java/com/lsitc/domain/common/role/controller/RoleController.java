@@ -11,13 +11,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.lsitc.domain.common.role.exception.RoleException;
 import com.lsitc.domain.common.role.service.RoleService;
-import com.lsitc.domain.common.role.vo.RoleListAddRequestVO;
-import com.lsitc.domain.common.role.vo.RoleListAddResponseVO;
+import com.lsitc.domain.common.role.vo.RoleAddRequestVO;
+import com.lsitc.domain.common.role.vo.RoleAddResponseVO;
 import com.lsitc.domain.common.role.vo.RoleListGetResponseVO;
-import com.lsitc.domain.common.role.vo.RoleListModifyRequestVO;
-import com.lsitc.domain.common.role.vo.RoleListModifyResponseVO;
-import com.lsitc.domain.common.role.vo.RoleListRemoveRequestVO;
-import com.lsitc.domain.common.role.vo.RoleListRemoveResponseVO;
+import com.lsitc.domain.common.role.vo.RoleModifyRequestVO;
+import com.lsitc.domain.common.role.vo.RoleModifyResponseVO;
+import com.lsitc.domain.common.role.vo.RoleRemoveRequestVO;
+import com.lsitc.domain.common.role.vo.RoleRemoveResponseVO;
 import com.lsitc.domain.common.role.vo.RoleSearchListGetRequestVO;
 import com.lsitc.domain.common.role.vo.RoleSearchListGetResponseVO;
 import lombok.RequiredArgsConstructor;
@@ -40,40 +40,40 @@ public class RoleController {
 
   @GetMapping("/search")
   public List<RoleSearchListGetResponseVO> searchRoleList(
-      @Valid final RoleSearchListGetRequestVO deptInfoGetRequestVO) throws RoleException {
+      @Valid final RoleSearchListGetRequestVO roleInfoGetRequestVO) throws RoleException {
     List<RoleSearchListGetResponseVO> roleListGetResponseVOList =
-        roleService.searchRoleList(deptInfoGetRequestVO);
+        roleService.searchRoleList(roleInfoGetRequestVO);
     log.info(roleListGetResponseVOList.toString());
     return roleListGetResponseVOList;
   }
 
-  @PostMapping("/list")
-  public RoleListAddResponseVO addRoleList(
-      @RequestBody @Valid final List<RoleListAddRequestVO> roleListAddRequestVO)
+  @PostMapping
+  public RoleAddResponseVO addRoleList(
+      @RequestBody @Valid final List<RoleAddRequestVO> roleListAddRequestVO)
       throws RoleException {
     log.info(roleListAddRequestVO.toString());
-    RoleListAddResponseVO roleListAddResponseVO = roleService.addRoleList(roleListAddRequestVO);
+    RoleAddResponseVO roleListAddResponseVO = roleService.addRoleList(roleListAddRequestVO);
     log.info(roleListAddResponseVO.toString());
     return roleListAddResponseVO;
   }
 
-  @PutMapping("/list")
-  public RoleListModifyResponseVO modifyRoleList(
-      @RequestBody @Valid final List<RoleListModifyRequestVO> roleListModifyRequestVO)
+  @PutMapping
+  public RoleModifyResponseVO modifyRoleList(
+      @RequestBody @Valid final List<RoleModifyRequestVO> roleListModifyRequestVO)
       throws RoleException {
     log.info(roleListModifyRequestVO.toString());
-    RoleListModifyResponseVO roleListModifyResponseVO =
+    RoleModifyResponseVO roleListModifyResponseVO =
         roleService.modifyRoleList(roleListModifyRequestVO);
     log.info(roleListModifyResponseVO.toString());
     return roleListModifyResponseVO;
   }
 
-  @DeleteMapping("/list")
-  public RoleListRemoveResponseVO removeRoleList(
-      @RequestBody @Valid final List<RoleListRemoveRequestVO> roleListRemoveRequestVO)
+  @DeleteMapping
+  public RoleRemoveResponseVO removeRoleList(
+      @RequestBody @Valid final List<RoleRemoveRequestVO> roleListRemoveRequestVO)
       throws RoleException {
     log.info(roleListRemoveRequestVO.toString());
-    RoleListRemoveResponseVO roleListRemoveResponseVO =
+    RoleRemoveResponseVO roleListRemoveResponseVO =
         roleService.removeRoleList(roleListRemoveRequestVO);
     log.info(roleListRemoveResponseVO.toString());
     return roleListRemoveResponseVO;

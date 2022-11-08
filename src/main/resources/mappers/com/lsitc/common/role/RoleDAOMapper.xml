@@ -8,9 +8,6 @@
     resultType="com.lsitc.domain.common.role.entity.RoleEntity">
     SELECT id
          , name
-         , is_deleted
-         , deleted_by
-         , deleted_date
          , remark
          , created_by
          , created_date
@@ -24,9 +21,6 @@
     resultType="com.lsitc.domain.common.role.entity.RoleEntity">
     SELECT id
          , name
-         , is_deleted
-         , deleted_by
-         , deleted_date
          , remark
          , created_by
          , created_date
@@ -40,16 +34,13 @@
     resultType="com.lsitc.domain.common.role.entity.RoleEntity">
     SELECT id
          , name
-         , is_deleted
-         , deleted_by
-         , deleted_date
          , remark
          , created_by
          , created_date
          , last_modified_by
          , last_modified_date
     FROM sf_role
-    WHERE is_deleted = #{isDeleted}
+    WHERE 1=1
     <if test="id != null and id != ''">
     AND id = #{id}
     </if>
@@ -62,7 +53,6 @@
     parameterType="com.lsitc.domain.common.role.entity.RoleEntity">
 	    INSERT INTO sf_role
 	    ( name
-	    , is_deleted
 	    , remark
 	    , created_by
 	    , created_date
@@ -71,7 +61,6 @@
 	    VALUES
     <foreach item="item" collection="list" separator=",">
 	    ( #{item.name}
-	    , #{item.isDeleted}
 	    , #{item.remark}
 	    , #{item.createdBy}
 	    , #{item.createdDate}
@@ -85,7 +74,6 @@
     INSERT INTO sf_role
     ( id
     , name
-    , is_deleted
     , remark
     , created_by
     , created_date
@@ -95,7 +83,6 @@
     <foreach item="item" collection="list" separator=",">
     ( #{item.id}
     , #{item.name}
-    , #{item.isDeleted}
     , #{item.remark}
     , #{item.createdBy}
     , #{item.createdDate}
@@ -116,16 +103,13 @@
     </foreach>
   </update>
 
-  <update id="updateRoleIsDeletedById"
+  <delete id="deleteRoleById"
     parameterType="com.lsitc.domain.common.role.entity.RoleEntity">
-    <foreach item="item" collection="list" separator=";">
-    UPDATE sf_role
-    SET is_deleted         = #{item.isDeleted}
-      , deleted_date       = #{item.deletedDate}
-      , deleted_by         = #{item.deletedBy}
-      , last_modified_by   = #{item.lastModifiedBy}
-      , last_modified_date = #{item.lastModifiedDate}
-    WHERE id = #{item.id}
+    DELETE
+    FROM sf_role
+    WHERE
+    <foreach collection="list" item="item" separator="OR">
+        id = #{item.id}
     </foreach>
-  </update>
+  </delete>
 </mapper>

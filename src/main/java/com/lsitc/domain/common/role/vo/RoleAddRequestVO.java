@@ -8,7 +8,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class RoleListAddRequestVO {
+public class RoleAddRequestVO {
 
   @NotBlank(message = "권한명이 필요합니다.")
   private final String roleNm;

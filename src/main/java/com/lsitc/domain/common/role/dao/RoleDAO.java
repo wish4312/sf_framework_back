@@ -19,5 +19,5 @@ public interface RoleDAO {
 
   int insertRoleWithId(List<RoleEntity> roleEntity);
 
-  int updateRoleIsDeletedById(List<RoleEntity> roleEntity);
+  int deleteRoleById(List<RoleEntity> roleEntity);
 }
