@@ -1,9 +1,5 @@
 #공통적용 내용으로 반드시 채워주셔야 합니다.
 spring:
-  #커스텀 프로퍼티
-  application:
-    #업무명
-    name: comm
   #log색상지정
   output:
     ansi:
@@ -31,12 +27,13 @@ logging:
   menuCnctLogEnable: true
   level:
     root: DEBUG
-  #logging
-  config: classpath:logback_spring.xml
+  logback:
+    rollingpolicy:
+      max-file-size: 100MB
+      max-history: 30
   file:
     path: logs
-    max-history: 30
-    max-size: 100MB
+    name: app
 
 server:
   #port설정
@@ -167,7 +164,7 @@ management:
         include: health, info, prometheus
   metrics:
     tags:
-      application: ${spring.application.name}
+      application: app
 
 ---
 ##############
@@ -205,4 +202,4 @@ management:
         include: health, info, prometheus
   metrics:
     tags:
-      application: ${spring.application.name}
+      application: app
