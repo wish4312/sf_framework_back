@@ -20,6 +20,8 @@ import com.lsitc.domain.common.user.vo.UserModifyRequestVO;
 import com.lsitc.domain.common.user.vo.UserModifyResponseVO;
 import com.lsitc.domain.common.user.vo.UserRemoveRequestVO;
 import com.lsitc.domain.common.user.vo.UserRemoveResponseVO;
+import com.lsitc.domain.common.user.vo.UserSearchListGetRequestVO;
+import com.lsitc.domain.common.user.vo.UserSearchListGetResponseVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -47,26 +49,37 @@ public class UserController {
     return userListGetResponseVOList;
   }
 
-  @PostMapping("")
-  public UserAddResponseVO addUser(@RequestBody @Valid final UserAddRequestVO userAddRequestVO)
-      throws UserException {
+  @GetMapping("/search")
+  public List<UserSearchListGetResponseVO> searchUserList(
+      @Valid final UserSearchListGetRequestVO userSearchListGetRequestVO) throws UserException {
+    List<UserSearchListGetResponseVO> userListGetResponseVOList =
+        userService.searchUserList(userSearchListGetRequestVO);
+    log.info(userListGetResponseVOList.toString());
+    return userListGetResponseVOList;
+  }
+
+  @PostMapping
+  public UserAddResponseVO addUser(
+      @RequestBody @Valid final List<UserAddRequestVO> userAddRequestVO) throws UserException {
     log.info(userAddRequestVO.toString());
     UserAddResponseVO userAddResponseVO = userService.addUser(userAddRequestVO);
     log.info(userAddResponseVO.toString());
     return userAddResponseVO;
   }
 
-  @PutMapping("")
+  @PutMapping
   public UserModifyResponseVO modifyUser(
-      @RequestBody @Valid final UserModifyRequestVO userModifyRequestVO) throws UserException {
+      @RequestBody @Valid final List<UserModifyRequestVO> userModifyRequestVO)
+      throws UserException {
     log.info(userModifyRequestVO.toString());
     UserModifyResponseVO userModifyResponseVO = userService.modifyUser(userModifyRequestVO);
     log.info(userModifyResponseVO.toString());
     return userModifyResponseVO;
   }
 
-  @DeleteMapping("")
-  public UserRemoveResponseVO removeUser(@Valid final UserRemoveRequestVO userRemoveRequestVO)
+  @DeleteMapping
+  public UserRemoveResponseVO removeUser(
+      @RequestBody @Valid final List<UserRemoveRequestVO> userRemoveRequestVO)
       throws UserException {
     log.info(userRemoveRequestVO.toString());
     UserRemoveResponseVO userRemoveResponseVO = userService.removeUser(userRemoveRequestVO);

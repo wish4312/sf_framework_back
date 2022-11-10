@@ -1,11 +1,13 @@
 package com.lsitc.domain.common.user.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import com.lsitc.domain.common.user.dao.UserDAO;
 import com.lsitc.domain.common.user.entity.UserEntity;
 import com.lsitc.domain.common.user.exception.UserException;
@@ -18,6 +20,8 @@ import com.lsitc.domain.common.user.vo.UserModifyRequestVO;
 import com.lsitc.domain.common.user.vo.UserModifyResponseVO;
 import com.lsitc.domain.common.user.vo.UserRemoveRequestVO;
 import com.lsitc.domain.common.user.vo.UserRemoveResponseVO;
+import com.lsitc.domain.common.user.vo.UserSearchListGetRequestVO;
+import com.lsitc.domain.common.user.vo.UserSearchListGetResponseVO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -40,47 +44,71 @@ public class UserService implements UserDetailsService {
     return userEntityList.stream().map(UserListGetResponseVO::of).collect(Collectors.toList());
   }
 
-  public UserAddResponseVO addUser(final UserAddRequestVO userAddRequestVO) {
-    UserEntity userEntity = userAddRequestVO.toEntity();
-    log.info(userEntity.toString());
-    int addRows = userDAO.insertUser(userEntity); // userId가 UNIQUE KEY로 잡혀있어 중복되는 userId의 경우 에러 반환
+  public List<UserSearchListGetResponseVO> searchUserList(
+      final UserSearchListGetRequestVO userSearchListGetRequestVO) {
+    UserEntity userEntity = userSearchListGetRequestVO.toEntity();
+    List<UserEntity> userEntityList = userDAO.selectUserByConditions(userEntity);
+    return userEntityList.stream().map(UserSearchListGetResponseVO::of)
+        .collect(Collectors.toList());
+  }
+
+  @Transactional
+  public UserAddResponseVO addUser(final List<UserAddRequestVO> userAddRequestVO) {
+    List<UserEntity> userEntityList =
+        userAddRequestVO.stream().map(UserAddRequestVO::toEntity).collect(Collectors.toList());
+    log.info(userEntityList.toString());
+    int addRows = userDAO.insertUserList(userEntityList);
     return UserAddResponseVO.of(addRows);
   }
 
-  public UserModifyResponseVO modifyUser(final UserModifyRequestVO userModifyRequestVO) {
-    UserEntity userEntity = userModifyRequestVO.toEntity();
-    int upsertRows = upsertUser(userEntity);
-    log.info(userEntity.toString());
+  @Transactional
+  public UserModifyResponseVO modifyUser(final List<UserModifyRequestVO> userModifyRequestVO) {
+    List<UserEntity> userEntityList = userModifyRequestVO.stream()
+        .map(UserModifyRequestVO::toEntity).collect(Collectors.toList());
+
+    List<UserEntity> updateList = new ArrayList<>();
+    List<UserEntity> insertList = new ArrayList<>();
+
+    userEntityList.forEach(userEntity -> {
+      if (isUpdate(userEntity)) {
+        updateList.add(userEntity);
+      } else {
+        insertList.add(userEntity);
+      }
+    });
+
+    int upsertRows = (updateList.size() > 0 ? userDAO.updateUserById(updateList) : 0)
+        + (insertList.size() > 0 ? userDAO.insertUserWithId(insertList) : 0);
+
+    log.info(userEntityList.toString());
     return UserModifyResponseVO.of(upsertRows);
   }
 
-  private int upsertUser(UserEntity targetEntity) {
+  private boolean isUpdate(UserEntity targetEntity) {
     UserEntity userEntity = userDAO.selectUserById(targetEntity);
-    return userEntity != null ? userDAO.updateUserById(targetEntity)
-        : userDAO.insertUserWithId(targetEntity);
+    return userEntity != null;
   }
 
-  // Delete시 flag 변경
-  public UserRemoveResponseVO removeUser(final UserRemoveRequestVO userRemoveRequestVO)
+  @Transactional
+  public UserRemoveResponseVO removeUser(final List<UserRemoveRequestVO> userRemoveRequestVO)
       throws UserException {
-    UserEntity userEntity = userDAO.selectUserById(userRemoveRequestVO.toEntity());
-    if (userEntity == null) {
-      throw new UserException("userEntity is null");
-    }
-    userEntity.delete();
-    log.info(userEntity.toString());
-    int deleteRows = userDAO.updateUserIsDeletedById(userEntity);
+    List<UserEntity> userEntityList = userRemoveRequestVO.stream()
+        .map(UserRemoveRequestVO::toEntity).collect(Collectors.toList());
+    log.info(userEntityList.toString());
+    int deleteRows = userDAO.updateUserIsDeletedById(userEntityList);
     return UserRemoveResponseVO.of(deleteRows);
   }
 
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-    UserEntity userInfo = userDAO.selectUserByUserId(username);
-    
-    if (userInfo == null) {
+    UserEntity userEntity = UserEntity.builder().name(username).build();
+    UserEntity resultEntity = userDAO.selectUserById(userEntity);
+
+    if (resultEntity == null) {
       throw new UsernameNotFoundException(username);
     }
-    
-    return userInfo;
+
+    return resultEntity;
   }
+
 }

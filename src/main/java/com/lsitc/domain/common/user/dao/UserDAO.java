@@ -11,13 +11,14 @@ public interface UserDAO {
 
   List<UserEntity> selectAll();
 
-  int insertUser(UserEntity userEntity);
+  List<UserEntity> selectUserByConditions(UserEntity userEntity);
 
-  int updateUserById(UserEntity userEntity);
+  int insertUserList(List<UserEntity> userEntity);
 
-  int insertUserWithId(UserEntity userEntity);
+  int updateUserById(List<UserEntity> userEntity);
 
-  int updateUserIsDeletedById(UserEntity userEntity);
-  
-  UserEntity selectUserByUserId(String userId);
+  int insertUserWithId(List<UserEntity> userEntity);
+
+  int updateUserIsDeletedById(List<UserEntity> userEntity);
+
 }

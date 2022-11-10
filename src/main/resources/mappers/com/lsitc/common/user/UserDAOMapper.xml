@@ -40,82 +40,8 @@
          , deleted_date
     FROM sf_user
   </select>
-
-  <insert id="insertUser"
-    parameterType="com.lsitc.domain.common.user.entity.UserEntity"
-    useGeneratedKeys="true" keyProperty="id" keyColumn="id">
-    INSERT INTO sf_user
-    ( user_id
-    , password
-    , name
-    , email
-    , phone_number
-    , created_by
-    , created_date
-    , last_modified_by
-    , last_modified_date)
-    VALUES ( #{userId}
-           , #{password}
-           , #{name}
-           , #{email}
-           , #{phoneNumber}
-           , #{createdBy}
-           , #{createdDate}
-           , #{lastModifiedBy}
-           , #{lastModifiedDate})
-  </insert>
-
-  <insert id="insertUserWithId"
-    parameterType="com.lsitc.domain.common.user.entity.UserEntity"
-    useGeneratedKeys="true" keyProperty="id" keyColumn="id">
-    INSERT INTO sf_user
-    ( id
-    , user_id
-    , password
-    , name
-    , email
-    , phone_number
-    , created_by
-    , created_date
-    , last_modified_by
-    , last_modified_date)
-    VALUES ( #{id}
-           , #{userId}
-           , #{password}
-           , #{name}
-           , #{email}
-           , #{phoneNumber}
-           , #{createdBy}
-           , #{createdDate}
-           , #{lastModifiedBy}
-           , #{lastModifiedDate})
-  </insert>
-
-  <update id="updateUserById"
-    parameterType="com.lsitc.domain.common.user.entity.UserEntity">
-    UPDATE sf_user
-    SET user_id            = #{userId}
-      , password           = #{password}
-      , name               = #{name}
-      , email              = #{email}
-      , phone_number       = #{phoneNumber}
-      , last_modified_by   = #{lastModifiedBy}
-      , last_modified_date = #{lastModifiedDate}
-    WHERE id = #{id}
-  </update>
-
-  <update id="updateUserIsDeletedById"
-    parameterType="com.lsitc.domain.common.user.entity.UserEntity">
-    UPDATE sf_user
-    SET is_deleted         = #{isDeleted}
-      , deleted_by         = #{deletedBy}
-      , deleted_date       = current_timestamp()
-      , last_modified_by   = #{lastModifiedBy}
-      , last_modified_date = #{lastModifiedDate}
-    WHERE id = #{id}
-  </update>
   
-  <select id="selectUserByUserId"
+  <select id="selectUserByConditions"
     parameterType="com.lsitc.domain.common.user.entity.UserEntity"
     resultType="com.lsitc.domain.common.user.entity.UserEntity">
     SELECT id
@@ -132,6 +58,99 @@
          , deleted_by
          , deleted_date
     FROM sf_user
-    WHERE user_id = #{userId}
+    WHERE is_deleted = false
+    <if test="id != null and id != ''">
+    AND id = #{id}
+    </if>
+    <if test="userId != null and userId != ''">
+    AND user_id LIKE CONCAT('%', #{userId}, '%')
+    </if>
+    <if test="name != null and name != ''">
+    AND name LIKE CONCAT('%', #{name}, '%')
+    </if>
   </select>
+
+  <insert id="insertUserList"
+    parameterType="com.lsitc.domain.common.user.entity.UserEntity">
+    INSERT INTO sf_user
+    ( user_id
+    , password
+    , name
+    , email
+    , phone_number
+    , created_by
+    , created_date
+    , last_modified_by
+    , last_modified_date)
+    VALUES 
+    <foreach item="item" collection="list" separator=",">
+    ( #{item.userId}
+    , #{item.password}
+    , #{item.name}
+    , #{item.email}
+    , #{item.phoneNumber}
+    , #{item.createdBy}
+    , #{item.createdDate}
+    , #{item.lastModifiedBy}
+    , #{item.lastModifiedDate})
+    </foreach>
+  </insert>
+
+  <insert id="insertUserWithId"
+    parameterType="com.lsitc.domain.common.user.entity.UserEntity">
+    INSERT INTO sf_user
+    ( id
+    , user_id
+    , password
+    , name
+    , email
+    , phone_number
+    , created_by
+    , created_date
+    , last_modified_by
+    , last_modified_date)
+    VALUES 
+    <foreach item="item" collection="list" separator=",">
+    ( #{item.id}
+    , #{item.userId}
+    , #{item.password}
+    , #{item.name}
+    , #{item.email}
+    , #{item.phoneNumber}
+    , #{item.createdBy}
+    , #{item.createdDate}
+    , #{item.lastModifiedBy}
+    , #{item.lastModifiedDate})
+    </foreach>
+  </insert>
+
+  <update id="updateUserById"
+    parameterType="com.lsitc.domain.common.user.entity.UserEntity">
+    <foreach item="item" collection="list" separator=";">
+    UPDATE sf_user
+    SET user_id            = #{item.userId}
+    <if test="item.password != null and item.password != ''">
+      , password           = #{item.password}
+    </if>
+      , name               = #{item.name}
+      , email              = #{item.email}
+      , phone_number       = #{item.phoneNumber}
+      , last_modified_by   = #{item.lastModifiedBy}
+      , last_modified_date = #{item.lastModifiedDate}
+    WHERE id = #{item.id}
+    </foreach>
+  </update>
+
+  <update id="updateUserIsDeletedById"
+    parameterType="com.lsitc.domain.common.user.entity.UserEntity">
+    <foreach item="item" collection="list" separator=";">
+    UPDATE sf_user
+    SET is_deleted         = #{item.isDeleted}
+      , deleted_by         = #{item.deletedBy}
+      , deleted_date       = #{item.deletedDate}
+      , last_modified_by   = #{item.lastModifiedBy}
+      , last_modified_date = #{item.lastModifiedDate}
+    WHERE id = #{item.id}
+    </foreach>
+  </update>
 </mapper>

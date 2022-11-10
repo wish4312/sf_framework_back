@@ -1,28 +1,22 @@
 package com.lsitc.domain.common.user.vo;
 
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.lsitc.domain.common.user.entity.UserEntity;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
-public class UserRemoveRequestVO {
+@AllArgsConstructor
+public class UserSearchListGetRequestVO {
 
-  @NotNull
   @PositiveOrZero(message = "음수의 ID는 사용할 수 없습니다.")
   private final Long id;
-
-  @JsonCreator
-  public UserRemoveRequestVO(Long id) {
-    this.id = id;
-  }
+  private final String userId;
+  private final String name;
 
   public UserEntity toEntity() {
-    UserEntity userEntity = UserEntity.builder().id(id).build();
-    userEntity.delete();
-    return userEntity;
+    return UserEntity.builder().id(id).userId(userId).name(name).build();
   }
 
   @Override
