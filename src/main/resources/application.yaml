@@ -110,6 +110,14 @@ spring:
   config:
     activate:
       on-profile: dev
+  gatewayUrl: http://localhost:9999
+  datasource:
+    hikari:
+      minimum-idle: 1
+      maximum-pool-size: 3
+      idle-timeout: 600000 #(10분)
+      max-lifetime: 1800000 #(30분)
+      connection-timeout: 15000
 
 #파일관련
 file:
@@ -123,61 +131,14 @@ server:
     include-stacktrace: always
 
 ---
-##############
-####Product#####
-##############
 spring:
   config:
     activate:
       on-profile: prod
-
-#
-file:
-  filePath: D:\bgrEms\files\real
-  fileTmpPath: D:\bgrEms\files\tmp
-
-#서버포트 설정
-server:
-  error:
-    #stactrcae포함
-    include-stacktrace: never
-
----
-##############
-####Docker#####
-##############
-spring:
-  config:
-    activate:
-      on-profile: docker
-  gatewayUrl: http://apigw:9999
-
-file:
-  filePath: /tmp/files/real
-  fileTmpPath: /tmp/files/tmp
-
-#Spring boot Actuator
-management:
-  endpoints:
-    web:
-      exposure:
-        include: health, info, prometheus
-  metrics:
-    tags:
-      application: app
-
----
-##############
-####Cloud#####
-##############
-spring:
-  config:
-    activate:
-      on-profile: cloud
-  gatewayUrl: http://139.150.73.181:9999
+  gatewayUrl: http://localhost:9999
   datasource:
     hikari:
-      minimum-idle: 3
+      minimum-idle: 5
       maximum-pool-size: 10
       idle-timeout: 600000 #(10분)
       max-lifetime: 1800000 #(30분)
@@ -185,21 +146,11 @@ spring:
 
 #파일관련
 file:
-  filePath: /tmp/real
-  fileTmpPath: /tmp/tmp
+  filePath: /tmp/files/real
+  fileTmpPath: /tmp/files/tmp
 
 #서버포트 설정
 server:
   error:
     #stactrcae포함
-    include-stacktrace: always
-
-#Spring boot Actuator
-management:
-  endpoints:
-    web:
-      exposure:
-        include: health, info, prometheus
-  metrics:
-    tags:
-      application: app
+    include-stacktrace: never
