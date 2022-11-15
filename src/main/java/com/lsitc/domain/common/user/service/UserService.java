@@ -35,8 +35,18 @@ public class UserService implements UserDetailsService {
   public UserInfoGetResponseVO getUserInfo(final UserInfoGetRequestVO userInfoGetRequestVO) {
     UserEntity userEntity = userInfoGetRequestVO.toEntity();
     log.info(userEntity.toString());
-    UserEntity userInfo = userDAO.selectUserById(userEntity);
-    return UserInfoGetResponseVO.of(userInfo);
+    
+    UserEntity userInfo = null;
+    
+    if (userEntity.getId() != null) {
+      userInfo = userDAO.selectUserById(userEntity);
+    }
+    if (userInfo == null && userEntity.getUserId() != null) {
+      userInfo = userDAO.selectUserByUserId(userEntity);
+    }
+
+    return userInfo != null ? UserInfoGetResponseVO.of(userInfo)
+        : UserInfoGetResponseVO.builder().build();
   }
 
   public List<UserListGetResponseVO> getUserList() {

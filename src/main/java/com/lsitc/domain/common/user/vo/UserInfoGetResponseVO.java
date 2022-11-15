@@ -18,11 +18,16 @@ public class UserInfoGetResponseVO {
   private final LocalDateTime createdDate;
   private final Long lastModifiedBy;
   private final LocalDateTime lastModifiedDate;
+  private final boolean isDeleted;
+  private final Long deletedBy;
+  private final LocalDateTime deletedDate;
 
   @Builder
-  private UserInfoGetResponseVO(Long id, String userId, String name, String email,
+  public UserInfoGetResponseVO(Long id, String userId, String name, String email,
       String phoneNumber, Long createdBy, LocalDateTime createdDate, Long lastModifiedBy,
-      LocalDateTime lastModifiedDate) {
+      LocalDateTime lastModifiedDate, boolean isDeleted, Long deletedBy,
+      LocalDateTime deletedDate) {
+    super();
     this.id = id;
     this.userId = userId;
     this.name = name;
@@ -32,6 +37,9 @@ public class UserInfoGetResponseVO {
     this.createdDate = createdDate;
     this.lastModifiedBy = lastModifiedBy;
     this.lastModifiedDate = lastModifiedDate;
+    this.isDeleted = isDeleted;
+    this.deletedBy = deletedBy;
+    this.deletedDate = deletedDate;
   }
 
   public static UserInfoGetResponseVO of(UserEntity resultEntity) {
@@ -39,11 +47,13 @@ public class UserInfoGetResponseVO {
         .name(resultEntity.getName()).email(resultEntity.getEmail())
         .phoneNumber(resultEntity.getPhoneNumber()).createdBy(resultEntity.getCreatedBy())
         .createdDate(resultEntity.getCreatedDate()).lastModifiedBy(resultEntity.getLastModifiedBy())
-        .lastModifiedDate(resultEntity.getLastModifiedDate()).build();
+        .lastModifiedDate(resultEntity.getLastModifiedDate()).isDeleted(resultEntity.isDeleted())
+        .deletedBy(resultEntity.getDeletedBy()).deletedDate(resultEntity.getDeletedDate()).build();
   }
 
   @Override
   public String toString() {
     return ToStringBuilder.reflectionToString(this);
   }
+
 }
