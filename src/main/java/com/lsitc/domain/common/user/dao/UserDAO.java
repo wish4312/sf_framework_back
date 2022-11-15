@@ -9,6 +9,8 @@ public interface UserDAO {
 
   UserEntity selectUserById(UserEntity userEntity);
 
+  UserEntity selectUserByUserId(UserEntity userEntity);
+
   List<UserEntity> selectAll();
 
   List<UserEntity> selectUserByConditions(UserEntity userEntity);

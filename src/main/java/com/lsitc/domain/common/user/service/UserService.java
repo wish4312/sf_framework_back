@@ -100,12 +100,12 @@ public class UserService implements UserDetailsService {
   }
 
   @Override
-  public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-    UserEntity userEntity = UserEntity.builder().name(username).build();
-    UserEntity resultEntity = userDAO.selectUserById(userEntity);
+  public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
+    UserEntity userEntity = UserEntity.builder().userId(userId).build();
+    UserEntity resultEntity = userDAO.selectUserByUserId(userEntity);
 
     if (resultEntity == null) {
-      throw new UsernameNotFoundException(username);
+      throw new UsernameNotFoundException(userId);
     }
 
     return resultEntity;
