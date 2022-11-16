@@ -38,7 +38,7 @@
     <if test='name != null and name != ""'>
       AND name LIKE CONCAT('%', #{name}, '%')
     </if>
-    <if test='isUsed != null and isUsed != ""'>
+    <if test='isUsed != null'>
       AND is_used = #{isUsed}
     </if>
   </select>

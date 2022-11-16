@@ -1,6 +1,7 @@
 package com.lsitc.domain.common.code.vo;
 
 import com.lsitc.domain.common.code.entity.GroupCodeEntity;
+import com.lsitc.domain.model.BooleanState;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -28,8 +29,12 @@ public class GroupCodeListSearchResponseVO {
         .commGrpCdId(String.valueOf(groupCodeEntity.getId()))
         .commGrpCd(String.valueOf(groupCodeEntity.getCode()))
         .commGrpNm(groupCodeEntity.getName())
-        .useFg(groupCodeEntity.isUsed()?"1":"0")
+        .useFg(convertBoolean(groupCodeEntity.getIsUsed()))
         .rmrk(groupCodeEntity.getRemark())
         .build();
+  }
+
+  private static String convertBoolean(Boolean booleanValue) {
+    return BooleanState.of(booleanValue).getStringValue();
   }
 }

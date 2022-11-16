@@ -1,6 +1,7 @@
 package com.lsitc.domain.common.code.vo;
 
 import com.lsitc.domain.common.code.entity.GroupCodeEntity;
+import com.lsitc.domain.model.BooleanState;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
@@ -22,16 +23,20 @@ public class GroupCodeModifyRequestVO {
 
   private final String useFg;
 
-  private String rmrk;
+  private final String rmrk;
 
   public GroupCodeEntity toEntity() {
     return GroupCodeEntity.builder()
         .id(Long.valueOf(commGrpCdId))
         .code(commGrpCd)
         .name(commGrpNm)
-        .isUsed("1".equals(useFg))
+        .isUsed(convertUseFg())
         .remark(rmrk)
         .build();
+  }
+
+  private Boolean convertUseFg() {
+    return BooleanState.of(this.useFg).getBooleanValue();
   }
 
   @Override

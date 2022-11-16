@@ -49,7 +49,7 @@
          , last_modified_by
          , last_modified_date
     FROM sf_menu
-    <if test="isUsed != null and isUsed != ''">
+    <if test="isUsed != null">
       <choose>
         <when test='isUsed'>       
         WHERE is_used = true
