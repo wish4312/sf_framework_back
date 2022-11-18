@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import com.lsitc.global.auditing.Auditable;
 import com.lsitc.global.common.BaseAbstractEntity;
+import com.lsitc.global.util.LocalDateUtils;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,17 +19,20 @@ public class CalendarEntity extends BaseAbstractEntity implements Auditable<Long
   private String holidayName;
   private String remark;
 
-  private LocalDate startDate;
-  private LocalDate endDate;
 
   @Builder
-  private CalendarEntity(LocalDate date, boolean isHoliday, String holidayName, String remark,
-      LocalDate startDate, LocalDate endDate) {
+  private CalendarEntity(LocalDate date, boolean isHoliday, String holidayName, String remark) {
     this.date = date;
     this.isHoliday = isHoliday;
     this.holidayName = holidayName;
     this.remark = remark;
-    this.startDate = startDate;
-    this.endDate = endDate;
+  }
+  
+  public LocalDate getStartDate() {
+    return LocalDateUtils.getFirstDayOfMonth(date);
+  }
+  
+  public LocalDate getEndDate() {
+    return LocalDateUtils.getLastDayOfMonth(date);
   }
 }

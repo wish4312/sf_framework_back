@@ -14,8 +14,7 @@ public class CalendarSearchListGetRequestVO {
 
   public CalendarEntity toEntity() {
     return CalendarEntity.builder()
-        .startDate(LocalDate.parse(yyyymm + "01", DateTimeFormatter.ofPattern("yyyyMMdd")))
-        .endDate(LocalDate.parse(yyyymm + "31", DateTimeFormatter.ofPattern("yyyyMMdd")))
+        .date(LocalDate.parse(yyyymm + "01", DateTimeFormatter.ofPattern("yyyyMMdd")))
         .build();
   }
   
