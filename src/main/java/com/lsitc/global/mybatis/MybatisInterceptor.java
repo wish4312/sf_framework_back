@@ -38,7 +38,7 @@ import org.springframework.stereotype.Component;
     @Signature(type = Executor.class, method = "update",
         args = {MappedStatement.class, Object.class})
 })
-public class DefaultInterceptor implements Interceptor {
+public class MybatisInterceptor implements Interceptor {
 
   private final AuditingHandler auditingHandler;
   private final SoftDeletingHandler softDeletingHandler;
