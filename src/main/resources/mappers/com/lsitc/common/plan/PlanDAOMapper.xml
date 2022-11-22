@@ -58,7 +58,11 @@
     , end_minute
     , plan_title
     , plan_contents
-    , plan_color)
+    , plan_color
+    , created_by
+    , created_date
+    , last_modified_by
+    , last_modified_date)
     VALUES 
     <foreach item="item" collection="list" separator=",">
     ( #{item.startDate}
@@ -69,7 +73,11 @@
     , #{item.endMinute}
     , #{item.planTitle}
     , #{item.planContents}
-    , #{item.planColor})
+    , #{item.planColor}
+    , #{item.createdBy}
+    , #{item.createdDate}
+    , #{item.lastModifiedBy}
+    , #{item.lastModifiedDate})
     </foreach>
 	</insert>
 	
@@ -77,15 +85,17 @@
     parameterType="com.lsitc.domain.common.calendar.entity.CalendarEntity">
     <foreach item="item" collection="list" separator=";">
     UPDATE sf_plan
-    SET start_date    = #{item.startDate}
-	    , start_hour    = #{item.startHour}
-	    , start_minute  = #{item.startMinute} 
-	    , end_date      = #{item.endDate} 
-	    , end_hour      = #{item.endHour}
-	    , end_minute    = #{item.endMinute}
-	    , plan_title    = #{item.planTitle}
-	    , plan_contents = #{item.planContents}
-	    , plan_color    = #{item.planColor}
+    SET start_date         = #{item.startDate}
+	    , start_hour         = #{item.startHour}
+	    , start_minute       = #{item.startMinute} 
+	    , end_date           = #{item.endDate} 
+	    , end_hour           = #{item.endHour}
+	    , end_minute         = #{item.endMinute}
+	    , plan_title         = #{item.planTitle}
+	    , plan_contents      = #{item.planContents}
+	    , plan_color         = #{item.planColor}
+      , last_modified_by   = #{item.lastModifiedBy}
+      , last_modified_date = #{item.lastModifiedDate}
     WHERE id = #{item.id}
     </foreach>
   </update>
@@ -102,7 +112,11 @@
     , end_minute
     , plan_title
     , plan_contents
-    , plan_color)
+    , plan_color
+    , created_by
+    , created_date
+    , last_modified_by
+    , last_modified_date)
     VALUES 
     <foreach item="item" collection="list" separator=",">
     ( #{item.id}

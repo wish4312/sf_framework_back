@@ -1,9 +1,9 @@
 package com.lsitc.domain.common.plan.vo;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import com.lsitc.domain.common.plan.entity.PlanEntity;
+import com.lsitc.global.util.LocalDateUtils;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -14,8 +14,8 @@ public class PlanSearchListGetRequestVO {
 
   public PlanEntity toEntity() {
     return PlanEntity.builder()
-        .startDate(LocalDate.parse(yyyymm + "01", DateTimeFormatter.ofPattern("yyyyMMdd")))
-        .endDate(LocalDate.parse(yyyymm + "31", DateTimeFormatter.ofPattern("yyyyMMdd")))
+        .startDate(LocalDateUtils.getFirstDayOfMonth(getDate()))
+        .endDate(LocalDateUtils.getLastDayOfMonth(getDate()))
         .build();
   }
   
@@ -24,5 +24,7 @@ public class PlanSearchListGetRequestVO {
     return ToStringBuilder.reflectionToString(this);
   }
 
-
+  private LocalDate getDate() {
+    return LocalDateUtils.parseYyyymmdd(yyyymm + "01");
+  }
 }

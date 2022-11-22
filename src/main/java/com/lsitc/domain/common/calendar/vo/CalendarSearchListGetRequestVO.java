@@ -1,9 +1,8 @@
 package com.lsitc.domain.common.calendar.vo;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import com.lsitc.domain.common.calendar.entity.CalendarEntity;
+import com.lsitc.global.util.LocalDateUtils;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -14,7 +13,7 @@ public class CalendarSearchListGetRequestVO {
 
   public CalendarEntity toEntity() {
     return CalendarEntity.builder()
-        .date(LocalDate.parse(yyyymm + "01", DateTimeFormatter.ofPattern("yyyyMMdd")))
+        .date(LocalDateUtils.parseYyyymmdd(yyyymm + "01"))
         .build();
   }
   

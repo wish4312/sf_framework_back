@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import com.lsitc.domain.common.plan.entity.PlanEntity;
+import com.lsitc.global.util.LocalDateUtils;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -23,10 +24,10 @@ public class PlanAddRequestVO {
   
   public PlanEntity toEntity() {
     return PlanEntity.builder()
-        .startDate(LocalDate.parse(strtDt, DateTimeFormatter.ofPattern("yyyy-MM-dd")))
+        .startDate(LocalDateUtils.parse(strtDt, "yyyy-MM-dd"))
         .startHour(strtHh)
         .startMinute(strtMm)
-        .endDate(LocalDate.parse(endDt, DateTimeFormatter.ofPattern("yyyy-MM-dd")))
+        .endDate(LocalDateUtils.parse(endDt, "yyyy-MM-dd"))
         .endHour(endHh)
         .endMinute(endMm)
         .planTitle(planTitle)
