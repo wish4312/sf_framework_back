@@ -2,15 +2,15 @@ package com.lsitc.global.mybatis;
 
 import com.lsitc.domain.common.user.entity.UserEntity;
 import com.lsitc.global.auditing.Auditable;
-import com.lsitc.global.auditing.CurrentDateTimeProvider;
-import com.lsitc.global.auditing.CurrentUserInfoProvider;
-import com.lsitc.global.auditing.DateTimeProvider;
+import com.lsitc.global.auditing.AuditingHandler;
 import com.lsitc.global.auditing.SoftDeletable;
-import com.lsitc.global.auditing.UserProvider;
+import com.lsitc.global.auditing.SoftDeletingHandler;
 import com.lsitc.global.common.BaseVo;
 import com.lsitc.global.common.SessionVo;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import lombok.RequiredArgsConstructor;
 import org.apache.ibatis.cache.CacheKey;
 import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.mapping.BoundSql;
@@ -22,10 +22,12 @@ import org.apache.ibatis.plugin.Invocation;
 import org.apache.ibatis.plugin.Signature;
 import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.ibatis.session.defaults.DefaultSqlSession.StrictMap;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
+@RequiredArgsConstructor
 @Component
 @Intercepts({
     @Signature(type = Executor.class, method = "query",
@@ -38,45 +40,54 @@ import org.springframework.stereotype.Component;
 })
 public class DefaultInterceptor implements Interceptor {
 
-  /**
-   * @param invocation
-   * @return
-   * @throws Throwable
-   * @methodName : intercept
-   * @date : 2021.02.19
-   * @desc : mybatis에서 sql 수행 시 수행되는 interceptor로, session객체를 추가해준다. (참조 ::
-   * https://developpaper.com/mybatis-interceptor/)
-   */
-  private DateTimeProvider dateTimeProvider = CurrentDateTimeProvider.INSTANCE;
-  private UserProvider userProvider = CurrentUserInfoProvider.INSTANCE;
+  private final AuditingHandler auditingHandler;
+  private final SoftDeletingHandler softDeletingHandler;
 
   @SuppressWarnings("unchecked")
   @Override
   public Object intercept(Invocation invocation) throws Throwable {
-    //mybatis mapping params
+    markAudited(invocation);
+
+    return invocation.proceed();
+  }
+
+  private void markAudited(Invocation invocation) {
     Object parameter = invocation.getArgs()[1];
+    String executorMethodName = invocation.getMethod().getName();
+    SqlCommandType sqlCommandType = ((MappedStatement) invocation.getArgs()[0]).getSqlCommandType();
 
+    if (isCollection(parameter)) {
+      markCollection((StrictMap) parameter, executorMethodName, sqlCommandType);
+    } else {
+      markSingleObject(parameter, executorMethodName, sqlCommandType);
+    }
+  }
+
+  private boolean isCollection(Object parameter) {
+    return parameter instanceof StrictMap;
+  }
+
+  private void markCollection(StrictMap parameter, String executorMethodName,
+      SqlCommandType sqlCommandType) {
+    if (parameter.containsKey("collection")) {
+      for (Object collectionParam : (Collection) parameter.get("collection")) {
+        markSingleObject(collectionParam, executorMethodName, sqlCommandType);
+      }
+    } else if (parameter.containsKey("array")) {
+      for (Object collectionParam : (Object[]) parameter.get("array")) {
+        markSingleObject(collectionParam, executorMethodName, sqlCommandType);
+      }
+    }
+  }
+
+  private void markSingleObject(Object parameter, String executorMethodName,
+      SqlCommandType sqlCommandType) {
     if (parameter instanceof Auditable) {
-      Auditable baseAbstractEntity = (Auditable) parameter;
-      if ("update".equals(invocation.getMethod().getName())) {
-        MappedStatement mappedStatement = (MappedStatement) invocation.getArgs()[0];
-        if (mappedStatement.getSqlCommandType().equals(SqlCommandType.INSERT)) {
-          baseAbstractEntity.setCreatedBy(userProvider.getId());
-          baseAbstractEntity.setCreatedDate(dateTimeProvider.getNow());
-          baseAbstractEntity.setLastModifiedBy(userProvider.getId());
-          baseAbstractEntity.setLastModifiedDate(dateTimeProvider.getNow());
-        } else if (mappedStatement.getSqlCommandType().equals(SqlCommandType.UPDATE)) {
-          baseAbstractEntity.setLastModifiedBy(userProvider.getId());
-          baseAbstractEntity.setLastModifiedDate(dateTimeProvider.getNow());
-
-          if (parameter instanceof SoftDeletable) {
-            SoftDeletable softDeletableEntity = (SoftDeletable) parameter;
-            if (softDeletableEntity.isDeleted()) {
-              softDeletableEntity.setDeletedBy(userProvider.getId());
-              softDeletableEntity.setDeletedDate(dateTimeProvider.getNow());
-            }
-          }
-        }
+      Auditable auditableEntity = (Auditable) parameter;
+      if (isInsertCommand(executorMethodName, sqlCommandType)) {
+        auditingHandler.markCreated(auditableEntity);
+      } else if (isUpdateCommand(executorMethodName, sqlCommandType)) {
+        auditingHandler.markModified(auditableEntity);
       }
     } else if (parameter instanceof Map || parameter instanceof HashMap) {
       SessionVo sessionVo = getSessionVoFromSecurityCtx();
@@ -88,8 +99,28 @@ public class DefaultInterceptor implements Interceptor {
       vo.setSession(sessionVo);
     }
 
-    //바인딩된 파라미터를 바탕으로 수행
-    return invocation.proceed();
+    if (isUpdateCommand(executorMethodName, sqlCommandType)) {
+      if (parameter instanceof SoftDeletable) {
+        SoftDeletable softDeletableEntity = (SoftDeletable) parameter;
+        softDeletingHandler.markDeleted(softDeletableEntity);
+      }
+    }
+  }
+
+  private boolean isInsertCommand(String executorMethodName, SqlCommandType sqlCommandType) {
+    return "update".equals(executorMethodName) && sqlCommandType.equals(SqlCommandType.INSERT);
+  }
+
+  private boolean isUpdateCommand(String executorMethodName, SqlCommandType sqlCommandType) {
+    return "update".equals(executorMethodName) && sqlCommandType.equals(SqlCommandType.UPDATE);
+  }
+
+  private boolean isDeleteCommand(String executorMethodName, SqlCommandType sqlCommandType) {
+    return "update".equals(executorMethodName) && sqlCommandType.equals(SqlCommandType.DELETE);
+  }
+
+  private boolean isSelectCommand(String executorMethodName) {
+    return "query".equals(executorMethodName);
   }
 
   private SessionVo getSessionVoFromSecurityCtx() {
