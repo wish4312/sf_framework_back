@@ -10,7 +10,7 @@ public class LocalDateUtils {
   }
   
   public static LocalDate parseYyyymmdd(String str) {
-    return parse(str, "yyyymmdd");
+    return parse(str, "yyyyMMdd");
   }
   
   public static LocalDate getFirstDayOfMonth(LocalDate date) {
