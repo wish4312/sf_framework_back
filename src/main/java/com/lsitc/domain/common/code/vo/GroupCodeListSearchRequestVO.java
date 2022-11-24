@@ -11,7 +11,7 @@ public class GroupCodeListSearchRequestVO {
 
   private final String commGrpCd;
   private final String commGrpNm;
-  private final int useFg;
+  private final Integer useFg;
 
   public GroupCodeEntity toEntity() {
     return GroupCodeEntity.builder()
