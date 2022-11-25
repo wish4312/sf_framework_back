@@ -36,13 +36,21 @@
     ( date
     , is_holiday
     , holiday_name
-    , remark)
+    , remark
+    , created_by
+    , created_date
+    , last_modified_by
+    , last_modified_date)
     VALUES 
     <foreach item="item" collection="list" separator=",">
     ( #{item.date}
     , #{item.isHoliday}
     , #{item.holidayName}
-    , #{item.remark})
+    , #{item.remark}
+    , #{item.createdBy}
+    , #{item.createdDate}
+    , #{item.lastModifiedBy}
+    , #{item.lastModifiedDate})
     </foreach>
 	</insert>
 	
@@ -50,9 +58,11 @@
     parameterType="com.lsitc.domain.common.calendar.entity.CalendarEntity">
     <foreach item="item" collection="list" separator=";">
     UPDATE sf_calendar
-    SET is_holiday   = #{item.isHoliday}
-      , holiday_name = #{item.holidayName}
-      , remark       = #{item.remark}
+    SET is_holiday         = #{item.isHoliday}
+      , holiday_name       = #{item.holidayName}
+      , remark             = #{item.remark}
+      , last_modified_by   = #{item.lastModifiedBy}
+      , last_modified_date = #{item.lastModifiedDate}
     WHERE date = #{item.date}
     </foreach>
   </update>
