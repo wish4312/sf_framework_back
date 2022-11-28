@@ -1,9 +1,9 @@
 package com.lsitc.global.auditing;
 
-import org.springframework.security.core.context.SecurityContextHolder;
 import com.lsitc.domain.common.user.entity.UserEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 
-public enum CurrentUserInfoProvider implements UserProvider<UserEntity, Long> {
+public enum CurrentUserEntityProvider implements UserProvider<UserEntity, Long> {
   INSTANCE;
 
   @Override

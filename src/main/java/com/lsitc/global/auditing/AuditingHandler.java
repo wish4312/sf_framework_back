@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 public class AuditingHandler {
 
   private DateTimeProvider dateTimeProvider = CurrentDateTimeProvider.INSTANCE;
-  private UserProvider userProvider = CurrentUserInfoProvider.INSTANCE;
+  private UserProvider userProvider = CurrentUserEntityProvider.INSTANCE;
 
   public <T extends Auditable> void markCreated(T target) {
     this.touch(target, true);

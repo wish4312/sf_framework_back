@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 public class SoftDeletingHandler {
 
   private DateTimeProvider dateTimeProvider = CurrentDateTimeProvider.INSTANCE;
-  private UserProvider userProvider = CurrentUserInfoProvider.INSTANCE;
+  private UserProvider userProvider = CurrentUserEntityProvider.INSTANCE;
 
   public <T extends SoftDeletable> void markDeleted(T target) {
     this.touchDeleted(target);
