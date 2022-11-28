@@ -10,10 +10,9 @@ public enum CurrentUserInfoProvider implements UserProvider<UserEntity, Long> {
   public UserEntity getUser() {
     Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     if (principal instanceof UserEntity) {
-      UserEntity userEntity = (UserEntity) principal;
-      return userEntity;
+      return (UserEntity) principal;
     } else {
-      return UserEntity.builder().id(0L).name("anonymous").build();
+      return UserEntity.AnonymousUser();
     }
   }
 
@@ -24,7 +23,7 @@ public enum CurrentUserInfoProvider implements UserProvider<UserEntity, Long> {
       UserEntity userEntity = (UserEntity) principal;
       return userEntity.getId();
     } else {
-      return 0L;
+      return UserEntity.AnonymousUser().getId();
     }
   }
 }

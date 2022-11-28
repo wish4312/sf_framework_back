@@ -39,6 +39,10 @@ public class UserEntity extends BaseAbstractEntity
     this.phoneNumber = phoneNumber;
   }
 
+  public static UserEntity AnonymousUser() {
+    return builder().id(0L).name("anonymous").build();
+  }
+
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
     // FIXME 권한 관련 로직이 들어가는 곳
