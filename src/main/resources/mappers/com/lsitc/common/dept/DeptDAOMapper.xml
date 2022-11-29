@@ -9,9 +9,6 @@
     SELECT id
          , name
          , parents_id
-         , is_deleted
-         , deleted_by
-         , deleted_date
          , remark
          , created_by
          , created_date
@@ -26,9 +23,6 @@
     SELECT id
          , name
          , parents_id
-         , is_deleted
-         , deleted_by
-         , deleted_date
          , remark
          , created_by
          , created_date
@@ -42,9 +36,6 @@
     SELECT id
          , name
          , parents_id
-         , is_deleted
-         , deleted_by
-         , deleted_date
          , remark
          , created_by
          , created_date
@@ -58,7 +49,6 @@
     INSERT INTO sf_dept
     ( name
     , parents_id
-    , is_deleted
     , remark
     , created_by
     , created_date
@@ -68,7 +58,6 @@
     <foreach collection="list" item="item" separator=",">
       ( #{item.name}
       , #{item.parentsId}
-      , #{item.isDeleted}
       , #{item.remark}
       , #{item.createdBy}
       , #{item.createdDate}
@@ -83,7 +72,6 @@
     ( id
     , name
     , parents_id
-    , is_deleted
     , remark
     , created_by
     , created_date
@@ -94,7 +82,6 @@
       ( #{item.id}
       , #{item.name}
       , #{item.parentsId}
-      , #{item.isDeleted}
       , #{item.remark}
       , #{item.createdBy}
       , #{item.createdDate}
