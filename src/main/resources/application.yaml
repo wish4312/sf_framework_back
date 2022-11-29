@@ -23,7 +23,7 @@ spring:
 
 #로깅관련
 logging:
-  loginLogEnable: true
+  #SystemLogReadCtr
   menuCnctLogEnable: true
   level:
     root: DEBUG

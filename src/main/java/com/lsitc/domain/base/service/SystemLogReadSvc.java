@@ -27,57 +27,13 @@ import com.lsitc.global.common.BaseSvc;
 
 @Service
 public class SystemLogReadSvc extends BaseSvc {
-    private static Boolean LOGIN_LOG_ENABLE = false;
     private static Boolean MENU_CNCT_LOG_ENABLE = false;
 
-    @Value("${logging.loginLogEnable:false}")
-    private void setLoginLogEnable(Boolean loginLogEnable) {
-        LOGIN_LOG_ENABLE = loginLogEnable;
-    }
-    
     @Value("${logging.menuCnctLogEnable:FEMS_SESSION}")
     private void setMenuCnctLogEnable(Boolean menuCnctLogEnable) {
         MENU_CNCT_LOG_ENABLE = menuCnctLogEnable;
     }
-    
-    /**
-     * @methodName  : selectMenuCnctLog
-     * @date        : 2021.05.04
-     * @desc        : 로그인로그 조회
-     * @param params
-     * @return
-     */
-    public Object selectLoginLog(HashMap<String, Object> paramMap) {
-        return dao.selectList("comm.base.SystemLogRead.selectLoginLog", paramMap);
-    }
-    
-    /**
-     * @methodName  : selectMenuCnctLog
-     * @date        : 2021.05.04
-     * @desc        : 메뉴접근로그 조회
-     * @param params
-     * @return
-     */
-    public Object selectMenuCnctLog(HashMap<String, Object> paramMap) {
-        return dao.selectList("comm.base.SystemLogRead.selectMenuCnctLog", paramMap);
-    }
-    
-    /**
-     * @param loginInfo 
-     * @methodName  : saveLoginLog
-     * @date        : 2021.05.04
-     * @desc        : 로그인로그 저장
-     */
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public void saveLoginLog(Map<String, Object> loginInfo) {
-        if( LOGIN_LOG_ENABLE ) {
-            Map<String, Object> paramMap = new HashMap<String, Object>();
-            paramMap.putAll(loginInfo); //loginInfo에 put이 안되는 문제로 인해 새로운 map에 옮김.
-            paramMap.put("logId", getUUID());
-            dao.insert("comm.base.SystemLogRead.insertLoginLog", paramMap);
-        }
-    }
-    
+
     /**
      * @methodName  : saveMenuCnctLog
      * @date        : 2021.05.04
