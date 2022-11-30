@@ -23,6 +23,7 @@ public class CalendarService {
 
   private final CalendarDAO calendarDAO;
 
+  @Transactional
   public List<CalendarSearchListGetResponseVO> searchCalendarList(
       final CalendarSearchListGetRequestVO calendarSearchListGetRequestVO) {
     CalendarEntity calendarEntity = calendarSearchListGetRequestVO.toEntity();
@@ -41,7 +42,6 @@ public class CalendarService {
         .collect(Collectors.toList());
   }
 
-  @Transactional
   private List<CalendarEntity> createCalendar(CalendarEntity calendarEntity) {
     List<CalendarEntity> holidayList = calendarDAO.selectHolidayByConditions(calendarEntity);
     List<CalendarEntity> calendarList = new ArrayList<CalendarEntity>();
