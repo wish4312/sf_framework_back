@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.lsitc.domain.common.menu.entity.MenuEntity;
+import com.lsitc.domain.model.BooleanState;
 import com.lsitc.global.common.TreeAbstractVO;
 import lombok.Builder;
 import lombok.Getter;
@@ -44,7 +45,7 @@ public class MenuTreeGetResponseVO extends TreeAbstractVO {
         .menuNm(menuEntity.getName())
         .upMenuId(menuEntity.getParentsId())
         .url(menuEntity.getUrl())
-        .useFg(menuEntity.getIsUsed() ? "1" : "0")
+        .useFg(convertBoolean(menuEntity.getIsUsed()))
         .sortSeq(menuEntity.getSortSequence())
         .regUserNo(menuEntity.getCreatedBy())
         .regDttm(menuEntity.getCreatedDate())
@@ -53,6 +54,10 @@ public class MenuTreeGetResponseVO extends TreeAbstractVO {
         .build();
   }
 
+  private static String convertBoolean(Boolean booleanValue) {
+    return BooleanState.of(booleanValue).getStringValue();
+  }
+  
   @Override
   public String toString() {
     return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
