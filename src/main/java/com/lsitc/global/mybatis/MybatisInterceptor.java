@@ -1,15 +1,10 @@
 package com.lsitc.global.mybatis;
 
-import com.lsitc.domain.common.user.entity.UserEntity;
 import com.lsitc.global.auditing.Auditable;
 import com.lsitc.global.auditing.AuditingHandler;
 import com.lsitc.global.auditing.SoftDeletable;
 import com.lsitc.global.auditing.SoftDeletingHandler;
-import com.lsitc.global.common.BaseVo;
-import com.lsitc.global.common.SessionVo;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.apache.ibatis.cache.CacheKey;
 import org.apache.ibatis.executor.Executor;
@@ -23,8 +18,6 @@ import org.apache.ibatis.plugin.Signature;
 import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.defaults.DefaultSqlSession.StrictMap;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
@@ -89,14 +82,6 @@ public class MybatisInterceptor implements Interceptor {
       } else if (isUpdateCommand(executorMethodName, sqlCommandType)) {
         auditingHandler.markModified(auditableEntity);
       }
-    } else if (parameter instanceof Map || parameter instanceof HashMap) {
-      SessionVo sessionVo = getSessionVoFromSecurityCtx();
-      Map<String, Object> map = (Map<String, Object>) parameter;
-      map.put("session", sessionVo);
-    } else if (parameter instanceof BaseVo) {
-      SessionVo sessionVo = getSessionVoFromSecurityCtx();
-      BaseVo<?> vo = (BaseVo<?>) parameter;
-      vo.setSession(sessionVo);
     }
 
     if (isUpdateCommand(executorMethodName, sqlCommandType)) {
@@ -123,22 +108,4 @@ public class MybatisInterceptor implements Interceptor {
     return "query".equals(executorMethodName);
   }
 
-  private SessionVo getSessionVoFromSecurityCtx() {
-    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    SessionVo sessionVo = null;
-    if (authentication.getPrincipal() instanceof UserEntity) {
-      sessionVo = new SessionVo();
-      UserEntity userEntity = (UserEntity) authentication.getPrincipal();
-      sessionVo.setUserNm(userEntity.getName());
-      sessionVo.setUserNo(String.valueOf(userEntity.getId()));
-    } else if (authentication.getPrincipal() instanceof Map) {
-      sessionVo = new SessionVo();
-      Map<String, String> userInfo = (Map<String, String>) authentication.getPrincipal();
-      sessionVo.setUserNm(userInfo.get("userNm"));
-      sessionVo.setUserNo(userInfo.get("userNo"));
-      sessionVo.setBlocId(userInfo.get("blocId"));
-      sessionVo.setComId(userInfo.get("comId"));
-    }
-    return sessionVo;
-  }
 }
