@@ -76,7 +76,6 @@ spring:
   config:
     activate:
       on-profile: local
-  gatewayUrl: http://localhost:9999
   datasource:
     hikari:
       minimum-idle: 1
@@ -96,7 +95,6 @@ spring:
   config:
     activate:
       on-profile: dev
-  gatewayUrl: http://localhost:9999
   datasource:
     hikari:
       minimum-idle: 1
@@ -116,7 +114,6 @@ spring:
   config:
     activate:
       on-profile: prod
-  gatewayUrl: http://localhost:9999
   datasource:
     hikari:
       minimum-idle: 5

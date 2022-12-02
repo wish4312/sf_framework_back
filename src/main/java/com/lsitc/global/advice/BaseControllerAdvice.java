@@ -1,28 +1,16 @@
 package com.lsitc.global.advice;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.lang3.ArrayUtils;
+import com.lsitc.global.common.BaseResponse;
 import org.apache.tomcat.util.http.fileupload.impl.SizeLimitExceededException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.core.env.Environment;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
-import com.lsitc.global.common.BaseResponse;
-import com.lsitc.global.error.exception.BisiExcp;
-
-/**
- * ExcpHandler
- */
-//@ControllerAdvice
-//@ConfigurationProperties
 public class BaseControllerAdvice {
     //최대 허용 파일 사이즈
     private static String MAX_FILE_SIZE;
@@ -43,26 +31,7 @@ public class BaseControllerAdvice {
     private Environment environment;
     
     Logger logger = LoggerFactory.getLogger(this.getClass()); 
-    
-    /**
-     * 
-     * @methodName  : BisiExcpProc
-     * @date        : 2021.02.19
-     * @desc        : BisiExcp.class 예외처리
-     * @param request
-     * @param e
-     * @return
-     */
-    @ExceptionHandler(BisiExcp.class)
-    @ResponseBody
-    public Object BisiExcpProc(HttpServletRequest request, BisiExcp e) {      
-        BaseResponse result = new BaseResponse();
-        result.setRetnCd(e.getErrorCd());
-        result.setRetnMsg(e.getErrorMsg());
-        logger.error(e.toString());
-        return result;
-    }
-        
+
     @ExceptionHandler(MaxUploadSizeExceededException.class)
     @ResponseBody
     public Object handleFileSizeLimitExceeded(Exception e) {
@@ -85,37 +54,4 @@ public class BaseControllerAdvice {
         logger.error(e.toString());
         return result;
     }
-    
-    /**
-     * 
-     * @methodName  : ExcpProc
-     * @date        : 2021.02.19
-     * @desc        : Exception.class 예외처리
-     *                로컬일때 예외를 리턴하고, 운영에서는 메시지만 리턴한다. 
-     * @param request
-     * @param e
-     * @return
-     */
-    @ExceptionHandler(Exception.class)
-    @ResponseBody
-    public Object ExcpProc(HttpServletRequest request, Exception e) {   
-        BaseResponse result = new BaseResponse();
-        result.setRetnCd(-1);
-        
-        //현재 프로파일
-        String[] profiles = environment.getActiveProfiles();
-
-        if( ArrayUtils.contains(profiles, "local") ){
-            //local일 경우만 메시지 보이게끔..
-            result.setRetnMsg(e.getMessage());
-            logger.error(e.getMessage(), e);
-        } else {
-            //FIXME 다국어 처리해주세요.
-            result.setRetnMsg("에러가 발생하였습니다.");
-            logger.error(e.getMessage());
-        }
-        
-        return result;
-    }
-    
 }
