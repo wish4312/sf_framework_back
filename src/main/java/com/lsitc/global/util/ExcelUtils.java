@@ -14,10 +14,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.CellValue;
@@ -32,8 +30,6 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.view.document.AbstractXlsView;
@@ -43,20 +39,17 @@ public class ExcelUtils extends AbstractXlsView {
 
 	protected final Logger logger = LoggerFactory.getLogger(this.getClass());
     
-	@Autowired
-	private FileUtils fileUtils;
-    
     //HSSFWorkbook 대신 SXSSFWorkbook리턴
     @Override
 	protected Workbook createWorkbook(Map<String, Object> model, HttpServletRequest request) {
     	//return new HSSFWorkbook();
 		return new SXSSFWorkbook();
 	}
-    
+
     //파일 생성
 	@SuppressWarnings("unchecked")
 	@Override
-	protected void buildExcelDocument(Map<String, Object> model, Workbook wb, HttpServletRequest request, HttpServletResponse response) throws Exception {        
+	protected void buildExcelDocument(Map<String, Object> model, Workbook wb, HttpServletRequest request, HttpServletResponse response) throws Exception {
         Cell cell = null;
 
         Sheet sheet = wb.createSheet("Sheet1");
@@ -64,7 +57,7 @@ public class ExcelUtils extends AbstractXlsView {
         sheet.setDefaultRowHeight((short) 450);
         // 대상
         List<Map<String, Object>> targeList = (List<Map<String, Object>>) model.get("targeList");
-        // header값 
+        // header값
         Map<String, String> headerMap = (Map<String, String>) model.get("headerMap");
         // fileName
         String title = model.get("fileName").toString();
@@ -72,10 +65,10 @@ public class ExcelUtils extends AbstractXlsView {
         // fileName_일시
         SimpleDateFormat frm = new SimpleDateFormat("yyyyMMddHHmmss", Locale.KOREA);
         title = frm.format(Calendar.getInstance().getTime()) + "_" + title.substring(title.indexOf('_') + 1);
-        
-        
+
+
         Map<String, CellStyle> sytleMap = createStyleMap(wb);
-        
+
         //headers
         CellStyle stringSytle = wb.createCellStyle();
         stringSytle.setAlignment(HorizontalAlignment.LEFT);
@@ -84,11 +77,11 @@ public class ExcelUtils extends AbstractXlsView {
         CellStyle intSytle = wb.createCellStyle();
         intSytle.setAlignment(HorizontalAlignment.RIGHT);
         intSytle.setVerticalAlignment(VerticalAlignment.CENTER);
-        
+
         CellStyle doubleStyle = wb.createCellStyle();
         doubleStyle.setAlignment(HorizontalAlignment.RIGHT);
         doubleStyle.setVerticalAlignment(VerticalAlignment.CENTER);
-        
+
         // 헤더 정보 셋팅
         Set<Entry<String, String>> entrySet = headerMap.entrySet();
         Iterator<Entry<String, String>> iterator = entrySet.iterator();
@@ -98,19 +91,19 @@ public class ExcelUtils extends AbstractXlsView {
             Entry<String, String> next = iterator.next();
             Cell headCell = getCell(sheet, 0, aliasCnt++);
             CellStyle headCellStyle = wb.createCellStyle();
-            
+
             headCellStyle.setAlignment(HorizontalAlignment.CENTER);
             headCellStyle.setVerticalAlignment(VerticalAlignment.CENTER);
-            
+
             Font headFont = wb.createFont();
             headFont.setBold(true);
-            
+
             headCellStyle.setFont(headFont);
             headCell.setCellStyle(headCellStyle);
             setText(headCell, next.getValue());
             alias.add(next.getKey());
         }
-        
+
         //엑셀 생성
         for (int i = 0; i < targeList.size(); i++) {
             Map<String, Object> category = targeList.get(i);
@@ -122,22 +115,6 @@ public class ExcelUtils extends AbstractXlsView {
                 }
             }
         }
-        
-        //response header설정
-        fileUtils.setResponse(request, response, title + ".xlsx", 0);
-	}
-	
-	//직접만든 excel 내리는 경우..
-	public void renderCustom(@Nullable Map<String, ?> model, HttpServletRequest request, HttpServletResponse response, Workbook workbook) throws Exception {
-//		Map<String, Object> mergedModel = createMergedOutputModel(model, request, response);
-		prepareResponse(request, response);
-        // fileName
-        String title = model.get("fileName").toString();
-        // FIXME Locale수정
-        //response header설정
-        fileUtils.setResponse(request, response, title + ".xlsx", 0);
-		// Flush byte array to servlet output stream.
-		renderWorkbook(workbook, response);
 	}
 
 	//특정 sheet에 특정행의 특저 컬럼을 반환하는데, 없으면 생성해서 리턴한다.
@@ -302,9 +279,4 @@ public class ExcelUtils extends AbstractXlsView {
 		//List<Map>형태의 결과 반환
 		return resultList;
 	}
-
-//	public void readExcel(MultipartFile file, Class<?> clzz) {
-//		// TODO Auto-generated method stub
-//		
-//	}
 }
