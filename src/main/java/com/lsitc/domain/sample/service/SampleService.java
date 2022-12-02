@@ -16,6 +16,7 @@ import com.lsitc.global.paging.Pageable;
 import com.lsitc.global.util.FileUtils;
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -24,6 +25,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -139,17 +141,13 @@ public class SampleService {
   }
 
   public void uploadSampleFile(MultipartFile file) {
-    FileUtils fileUtils = new FileUtils();
+    String path = "tmp/files/tmp";
     String originalFilename = getOriginalFilename(file);
     String filename = UUID.randomUUID().toString();
     String extension = FileUtils.getExtension(originalFilename);
 
-    if (!fileUtils.isValidFile(file)) {
-      throw new SampleException("This file is invalid.");
-    }
-
     try {
-      File targetFile = new File(FileUtils.FILE_TMP_PATH + File.separator + filename);
+      File targetFile = new File(path + File.separator + originalFilename);
       FileUtils.touch(targetFile);
       file.transferTo(targetFile);
     } catch (IOException e) {
@@ -161,4 +159,26 @@ public class SampleService {
     return Optional.ofNullable(file.getOriginalFilename()).filter(StringUtils::isNotBlank)
         .orElseThrow(() -> new SampleException("Filename is empty"));
   }
+
+  public File downloadSampleFiles(List<String> filenames) {
+    List<File> files = filenames.stream()
+        .map(this::downloadSampleFile).collect(Collectors.toList());
+    return files.size() > 1 ? FileUtils.compressFiles(files) : files.get(0);
+  }
+
+  public File downloadSampleFile(String filename) {
+    return getSampleFile(filename);
+  }
+
+  private File getSampleFile(String filename) {
+    File file = new File(filename);
+    String content = RandomStringUtils.randomAlphabetic(10);
+    try {
+      FileUtils.writeStringToFile(file, content, StandardCharsets.UTF_8);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+    return file;
+  }
+
 }

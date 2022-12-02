@@ -13,18 +13,25 @@ import com.lsitc.domain.sample.vo.SampleRemoveRequestVO;
 import com.lsitc.domain.sample.vo.SampleRemoveResponseVO;
 import com.lsitc.global.error.exception.ErrorCode;
 import com.lsitc.global.paging.Pageable;
+import java.io.File;
+import java.nio.file.Files;
 import java.util.List;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
 @Slf4j
 @RequestMapping("/sample")
@@ -118,5 +125,20 @@ public class SampleController {
   @PostMapping("/files-upload")
   public void uploadSampleFiles(MultipartFile[] file) {
     sampleService.uploadSampleFiles(file);
+  }
+
+  @GetMapping("/files-download")
+  public ResponseEntity<StreamingResponseBody> downloadSampleFiles(
+      @RequestParam List<String> filename) {
+
+    File file = sampleService.downloadSampleFiles(filename);
+    StreamingResponseBody responseBody = outputStream -> {
+      Files.copy(file.toPath(), outputStream);
+    };
+    return ResponseEntity.ok()
+        .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + file.getName())
+        .contentType(MediaType.APPLICATION_OCTET_STREAM)
+        .contentLength(file.length())
+        .body(responseBody);
   }
 }

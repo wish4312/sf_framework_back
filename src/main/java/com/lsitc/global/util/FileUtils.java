@@ -13,6 +13,7 @@ import java.nio.channels.Channels;
 import java.nio.channels.FileChannel;
 import java.nio.channels.WritableByteChannel;
 import java.nio.charset.Charset;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
@@ -25,6 +26,7 @@ import java.util.zip.ZipOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.IOUtils;
 import org.apache.tika.Tika;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -44,6 +46,7 @@ public final class FileUtils extends org.apache.commons.io.FileUtils {
   @Value("${file.valid-mime-types}")
   public static List<String> VALID_MIME_TYPES;
 
+  private static final String COMPRESS_FILENAME = "compressed.zip";
 
   @SuppressWarnings("static-access")
   @Value("${file.filePath}")
@@ -284,5 +287,39 @@ public final class FileUtils extends org.apache.commons.io.FileUtils {
       throw new BisiExcp("파일 압축과정중 문제가 발생하였습니다.");
     }
 
+  }
+
+  public static File compressFiles(List<File> files) {
+    return compressFiles(files, new File(COMPRESS_FILENAME));
+  }
+
+  public static File compressFiles(List<File> files, File destination) {
+    try (ZipOutputStream zipOutputStream = new ZipOutputStream(
+        Files.newOutputStream(FileUtils.getFile(destination).toPath()))) {
+      for (File file : files) {
+        ZipEntry zipEntry = new ZipEntry(file.getName());
+        zipOutputStream.putNextEntry(zipEntry);
+        IOUtils.copy(Files.newInputStream(file.toPath()), zipOutputStream);
+      }
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+    return getFile(destination);
+  }
+
+  public static File compressFile(File source) {
+    return compressFile(source, new File(COMPRESS_FILENAME));
+  }
+
+  public static File compressFile(File source, File destination) {
+    try (ZipOutputStream zipOutputStream = new ZipOutputStream(
+        Files.newOutputStream(destination.toPath()))) {
+      ZipEntry zipEntry = new ZipEntry(source.getName());
+      zipOutputStream.putNextEntry(zipEntry);
+      IOUtils.copy(Files.newInputStream(source.toPath()), zipOutputStream);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+    return getFile(destination);
   }
 }
