@@ -28,10 +28,15 @@ public class ControllerLoggingInterceptor implements HandlerInterceptor {
 
     if (isContentTypeJson(request.getContentType())) {
       log.debug(
-          "\n=== Request-{} ====\n" + "{} {}\n" + "Headers : {}\n" + "RequestParam : {}\n"
-              + "RequestBody : {}\n" + "==================================================\n",
-          request.getRequestedSessionId(), request.getMethod(), request.getRequestURI(),
-          getHeaders(request), getRequestParam(request), getRequestBody(request));
+          "\n=== Request-{} ====\n" 
+        + "{} {}\n" + "Headers : {}\n" 
+        + "RequestParam : {}\n"
+        + "RequestBody : {}\n" 
+        + "==================================================\n",
+          request.getRequestedSessionId(),
+          request.getMethod(), request.getRequestURI(), getHeaders(request),
+          getRequestParam(request),
+          getRequestBody(request));
     }
 
     return true;
@@ -44,9 +49,14 @@ public class ControllerLoggingInterceptor implements HandlerInterceptor {
 
     if (isContentTypeJson(response.getContentType())) {
       log.debug(
-          "\n=== Response-{} ====\n" + "HttpStatus : {}\n" + "Headers : {}\n"
-              + "ResponseBody : {}\n" + "==================================================\n",
-          request.getRequestedSessionId(), response.getStatus(), getHeaders(response),
+          "\n=== Response-{} ====\n"
+        + "HttpStatus : {}\n"
+        + "Headers : {}\n"
+        + "ResponseBody : {}\n"
+        + "==================================================\n",
+          request.getRequestedSessionId(),
+          response.getStatus(),
+          getHeaders(response),
           getResponseBody(response));
     }
   }
