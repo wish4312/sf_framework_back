@@ -1,4 +1,4 @@
-package com.lsitc.global.advice;
+package com.lsitc.global.aop;
 
 import com.lsitc.global.common.BaseResponse;
 import org.apache.tomcat.util.http.fileupload.impl.SizeLimitExceededException;

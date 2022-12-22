@@ -1,4 +1,4 @@
-package com.lsitc.global.advice;
+package com.lsitc.global.aop;
 
 import com.lsitc.global.validation.CollectionValidator;
 import org.springframework.web.bind.WebDataBinder;
