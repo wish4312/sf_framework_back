@@ -3,7 +3,8 @@ package com.lsitc.global.util;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.lsitc.global.error.exception.BisiExcp;
+import com.lsitc.global.error.exception.BusinessException;
+import com.lsitc.global.error.exception.ErrorCode;
 
 public class JsonUtils {
     /**
@@ -27,7 +28,7 @@ public class JsonUtils {
             cvtJson = mapper.writeValueAsString(cvtObject);
         } catch (Exception e) {
             //FIXME 다국어 처리
-            throw new BisiExcp("변환중 에러가 발생하였습니다.");
+            throw new BusinessException("변환중 에러가 발생하였습니다.", ErrorCode.INTERNAL_SERVER_ERROR);
         }
         
         return cvtJson;
@@ -58,7 +59,7 @@ public class JsonUtils {
             cvtJson = mapper.writeValueAsString(cvtObject);
         } catch (Exception e) {
             //FIXME 다국어 처리
-            throw new BisiExcp("변환중 에러가 발생하였습니다.");
+            throw new BusinessException("변환중 에러가 발생하였습니다.", ErrorCode.INTERNAL_SERVER_ERROR);
         }
         return cvtJson;
     }
@@ -86,7 +87,7 @@ public class JsonUtils {
             
         } catch (Exception e) {
             //FIXME 다국어 처리
-            throw new BisiExcp("변환중 에러가 발생하였습니다.");
+            throw new BusinessException("변환중 에러가 발생하였습니다.", ErrorCode.INTERNAL_SERVER_ERROR);
         }
 
         return (T) bean;
@@ -147,7 +148,7 @@ public class JsonUtils {
             bean = mapper.readValue(json, boundClass);
         } catch (Exception e) {
             //FIXME 다국어 처리
-            throw new BisiExcp("변환중 에러가 발생하였습니다.");
+            throw new BusinessException("변환중 에러가 발생하였습니다.", ErrorCode.INTERNAL_SERVER_ERROR);
         }
         return (T) bean;
     }
