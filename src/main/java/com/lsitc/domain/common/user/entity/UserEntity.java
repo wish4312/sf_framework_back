@@ -3,6 +3,8 @@ package com.lsitc.domain.common.user.entity;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Collections;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -77,5 +79,10 @@ public class UserEntity extends BaseAbstractEntity
   @Override
   public boolean isEnabled() {
     return !isDeleted();
+  }
+
+  @Override
+  public String toString() {
+    return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
   }
 }

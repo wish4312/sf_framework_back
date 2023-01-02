@@ -1,6 +1,8 @@
 package com.lsitc.domain.common.dept.entity;
 
 import java.time.LocalDateTime;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 import com.lsitc.global.auditing.Auditable;
 import com.lsitc.global.common.BaseAbstractEntity;
 import lombok.AccessLevel;
@@ -24,6 +26,11 @@ public class DeptEntity extends BaseAbstractEntity
     this.name = name;
     this.parentsId = parentsId;
     this.remark = remark;
+  }
+
+  @Override
+  public String toString() {
+    return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
   }
 
 }

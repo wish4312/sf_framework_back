@@ -1,6 +1,8 @@
 package com.lsitc.domain.common.menu.entity;
 
 import java.time.LocalDateTime;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 import com.lsitc.global.auditing.Auditable;
 import com.lsitc.global.common.BaseAbstractEntity;
 import lombok.AccessLevel;
@@ -28,6 +30,11 @@ public class MenuEntity extends BaseAbstractEntity implements Auditable<Long, Lo
     this.url = url;
     this.isUsed = isUsed;
     this.sortSequence = sortSequence;
+  }
+
+  @Override
+  public String toString() {
+    return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
   }
 
 }

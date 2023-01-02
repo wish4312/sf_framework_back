@@ -4,6 +4,8 @@ import com.lsitc.global.auditing.Auditable;
 import com.lsitc.global.auditing.SoftDeletable;
 import com.lsitc.global.common.BaseAbstractEntity;
 import java.time.LocalDateTime;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -23,5 +25,10 @@ public class BlocEntity extends BaseAbstractEntity implements Auditable<Long, Lo
     this.id = id;
     this.name = name;
     this.remark = remark;
+  }
+
+  @Override
+  public String toString() {
+    return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
   }
 }
