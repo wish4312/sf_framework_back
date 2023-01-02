@@ -2,6 +2,8 @@ package com.lsitc.domain.common.code.vo;
 
 import com.lsitc.domain.common.code.entity.CodeEntity;
 import javax.validation.constraints.NotBlank;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -35,14 +37,6 @@ public class CodeModifyRequestVO {
 
   @Override
   public String toString() {
-    return "CodeModifyRequestVO{" +
-        "commCdId='" + commCdId + '\'' +
-        ", commGrpCdId='" + commGrpCdId + '\'' +
-        ", commCd='" + commCd + '\'' +
-        ", commCdNm='" + commCdNm + '\'' +
-        ", sortSeq='" + sortSeq + '\'' +
-        ", useFg='" + useFg + '\'' +
-        ", rmrk='" + rmrk + '\'' +
-        '}';
+    return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
   }
 }

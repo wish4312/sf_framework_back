@@ -3,6 +3,8 @@ package com.lsitc.domain.sample.vo;
 import com.lsitc.domain.sample.entity.SampleEntity;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -25,9 +27,6 @@ public class SampleRemoveRequestVO {
 
   @Override
   public String toString() {
-    return "SampleRemoveRequestVO{" +
-        "id=" + id +
-        ", foo='" + foo + '\'' +
-        '}';
+    return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
   }
 }

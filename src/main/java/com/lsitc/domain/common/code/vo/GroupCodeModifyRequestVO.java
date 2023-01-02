@@ -5,6 +5,8 @@ import com.lsitc.domain.model.BooleanState;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -41,12 +43,6 @@ public class GroupCodeModifyRequestVO {
 
   @Override
   public String toString() {
-    return "GroupCodeModifyRequestVO{" +
-        "commGrpCdId='" + commGrpCdId + '\'' +
-        ", commGrpCd='" + commGrpCd + '\'' +
-        ", commGrpNm='" + commGrpNm + '\'' +
-        ", useFg='" + useFg + '\'' +
-        ", rmrk='" + rmrk + '\'' +
-        '}';
+    return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
   }
 }

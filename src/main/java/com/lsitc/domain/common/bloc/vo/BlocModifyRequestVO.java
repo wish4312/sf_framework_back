@@ -4,6 +4,8 @@ import com.lsitc.domain.common.bloc.entity.BlocEntity;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -30,10 +32,6 @@ public class BlocModifyRequestVO {
 
   @Override
   public String toString() {
-    return "BlocModifyRequestVO{" +
-        "id=" + id +
-        ", name='" + name + '\'' +
-        ", remark='" + remark + '\'' +
-        '}';
+    return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
   }
 }

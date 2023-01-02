@@ -2,6 +2,8 @@ package com.lsitc.domain.common.bloc.vo;
 
 import com.lsitc.domain.common.bloc.entity.BlocEntity;
 import javax.validation.constraints.NotBlank;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -23,9 +25,6 @@ public class BlocAddRequestVO {
 
   @Override
   public String toString() {
-    return "BlocAddRequestVO{" +
-        "name='" + name + '\'' +
-        ", remark='" + remark + '\'' +
-        '}';
+    return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
   }
 }

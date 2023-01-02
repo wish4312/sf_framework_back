@@ -1,5 +1,7 @@
 package com.lsitc.domain.sample.vo;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import lombok.Builder;
@@ -33,9 +35,6 @@ public class SampleAddResponseVO {
 
   @Override
   public String toString() {
-    return "SampleAddResponseVO{" +
-        "result='" + result + '\'' +
-        ", id='" + id + '\'' +
-        '}';
+    return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
   }
 }

@@ -3,6 +3,8 @@ package com.lsitc.domain.common.bloc.vo;
 import com.lsitc.domain.common.bloc.entity.BlocEntity;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -22,8 +24,6 @@ public class BlocRemoveRequestVO {
 
   @Override
   public String toString() {
-    return "BlocRemoveRequestVO{" +
-        "id=" + id +
-        '}';
+    return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
   }
 }

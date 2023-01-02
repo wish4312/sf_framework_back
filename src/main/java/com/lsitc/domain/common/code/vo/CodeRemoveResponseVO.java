@@ -1,5 +1,7 @@
 package com.lsitc.domain.common.code.vo;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -20,9 +22,7 @@ public class CodeRemoveResponseVO {
 
   @Override
   public String toString() {
-    return "CodeRemoveResponseVO{" +
-        "result='" + result + '\'' +
-        '}';
+    return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
   }
 
 }

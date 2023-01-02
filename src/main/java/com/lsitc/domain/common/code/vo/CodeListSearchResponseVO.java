@@ -1,5 +1,7 @@
 package com.lsitc.domain.common.code.vo;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 import com.lsitc.domain.common.code.entity.CodeEntity;
 import com.lsitc.domain.common.code.entity.GroupCodeEntity;
 import lombok.Builder;
@@ -46,15 +48,6 @@ public class CodeListSearchResponseVO {
 
   @Override
   public String toString() {
-    return "CodeListSearchResponseVO{" +
-        "commCdId='" + commCdId + '\'' +
-        ", commGrpCdId='" + commGrpCdId + '\'' +
-        ", commGrpCd='" + commGrpCd + '\'' +
-        ", commCd='" + commCd + '\'' +
-        ", commCdNm='" + commCdNm + '\'' +
-        ", sortSeq='" + sortSeq + '\'' +
-        ", useFg='" + useFg + '\'' +
-        ", rmrk='" + rmrk + '\'' +
-        '}';
+    return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
   }
 }

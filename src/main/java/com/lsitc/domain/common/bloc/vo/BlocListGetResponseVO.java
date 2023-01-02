@@ -1,5 +1,7 @@
 package com.lsitc.domain.common.bloc.vo;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 import com.lsitc.domain.common.bloc.entity.BlocEntity;
 import lombok.Builder;
 import lombok.Getter;
@@ -30,11 +32,6 @@ public class BlocListGetResponseVO {
 
   @Override
   public String toString() {
-    return "BlocListGetResponseVO{" +
-        "id=" + id +
-        ", name='" + name + '\'' +
-        ", isDeleted=" + isDeleted +
-        ", remark='" + remark + '\'' +
-        '}';
+    return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
   }
 }

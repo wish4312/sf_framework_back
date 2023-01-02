@@ -1,5 +1,7 @@
 package com.lsitc.domain.sample.vo;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 import com.lsitc.domain.sample.entity.SampleEntity;
 import lombok.Builder;
 import lombok.Getter;
@@ -27,10 +29,6 @@ public class SampleListGetResponseVO {
 
   @Override
   public String toString() {
-    return "SampleListGetResponseVO{" +
-        "foo='" + foo + '\'' +
-        ", bar='" + bar + '\'' +
-        ", comment='" + comment + '\'' +
-        '}';
+    return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
   }
 }

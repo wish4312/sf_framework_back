@@ -3,6 +3,8 @@ package com.lsitc.domain.sample.vo;
 import com.lsitc.domain.sample.entity.SampleEntity;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -29,10 +31,6 @@ public class SampleAddRequestVO {
 
   @Override
   public String toString() {
-    return "SampleAddRequestVO{" +
-        "foo='" + foo + '\'' +
-        ", bar='" + bar + '\'' +
-        ", comment='" + comment + '\'' +
-        '}';
+    return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
   }
 }

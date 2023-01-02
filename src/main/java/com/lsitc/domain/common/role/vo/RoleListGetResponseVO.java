@@ -1,6 +1,7 @@
 package com.lsitc.domain.common.role.vo;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 import com.lsitc.domain.common.role.entity.RoleEntity;
 import lombok.Builder;
 import lombok.Getter;
@@ -42,6 +43,6 @@ public class RoleListGetResponseVO {
 
   @Override
   public String toString() {
-    return ToStringBuilder.reflectionToString(this);
+    return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
   }
 }

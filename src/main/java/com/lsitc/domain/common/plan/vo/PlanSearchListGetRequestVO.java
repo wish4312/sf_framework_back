@@ -2,6 +2,7 @@ package com.lsitc.domain.common.plan.vo;
 
 import java.time.LocalDate;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 import com.lsitc.domain.common.plan.entity.PlanEntity;
 import com.lsitc.global.util.LocalDateUtils;
 import lombok.AllArgsConstructor;
@@ -21,7 +22,7 @@ public class PlanSearchListGetRequestVO {
   
   @Override
   public String toString() {
-    return ToStringBuilder.reflectionToString(this);
+    return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
   }
 
   private LocalDate getDate() {

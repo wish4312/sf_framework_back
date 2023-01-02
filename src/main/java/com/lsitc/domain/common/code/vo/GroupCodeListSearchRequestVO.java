@@ -1,5 +1,7 @@
 package com.lsitc.domain.common.code.vo;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 import com.lsitc.domain.common.code.entity.GroupCodeEntity;
 import com.lsitc.domain.model.BooleanState;
 import lombok.AllArgsConstructor;
@@ -27,10 +29,6 @@ public class GroupCodeListSearchRequestVO {
 
   @Override
   public String toString() {
-    return "GroupCodeListSearchRequestVO{" +
-        "commGrpCd='" + commGrpCd + '\'' +
-        ", commGrpNm='" + commGrpNm + '\'' +
-        ", useFg='" + useFg + '\'' +
-        '}';
+    return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
   }
 }

@@ -1,5 +1,7 @@
 package com.lsitc.domain.common.code.vo;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 import com.lsitc.domain.common.code.entity.GroupCodeEntity;
 import com.lsitc.domain.model.BooleanState;
 import lombok.Builder;
@@ -36,5 +38,10 @@ public class GroupCodeListSearchResponseVO {
 
   private static String convertBoolean(Boolean booleanValue) {
     return BooleanState.of(booleanValue).getStringValue();
+  }
+
+  @Override
+  public String toString() {
+    return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
   }
 }
