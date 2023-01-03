@@ -21,9 +21,9 @@ public class UserRemoveRequestVO {
   }
 
   public UserEntity toEntity() {
-    UserEntity userEntity = UserEntity.builder().id(id).build();
-    userEntity.delete();
-    return userEntity;
+    return UserEntity.builder()
+        .id(id)
+        .build();
   }
 
   @Override

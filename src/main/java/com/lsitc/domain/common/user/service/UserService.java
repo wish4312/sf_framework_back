@@ -105,10 +105,20 @@ public class UserService implements UserDetailsService {
     List<UserEntity> userEntityList = userRemoveRequestVO.stream()
         .map(UserRemoveRequestVO::toEntity).collect(Collectors.toList());
     log.info(userEntityList.toString());
-    int deleteRows = userDAO.updateUserIsDeletedById(userEntityList);
+    int deleteRows = softDeleteUser(userEntityList);
     return UserRemoveResponseVO.of(deleteRows);
   }
-
+  
+  private int softDeleteUser(List<UserEntity> targetEntityList) {
+    List<UserEntity> userEntityList = userDAO.selectUserByIds(targetEntityList);
+    if (userEntityList.isEmpty()) {
+      throw new UserException("userEntity is not exist");
+    }
+    userEntityList.forEach(UserEntity::delete);
+    log.info(userEntityList.toString());
+    return userDAO.updateUserIsDeletedById(userEntityList);
+  }
+  
   @Override
   public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
     UserEntity userEntity = UserEntity.builder().userId(userId).build();

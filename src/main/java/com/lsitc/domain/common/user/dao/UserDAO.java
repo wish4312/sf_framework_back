@@ -8,6 +8,8 @@ import com.lsitc.domain.common.user.entity.UserEntity;
 public interface UserDAO {
 
   UserEntity selectUserById(UserEntity userEntity);
+  
+  List<UserEntity> selectUserByIds(List<UserEntity> userEntityList);
 
   UserEntity selectUserByUserId(UserEntity userEntity);
 

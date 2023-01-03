@@ -23,6 +23,29 @@
     WHERE id = #{id}
   </select>
   
+  <select id="selectUserByIds"
+    parameterType="com.lsitc.domain.common.user.entity.UserEntity"
+    resultType="com.lsitc.domain.common.user.entity.UserEntity">
+    SELECT id
+         , user_id
+         , password
+         , name
+         , email
+         , phone_number
+         , created_by
+         , created_date
+         , last_modified_by
+         , last_modified_date
+         , is_deleted
+         , deleted_by
+         , deleted_date
+    FROM sf_user
+    WHERE
+        <foreach collection="list" item="item" separator="OR">
+        id = #{item.id}
+        </foreach>
+  </select>
+  
   <select id="selectUserByUserId"
     parameterType="com.lsitc.domain.common.user.entity.UserEntity"
     resultType="com.lsitc.domain.common.user.entity.UserEntity">
