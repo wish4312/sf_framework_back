@@ -1,6 +1,7 @@
 package com.lsitc.domain.common.code.vo;
 
 import com.lsitc.domain.common.code.entity.CodeEntity;
+import com.lsitc.domain.model.BooleanState;
 import javax.validation.constraints.NotBlank;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -30,11 +31,15 @@ public class CodeModifyRequestVO {
         .code(commCd)
         .name(commCdNm)
         .sortSequence(Long.valueOf(sortSeq))
-        .isUsed("1".equals(useFg))
+        .isUsed(convertUseFg())
         .remark(rmrk)
         .build();
   }
 
+  private Boolean convertUseFg() {
+    return BooleanState.of(String.valueOf(this.useFg)).getBooleanValue();
+  }
+  
   @Override
   public String toString() {
     return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);

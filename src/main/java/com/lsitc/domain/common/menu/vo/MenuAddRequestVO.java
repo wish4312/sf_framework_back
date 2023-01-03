@@ -3,6 +3,7 @@ package com.lsitc.domain.common.menu.vo;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.lsitc.domain.common.menu.entity.MenuEntity;
+import com.lsitc.domain.model.BooleanState;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -21,11 +22,15 @@ public class MenuAddRequestVO {
         .name(menuNm)
         .parentsId(upMenuId != null ? Long.valueOf(upMenuId) : null)
         .url(url)
-        .isUsed("1".equals(useFg))
+        .isUsed(convertUseFg())
         .sortSequence(Integer.valueOf(sortSeq))
         .build();
   }
 
+  private Boolean convertUseFg() {
+    return BooleanState.of(String.valueOf(this.useFg)).getBooleanValue();
+  }
+  
   @Override
   public String toString() {
     return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
