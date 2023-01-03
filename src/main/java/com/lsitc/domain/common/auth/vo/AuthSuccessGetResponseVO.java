@@ -26,9 +26,12 @@ public class AuthSuccessGetResponseVO {
   }
 
   public static AuthSuccessGetResponseVO of(UserEntity userEntity) {
-    return builder().id(userEntity.getId()).userId(userEntity.getUserId())
-        .name(userEntity.getName()).email(userEntity.getEmail())
-        .phoneNumber(userEntity.getPhoneNumber()).build();
+    return builder().id(userEntity.getId())
+        .userId(userEntity.getUserId())
+        .name(userEntity.getName())
+        .email(userEntity.getEmail())
+        .phoneNumber(userEntity.getPhoneNumber())
+        .build();
   }
 
   @Override

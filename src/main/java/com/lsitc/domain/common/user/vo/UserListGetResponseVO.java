@@ -36,11 +36,16 @@ public class UserListGetResponseVO {
   }
 
   public static UserListGetResponseVO of(UserEntity resultEntity) {
-    return builder().id(resultEntity.getId()).userId(resultEntity.getUserId())
-        .name(resultEntity.getName()).email(resultEntity.getEmail())
-        .phoneNumber(resultEntity.getPhoneNumber()).createdBy(resultEntity.getCreatedBy())
-        .createdDate(resultEntity.getCreatedDate()).lastModifiedBy(resultEntity.getLastModifiedBy())
-        .lastModifiedDate(resultEntity.getLastModifiedDate()).build();
+    return builder().id(resultEntity.getId())
+        .userId(resultEntity.getUserId())
+        .name(resultEntity.getName())
+        .email(resultEntity.getEmail())
+        .phoneNumber(resultEntity.getPhoneNumber())
+        .createdBy(resultEntity.getCreatedBy())
+        .createdDate(resultEntity.getCreatedDate())
+        .lastModifiedBy(resultEntity.getLastModifiedBy())
+        .lastModifiedDate(resultEntity.getLastModifiedDate())
+        .build();
   }
 
   @Override

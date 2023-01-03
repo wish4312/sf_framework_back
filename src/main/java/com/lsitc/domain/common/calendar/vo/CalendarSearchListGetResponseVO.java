@@ -25,8 +25,7 @@ public class CalendarSearchListGetResponseVO {
   }
   
   public static CalendarSearchListGetResponseVO of(CalendarEntity calendarEntity) {
-    return CalendarSearchListGetResponseVO.builder()
-        .dt(calendarEntity.getDate())
+    return builder().dt(calendarEntity.getDate())
         .hldyFg(convertBoolean(calendarEntity.isHoliday()))
         .hldyNm(calendarEntity.getHolidayName())
         .rmrk(calendarEntity.getRemark())

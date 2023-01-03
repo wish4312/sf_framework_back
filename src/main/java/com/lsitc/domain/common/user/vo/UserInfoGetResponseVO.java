@@ -44,12 +44,19 @@ public class UserInfoGetResponseVO {
   }
 
   public static UserInfoGetResponseVO of(UserEntity resultEntity) {
-    return builder().id(resultEntity.getId()).userId(resultEntity.getUserId())
-        .name(resultEntity.getName()).email(resultEntity.getEmail())
-        .phoneNumber(resultEntity.getPhoneNumber()).createdBy(resultEntity.getCreatedBy())
-        .createdDate(resultEntity.getCreatedDate()).lastModifiedBy(resultEntity.getLastModifiedBy())
-        .lastModifiedDate(resultEntity.getLastModifiedDate()).isDeleted(resultEntity.isDeleted())
-        .deletedBy(resultEntity.getDeletedBy()).deletedDate(resultEntity.getDeletedDate()).build();
+    return builder().id(resultEntity.getId())
+        .userId(resultEntity.getUserId())
+        .name(resultEntity.getName())
+        .email(resultEntity.getEmail())
+        .phoneNumber(resultEntity.getPhoneNumber())
+        .createdBy(resultEntity.getCreatedBy())
+        .createdDate(resultEntity.getCreatedDate())
+        .lastModifiedBy(resultEntity.getLastModifiedBy())
+        .lastModifiedDate(resultEntity.getLastModifiedDate())
+        .isDeleted(resultEntity.isDeleted())
+        .deletedBy(resultEntity.getDeletedBy())
+        .deletedDate(resultEntity.getDeletedDate())
+        .build();
   }
 
   @Override

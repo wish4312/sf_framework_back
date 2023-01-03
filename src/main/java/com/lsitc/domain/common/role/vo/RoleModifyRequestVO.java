@@ -23,7 +23,11 @@ public class RoleModifyRequestVO {
   private final String rmrk;
 
   public RoleEntity toEntity() {
-    return RoleEntity.builder().id(roleId).name(roleNm).remark(rmrk).build();
+    return RoleEntity.builder()
+        .id(roleId)
+        .name(roleNm)
+        .remark(rmrk)
+        .build();
   }
 
   @Override

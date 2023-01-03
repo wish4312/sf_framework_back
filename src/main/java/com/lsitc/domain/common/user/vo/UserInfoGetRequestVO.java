@@ -16,7 +16,10 @@ public class UserInfoGetRequestVO {
   private final String userId;
 
   public UserEntity toEntity() {
-    return UserEntity.builder().id(id).userId(userId).build();
+    return UserEntity.builder()
+        .id(id)
+        .userId(userId)
+        .build();
   }
 
   @Override

@@ -17,7 +17,11 @@ public class UserSearchListGetRequestVO {
   private final String name;
 
   public UserEntity toEntity() {
-    return UserEntity.builder().id(id).userId(userId).name(name).build();
+    return UserEntity.builder()
+        .id(id)
+        .userId(userId)
+        .name(name)
+        .build();
   }
 
   @Override

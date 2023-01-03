@@ -21,7 +21,9 @@ public class RoleRemoveRequestVO {
   }
 
   public RoleEntity toEntity() {
-    return RoleEntity.builder().id(roleId).build();
+    return RoleEntity.builder()
+        .id(roleId)
+        .build();
   }
 
   @Override

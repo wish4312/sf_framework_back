@@ -14,7 +14,7 @@ import lombok.Getter;
 public class UserAddRequestVO {
 
   private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-  
+
   @NotBlank(message = "userId에 빈값이 들어왔습니다.")
   private final String userId;
   @NotBlank(message = "password에 빈값이 들어왔습니다.")
@@ -24,8 +24,13 @@ public class UserAddRequestVO {
   private final String phoneNumber;
 
   public UserEntity toEntity() {
-    return UserEntity.builder().userId(userId).password(passwordEncoder.encode(password)).name(name).email(email)
-        .phoneNumber(phoneNumber).build();
+    return UserEntity.builder()
+        .userId(userId)
+        .password(passwordEncoder.encode(password))
+        .name(name)
+        .email(email)
+        .phoneNumber(phoneNumber)
+        .build();
   }
 
   @Override
