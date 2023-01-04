@@ -1,9 +1,8 @@
 package com.lsitc.global.error;
 
-import com.lsitc.global.error.exception.BusinessException;
-import com.lsitc.global.error.exception.ErrorCode;
 import java.nio.file.AccessDeniedException;
-import lombok.extern.slf4j.Slf4j;
+
+import org.apache.tomcat.util.http.fileupload.impl.SizeLimitExceededException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
@@ -12,10 +11,32 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
+
+import com.lsitc.global.error.exception.BusinessException;
+import com.lsitc.global.error.exception.ErrorCode;
+
+import lombok.extern.slf4j.Slf4j;
 
 @ControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler {
+
+  @ExceptionHandler(MaxUploadSizeExceededException.class)
+  protected ResponseEntity<ErrorResponse> handleMaxUploadSizeExceededException(
+      MaxUploadSizeExceededException e) {
+    log.error("handleMaxUploadSizeExceededException", e);
+    final ErrorResponse response = ErrorResponse.of(ErrorCode.PAYLOAD_TOO_LARGE);
+    return new ResponseEntity<>(response, HttpStatus.PAYLOAD_TOO_LARGE);
+  }
+
+  @ExceptionHandler(SizeLimitExceededException.class)
+  protected ResponseEntity<ErrorResponse> handleSizeLimitExceededException(
+      SizeLimitExceededException e) {
+    log.error("handleSizeLimitExceededException", e);
+    final ErrorResponse response = ErrorResponse.of(ErrorCode.PAYLOAD_TOO_LARGE);
+    return new ResponseEntity<>(response, HttpStatus.PAYLOAD_TOO_LARGE);
+  }
 
   @ExceptionHandler(MethodArgumentNotValidException.class)
   protected ResponseEntity<ErrorResponse> handleMethodArgumentNotValidException(

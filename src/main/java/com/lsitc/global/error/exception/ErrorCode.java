@@ -12,7 +12,8 @@ public enum ErrorCode implements ResponseCode {
   METHOD_NOT_ALLOWED(HttpStatus.METHOD_NOT_ALLOWED.value(), "CM002", "Invalid Input Value"),
   INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR.value(), "CM003", "Server Error"),
   INVALID_TYPE_VALUE(HttpStatus.BAD_REQUEST.value(), "CM004", "Invalid Type Value"),
-  HANDLE_ACCESS_DENIED(HttpStatus.FORBIDDEN.value(), "CM005", "Access is Denied");
+  HANDLE_ACCESS_DENIED(HttpStatus.FORBIDDEN.value(), "CM005", "Access is Denied"),
+  PAYLOAD_TOO_LARGE(HttpStatus.PAYLOAD_TOO_LARGE.value(), "CM006", "Payload Too Large");
 
   @Getter
   private final int status;
