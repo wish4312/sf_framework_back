@@ -13,6 +13,9 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.ContentCachingResponseWrapper;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.lsitc.domain.common.user.entity.UserEntity;
+import com.lsitc.global.auditing.CurrentUserEntityProvider;
+import com.lsitc.global.auditing.UserProvider;
 import com.lsitc.global.filter.ReadableHttpServletRequestWrapper;
 import com.lsitc.global.util.JsonUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -20,21 +23,29 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 @Slf4j
 public class ControllerLoggingInterceptor implements HandlerInterceptor {
-
+  
+  private UserProvider<UserEntity, Long> userProvider = CurrentUserEntityProvider.INSTANCE;
+  
   @Override
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
       throws Exception {
     HandlerInterceptor.super.preHandle(request, response, handler);
-
+    
+    UserEntity userInfo = userProvider.getUser();
+    String userId = userInfo.getUserId();
+    String userName = userInfo.getName();
+    
     if (isContentTypeJson(request.getContentType())) {
       log.debug(
-          "\n=== Request-{} ====\n" 
-        + "{} {}\n" + "Headers : {}\n" 
+          "\n=== {}({}) Request-{} ====\n" 
+        + "{} {}\n"
+        + "Headers : {}\n" 
         + "RequestParam : {}\n"
         + "RequestBody : {}\n" 
         + "==================================================\n",
-          request.getRequestedSessionId(),
-          request.getMethod(), request.getRequestURI(), getHeaders(request),
+          userId, userName, request.getRequestedSessionId(),
+          request.getMethod(), request.getRequestURI(),
+          getHeaders(request),
           getRequestParam(request),
           getRequestBody(request));
     }
@@ -47,14 +58,20 @@ public class ControllerLoggingInterceptor implements HandlerInterceptor {
       ModelAndView modelAndView) throws Exception {
     HandlerInterceptor.super.postHandle(request, response, handler, modelAndView);
 
+    UserEntity userInfo = userProvider.getUser();
+    String userId = userInfo.getUserId();
+    String userName = userInfo.getName();
+    
     if (isContentTypeJson(response.getContentType())) {
       log.debug(
-          "\n=== Response-{} ====\n"
+          "\n=== {}({}) Response-{} ====\n"
+        + "{} {}\n"
         + "HttpStatus : {}\n"
         + "Headers : {}\n"
         + "ResponseBody : {}\n"
         + "==================================================\n",
-          request.getRequestedSessionId(),
+          userId, userName, request.getRequestedSessionId(),
+          request.getMethod(), request.getRequestURI(),
           response.getStatus(),
           getHeaders(response),
           getResponseBody(response));

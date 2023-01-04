@@ -42,7 +42,7 @@ public class UserEntity extends BaseAbstractEntity
   }
 
   public static UserEntity AnonymousUser() {
-    return builder().id(0L).name("anonymous").build();
+    return builder().id(0L).userId("anonymous").name("anonymous").build();
   }
 
   @Override
