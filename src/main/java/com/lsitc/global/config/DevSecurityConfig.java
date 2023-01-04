@@ -30,6 +30,11 @@ public class DevSecurityConfig {
         .usernameParameter("userId")
         .passwordParameter("password")
         .and()
+        .logout()
+        .logoutUrl("/signout")
+        .invalidateHttpSession(true)
+        .logoutSuccessUrl("/common/auth/logout")
+        .and()
         .sessionManagement()
         .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED);
     return http.build();
