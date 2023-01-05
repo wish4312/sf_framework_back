@@ -8,6 +8,7 @@
     resultType="com.lsitc.domain.common.menu.entity.MenuEntity">
     SELECT id
          , name
+         , english_name
          , parents_id
          , url
          , is_used
@@ -24,6 +25,7 @@
     resultType="com.lsitc.domain.common.menu.entity.MenuEntity">
     SELECT id
          , name
+         , english_name
          , parents_id
          , url
          , is_used
@@ -40,6 +42,7 @@
     resultType="com.lsitc.domain.common.menu.entity.MenuEntity">
     SELECT id
          , name
+         , english_name
          , parents_id
          , url
          , is_used
@@ -65,6 +68,7 @@
     parameterType="com.lsitc.domain.common.menu.entity.MenuEntity">
     INSERT INTO sf_menu
     ( name
+    , english_name
     , parents_id
     , url
     , is_used
@@ -76,6 +80,7 @@
     VALUES
     <foreach collection="list" item="item" separator=",">
       ( #{item.name}
+      , #{item.englishName}
       , #{item.parentsId}
       , #{item.url}
       , #{item.isUsed}
@@ -92,6 +97,7 @@
     <foreach item="item" collection="list" separator=";">
     UPDATE sf_menu
     SET name               = #{item.name}
+      , english_name       = #{item.englishName}
       , parents_id         = #{item.parentsId}
       , url                = #{item.url}
       , is_used            = #{item.isUsed}
@@ -107,6 +113,7 @@
     INSERT INTO sf_menu
     ( id
     , name
+    , english_name
     , parents_id
     , url
     , is_used
@@ -119,6 +126,7 @@
     <foreach collection="list" item="item" separator=",">
       ( #{item.id}
       , #{item.name}
+      , #{item.englishName}
       , #{item.parentsId}
       , #{item.url}
       , #{item.isUsed}

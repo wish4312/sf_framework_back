@@ -12,6 +12,7 @@ import lombok.Getter;
 public class MenuAddRequestVO {
 
   private final String menuNm;
+  private final String menuEngNm;
   private final String upMenuId;
   private final String url;
   private final String useFg;
@@ -20,6 +21,7 @@ public class MenuAddRequestVO {
   public MenuEntity toEntity() {
     return MenuEntity.builder()
         .name(menuNm)
+        .englishName(menuEngNm)
         .parentsId(upMenuId != null ? Long.valueOf(upMenuId) : null)
         .url(url)
         .isUsed(convertUseFg())

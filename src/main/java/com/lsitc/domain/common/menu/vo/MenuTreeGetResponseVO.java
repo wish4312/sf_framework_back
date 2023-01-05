@@ -14,6 +14,7 @@ public class MenuTreeGetResponseVO extends TreeAbstractVO {
 
   private final Long menuId;
   private final String menuNm;
+  private final String menuEngNm;
   private final Long upMenuId;
   private final String url;
   private final String useFg;
@@ -24,11 +25,12 @@ public class MenuTreeGetResponseVO extends TreeAbstractVO {
   private final LocalDateTime procDttm;
 
   @Builder
-  private MenuTreeGetResponseVO(Long menuId, String menuNm, Long upMenuId, String url,
-      String useFg, int sortSeq, Long regUserNo, LocalDateTime regDttm, Long procUserNo,
+  private MenuTreeGetResponseVO(Long menuId, String menuNm, String menuEngNm, Long upMenuId,
+      String url, String useFg, int sortSeq, Long regUserNo, LocalDateTime regDttm, Long procUserNo,
       LocalDateTime procDttm) {
     this.menuId = menuId;
     this.menuNm = menuNm;
+    this.menuEngNm = menuEngNm;
     this.upMenuId = upMenuId;
     this.url = url;
     this.useFg = useFg;
@@ -43,6 +45,7 @@ public class MenuTreeGetResponseVO extends TreeAbstractVO {
     return builder()
         .menuId(menuEntity.getId())
         .menuNm(menuEntity.getName())
+        .menuEngNm(menuEntity.getEnglishName())
         .upMenuId(menuEntity.getParentsId())
         .url(menuEntity.getUrl())
         .useFg(convertBoolean(menuEntity.getIsUsed()))

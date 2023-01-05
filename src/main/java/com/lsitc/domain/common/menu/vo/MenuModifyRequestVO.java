@@ -13,6 +13,7 @@ public class MenuModifyRequestVO {
 
   private final String menuId;
   private final String menuNm;
+  private final String menuEngNm;
   private final String upMenuId;
   private final String url;
   private final String useFg;
@@ -22,6 +23,7 @@ public class MenuModifyRequestVO {
     return MenuEntity.builder()
         .id(menuId != null ? Long.valueOf(menuId) : null)
         .name(menuNm)
+        .englishName(menuEngNm)
         .parentsId(upMenuId != null ? Long.valueOf(upMenuId) : null)
         .url(url)
         .isUsed(convertUseFg())
