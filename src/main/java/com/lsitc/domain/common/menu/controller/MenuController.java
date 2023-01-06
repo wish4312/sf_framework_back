@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.lsitc.domain.common.menu.exception.MenuException;
 import com.lsitc.domain.common.menu.service.MenuService;
+import com.lsitc.domain.common.menu.vo.MainMenuListGetRequestVO;
+import com.lsitc.domain.common.menu.vo.MainMenuListGetResponseVO;
 import com.lsitc.domain.common.menu.vo.MenuAddRequestVO;
 import com.lsitc.domain.common.menu.vo.MenuAddResponseVO;
 import com.lsitc.domain.common.menu.vo.MenuListGetResponseVO;
@@ -18,8 +20,6 @@ import com.lsitc.domain.common.menu.vo.MenuModifyRequestVO;
 import com.lsitc.domain.common.menu.vo.MenuModifyResponseVO;
 import com.lsitc.domain.common.menu.vo.MenuRemoveRequestVO;
 import com.lsitc.domain.common.menu.vo.MenuRemoveResponseVO;
-import com.lsitc.domain.common.menu.vo.MenuSearchListGetRequestVO;
-import com.lsitc.domain.common.menu.vo.MenuSearchListGetResponseVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -31,21 +31,21 @@ public class MenuController {
 
   private final MenuService menuService;
 
+  @GetMapping("/main")
+  public MainMenuListGetResponseVO getMainMenuList(
+      @Valid final MainMenuListGetRequestVO mainMenuListGetRequestVO) throws MenuException {
+    log.info(mainMenuListGetRequestVO.toString());
+    MainMenuListGetResponseVO mainMenuListGetResponseVO =
+        menuService.getMainMenuList(mainMenuListGetRequestVO);
+    log.info(mainMenuListGetResponseVO.toString());
+    return mainMenuListGetResponseVO;
+  }
+  
   @GetMapping("/list")
   public MenuListGetResponseVO getMenuList() throws MenuException {
     MenuListGetResponseVO menuListGetResponseVOList = menuService.getMenuList();
     log.info(menuListGetResponseVOList.toString());
     return menuListGetResponseVOList;
-  }
-
-  @GetMapping("/search")
-  public MenuSearchListGetResponseVO searchMenuList(
-      @Valid final MenuSearchListGetRequestVO menuSearchListGetRequestVO) throws MenuException {
-    log.info(menuSearchListGetRequestVO.toString());
-    MenuSearchListGetResponseVO menuSearchListGetResponseVO =
-        menuService.searchMenuList(menuSearchListGetRequestVO);
-    log.info(menuSearchListGetResponseVO.toString());
-    return menuSearchListGetResponseVO;
   }
 
   @PostMapping

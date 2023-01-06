@@ -27,7 +27,10 @@ public class MenuListGetResponseVO {
     List<MenuTreeGetResponseVO> menuList =
         menuEntityList.stream().map(MenuTreeGetResponseVO::of).collect(Collectors.toList());
     List<TreeAbstractVO> treeList = TreeUtils.getTree(menuList);
-    return builder().menuList(menuList).treeList(treeList).build();
+    return builder()
+        .menuList(menuList)
+        .treeList(treeList)
+        .build();
   }
 
   @Override

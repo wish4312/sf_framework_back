@@ -57,13 +57,22 @@ public class MenuTreeGetResponseVO extends TreeAbstractVO {
         .build();
   }
 
+  public static MenuTreeGetResponseVO of(MenuEntity menuEntity, String locale) {
+    return builder()
+        .menuId(menuEntity.getId())
+        .menuNm(getNameByLocale(menuEntity, locale))
+        .upMenuId(menuEntity.getParentsId())
+        .url(menuEntity.getUrl())
+        .build();
+  }
+
   private static String convertBoolean(Boolean booleanValue) {
     return BooleanState.of(booleanValue).getStringValue();
   }
   
-  @Override
-  public String toString() {
-    return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
+  private static String getNameByLocale(MenuEntity menuEntity, String locale) {
+    return "ko-KR".equals(locale) ? menuEntity.getName()
+        : "en-US".equals(locale) ? menuEntity.getEnglishName() : null;
   }
 
   @Override
@@ -74,5 +83,10 @@ public class MenuTreeGetResponseVO extends TreeAbstractVO {
   @Override
   public Long parentsId() {
     return this.upMenuId != null ? Long.valueOf(this.upMenuId) : null;
+  }
+
+  @Override
+  public String toString() {
+    return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
   }
 }

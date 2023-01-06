@@ -7,11 +7,11 @@ import com.lsitc.domain.common.menu.entity.MenuEntity;
 @Mapper
 public interface MenuDAO {
   
+  List<MenuEntity> selectMainMenu();
+
   MenuEntity selectMenuById(MenuEntity menuEntity);
 
   List<MenuEntity> selectAll();
-
-  List<MenuEntity> selectMenuByConditions(MenuEntity roleEntity);
   
   int insertMenuList(List<MenuEntity> menuEntityList);
 

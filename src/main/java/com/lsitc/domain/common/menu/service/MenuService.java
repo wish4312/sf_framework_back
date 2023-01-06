@@ -8,6 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.lsitc.domain.common.menu.dao.MenuDAO;
 import com.lsitc.domain.common.menu.entity.MenuEntity;
 import com.lsitc.domain.common.menu.exception.MenuException;
+import com.lsitc.domain.common.menu.vo.MainMenuListGetRequestVO;
+import com.lsitc.domain.common.menu.vo.MainMenuListGetResponseVO;
 import com.lsitc.domain.common.menu.vo.MenuAddRequestVO;
 import com.lsitc.domain.common.menu.vo.MenuAddResponseVO;
 import com.lsitc.domain.common.menu.vo.MenuListGetResponseVO;
@@ -15,8 +17,6 @@ import com.lsitc.domain.common.menu.vo.MenuModifyRequestVO;
 import com.lsitc.domain.common.menu.vo.MenuModifyResponseVO;
 import com.lsitc.domain.common.menu.vo.MenuRemoveRequestVO;
 import com.lsitc.domain.common.menu.vo.MenuRemoveResponseVO;
-import com.lsitc.domain.common.menu.vo.MenuSearchListGetRequestVO;
-import com.lsitc.domain.common.menu.vo.MenuSearchListGetResponseVO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -27,16 +27,15 @@ public class MenuService {
 
   private final MenuDAO menuDAO;
 
+  public MainMenuListGetResponseVO getMainMenuList(
+      final MainMenuListGetRequestVO mainMenuListGetRequestVO) {
+    List<MenuEntity> menuEntityList = menuDAO.selectMainMenu();
+    return MainMenuListGetResponseVO.of(menuEntityList, mainMenuListGetRequestVO.getLocale());
+  }
+
   public MenuListGetResponseVO getMenuList() throws MenuException {
     List<MenuEntity> menuEntityList = menuDAO.selectAll();
     return MenuListGetResponseVO.of(menuEntityList);
-  }
-
-  public MenuSearchListGetResponseVO searchMenuList(
-      final MenuSearchListGetRequestVO menuSearchListGetRequestVO) {
-    MenuEntity menuEntity = menuSearchListGetRequestVO.toEntity();
-    List<MenuEntity> menuEntityList = menuDAO.selectMenuByConditions(menuEntity);
-    return MenuSearchListGetResponseVO.of(menuEntityList);
   }
 
   @Transactional

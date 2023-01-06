@@ -11,23 +11,26 @@ import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-public class MenuSearchListGetResponseVO {
+public class MainMenuListGetResponseVO {
 
   private final List<MenuTreeGetResponseVO> menuList;
   private final List<TreeAbstractVO> treeList;
 
   @Builder
-  private MenuSearchListGetResponseVO(List<MenuTreeGetResponseVO> menuList,
+  private MainMenuListGetResponseVO(List<MenuTreeGetResponseVO> menuList,
       List<TreeAbstractVO> treeList) {
     this.menuList = menuList;
     this.treeList = treeList;
   }
 
-  public static MenuSearchListGetResponseVO of(List<MenuEntity> menuEntityList) {
-    List<MenuTreeGetResponseVO> menuList =
-        menuEntityList.stream().map(MenuTreeGetResponseVO::of).collect(Collectors.toList());
+  public static MainMenuListGetResponseVO of(List<MenuEntity> menuEntityList, String locale) {
+    List<MenuTreeGetResponseVO> menuList = menuEntityList.stream()
+        .map(entity -> MenuTreeGetResponseVO.of(entity, locale)).collect(Collectors.toList());
     List<TreeAbstractVO> treeList = TreeUtils.getTree(menuList);
-    return builder().menuList(menuList).treeList(treeList).build();
+    return builder()
+        .menuList(menuList)
+        .treeList(treeList)
+        .build();
   }
 
   @Override
