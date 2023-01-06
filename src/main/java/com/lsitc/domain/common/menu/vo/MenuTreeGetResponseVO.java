@@ -72,7 +72,7 @@ public class MenuTreeGetResponseVO extends TreeAbstractVO {
   
   private static String getNameByLocale(MenuEntity menuEntity, String locale) {
     return "ko-KR".equals(locale) ? menuEntity.getName()
-        : "en-US".equals(locale) ? menuEntity.getEnglishName() : null;
+        : "en-US".equals(locale) ? menuEntity.getEnglishName() : menuEntity.getName();
   }
 
   @Override
