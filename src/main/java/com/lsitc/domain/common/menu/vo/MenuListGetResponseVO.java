@@ -16,8 +16,7 @@ public class MenuListGetResponseVO {
   private final List<MenuTreeVO> treeList;
 
   @Builder
-  private MenuListGetResponseVO(List<MenuListVO> menuList, List<MenuTreeVO> treeList,
-      List<MenuTreeVO> horizTreeList) {
+  private MenuListGetResponseVO(List<MenuListVO> menuList, List<MenuTreeVO> treeList) {
     this.menuList = menuList;
     this.treeList = treeList;
   }
