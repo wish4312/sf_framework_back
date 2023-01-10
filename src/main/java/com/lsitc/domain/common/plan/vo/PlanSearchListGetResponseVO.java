@@ -1,6 +1,7 @@
 package com.lsitc.domain.common.plan.vo;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -18,16 +19,25 @@ public class PlanSearchListGetResponseVO {
   private LocalDate endDt;
   private String planTitle;
   private String planColor;
+  private Long regUserNo;
+  private LocalDateTime regDttm;
+  private Long procUserNo;
+  private LocalDateTime procDttm;
 
   @Builder
   private PlanSearchListGetResponseVO(LocalDate dt, Long planSeq, LocalDate strtDt, LocalDate endDt,
-      String planTitle, String planColor) {
+      String planTitle, String planColor, Long regUserNo, LocalDateTime regDttm, Long procUserNo,
+      LocalDateTime procDttm) {
     this.dt = dt;
     this.planSeq = planSeq;
     this.strtDt = strtDt;
     this.endDt = endDt;
     this.planTitle = planTitle;
     this.planColor = planColor;
+    this.regUserNo = regUserNo;
+    this.regDttm = regDttm;
+    this.procUserNo = procUserNo;
+    this.procDttm = procDttm;
   }
 
   public static List<PlanSearchListGetResponseVO> of(List<PlanEntity> planEntityList) {
@@ -45,6 +55,10 @@ public class PlanSearchListGetResponseVO {
         .endDt(entity.getEndDate())
         .planTitle(entity.getPlanTitle())
         .planColor(entity.getPlanColor())
+        .regUserNo(entity.getCreatedBy())
+        .regDttm(entity.getCreatedDate())
+        .procUserNo(entity.getLastModifiedBy())
+        .procDttm(entity.getLastModifiedDate())
         .build();
         
         resultList.add(vo);

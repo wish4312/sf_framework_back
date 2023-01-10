@@ -1,6 +1,7 @@
 package com.lsitc.domain.common.calendar.vo;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.lsitc.domain.common.calendar.entity.CalendarEntity;
@@ -15,13 +16,22 @@ public class CalendarSearchListGetResponseVO {
   private String hldyFg;
   private String hldyNm;
   private String rmrk;
-  
+  private Long regUserNo;
+  private LocalDateTime regDttm;
+  private Long procUserNo;
+  private LocalDateTime procDttm;
+
   @Builder
-  private CalendarSearchListGetResponseVO(LocalDate dt, String hldyFg, String hldyNm, String rmrk) {
+  private CalendarSearchListGetResponseVO(LocalDate dt, String hldyFg, String hldyNm, String rmrk,
+      Long regUserNo, LocalDateTime regDttm, Long procUserNo, LocalDateTime procDttm) {
     this.dt = dt;
     this.hldyFg = hldyFg;
     this.hldyNm = hldyNm;
     this.rmrk = rmrk;
+    this.regUserNo = regUserNo;
+    this.regDttm = regDttm;
+    this.procUserNo = procUserNo;
+    this.procDttm = procDttm;
   }
   
   public static CalendarSearchListGetResponseVO of(CalendarEntity calendarEntity) {
@@ -29,6 +39,14 @@ public class CalendarSearchListGetResponseVO {
         .hldyFg(convertBoolean(calendarEntity.isHoliday()))
         .hldyNm(calendarEntity.getHolidayName())
         .rmrk(calendarEntity.getRemark())
+        .regUserNo(calendarEntity.getCreatedBy())
+        .regDttm(calendarEntity.getCreatedDate())
+        .procUserNo(calendarEntity.getLastModifiedBy())
+        .procDttm(calendarEntity.getLastModifiedDate())
+        .regUserNo(calendarEntity.getCreatedBy())
+        .regDttm(calendarEntity.getCreatedDate())
+        .procUserNo(calendarEntity.getLastModifiedBy())
+        .procDttm(calendarEntity.getLastModifiedDate())
         .build();
   }
   

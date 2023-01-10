@@ -63,6 +63,10 @@ public class MenuTreeGetResponseVO extends TreeAbstractVO {
         .menuNm(getNameByLocale(menuEntity, locale))
         .upMenuId(menuEntity.getParentsId())
         .url(menuEntity.getUrl())
+        .regUserNo(menuEntity.getCreatedBy())
+        .regDttm(menuEntity.getCreatedDate())
+        .procUserNo(menuEntity.getLastModifiedBy())
+        .procDttm(menuEntity.getLastModifiedDate())
         .build();
   }
 
