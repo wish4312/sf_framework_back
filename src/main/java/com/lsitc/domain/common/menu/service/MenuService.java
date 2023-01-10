@@ -29,7 +29,8 @@ public class MenuService {
 
   public MainMenuListGetResponseVO getMainMenuList(
       final MainMenuListGetRequestVO mainMenuListGetRequestVO) {
-    List<MenuEntity> menuEntityList = menuDAO.selectMainMenu();
+    MenuEntity menuEntity = mainMenuListGetRequestVO.toEntity();
+    List<MenuEntity> menuEntityList = menuDAO.selectMenuByConditions(menuEntity);
     return MainMenuListGetResponseVO.of(menuEntityList, mainMenuListGetRequestVO.getLocale());
   }
 

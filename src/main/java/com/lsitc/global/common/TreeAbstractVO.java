@@ -5,9 +5,9 @@ import java.util.List;
 import lombok.Getter;
 
 @Getter
-public abstract class TreeAbstractVO implements Cloneable {
-  private List<TreeAbstractVO> children;
-  private Integer level;
+public abstract class TreeAbstractVO {
+  private List<TreeAbstractVO> children = new ArrayList<TreeAbstractVO>();
+  private Integer level = 1;
 
   public abstract Long id();
 
@@ -23,22 +23,6 @@ public abstract class TreeAbstractVO implements Cloneable {
     this.children.forEach(vo -> {
       vo.addLevel(this.level);
     });
-  }
-
-  @Override
-  protected Object clone() throws CloneNotSupportedException {
-    return super.clone();
-  }
-
-  public TreeAbstractVO cloneVO() throws CloneNotSupportedException {
-    TreeAbstractVO cloneVo = (TreeAbstractVO) this.clone();
-    cloneVo.init();
-    return cloneVo;
-  }
-
-  private void init() {
-    this.level = 1;
-    this.children = new ArrayList<TreeAbstractVO>();
   }
 
 }

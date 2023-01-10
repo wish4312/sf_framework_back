@@ -6,26 +6,16 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import com.lsitc.global.common.TreeAbstractVO;
-import com.lsitc.global.error.exception.BusinessException;
-import com.lsitc.global.error.exception.ErrorCode;
 
 public class TreeUtils {
 
-  public static <T extends TreeAbstractVO> List<TreeAbstractVO> getTree(List<T> list)
-      throws BusinessException {
-    List<TreeAbstractVO> cloneList = new ArrayList<TreeAbstractVO>();
-    list.forEach(vo -> {
-      try {
-        cloneList.add(vo.cloneVO());
-      } catch (CloneNotSupportedException e) {
-        throw new BusinessException(e.getMessage(), ErrorCode.INTERNAL_SERVER_ERROR);
-      }
-    });
-
-    List<TreeAbstractVO> reulstList = new ArrayList<TreeAbstractVO>();
+  public static <T extends TreeAbstractVO> List<T> getTree(List<T> list){
     Map<Long, TreeAbstractVO> idMap =
-        cloneList.stream().collect(Collectors.toMap(TreeAbstractVO::id, Function.identity()));
-    cloneList.forEach(vo -> {
+        list.stream().collect(Collectors.toMap(TreeAbstractVO::id, Function.identity()));
+    
+    List<T> reulstList = new ArrayList<T>();
+    
+    list.forEach(vo -> {
       if (vo.parentsId() == null) {
         reulstList.add(vo);
       } else {

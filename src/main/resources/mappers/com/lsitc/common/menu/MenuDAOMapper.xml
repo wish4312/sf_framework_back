@@ -3,7 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lsitc.domain.common.menu.dao.MenuDAO">
-  <select id="selectMainMenu"
+  <select id="selectMenuByConditions"
     parameterType="com.lsitc.domain.common.menu.entity.MenuEntity"
     resultType="com.lsitc.domain.common.menu.entity.MenuEntity">
     SELECT id
@@ -11,8 +11,16 @@
          , english_name
          , parents_id
          , url
+         , is_used
+         , sort_sequence
+         , created_by
+         , created_date
+         , last_modified_by
+         , last_modified_date
     FROM sf_menu
-    WHERE is_used = true
+    <if test="isUsed != null">
+        WHERE is_used = #{isUsed}
+    </if>
   </select>
   
   <select id="selectMenuById"

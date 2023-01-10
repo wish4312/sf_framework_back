@@ -5,7 +5,6 @@ import java.util.stream.Collectors;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.lsitc.domain.common.menu.entity.MenuEntity;
-import com.lsitc.global.common.TreeAbstractVO;
 import com.lsitc.global.util.TreeUtils;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,20 +12,25 @@ import lombok.Getter;
 @Getter
 public class MenuListGetResponseVO {
 
-  private final List<MenuTreeGetResponseVO> menuList;
-  private final List<TreeAbstractVO> treeList;
+  private final List<MenuListVO> menuList;
+  private final List<MenuTreeVO> treeList;
 
   @Builder
-  private MenuListGetResponseVO(List<MenuTreeGetResponseVO> menuList,
-      List<TreeAbstractVO> treeList) {
+  private MenuListGetResponseVO(List<MenuListVO> menuList, List<MenuTreeVO> treeList,
+      List<MenuTreeVO> horizTreeList) {
     this.menuList = menuList;
     this.treeList = treeList;
   }
 
   public static MenuListGetResponseVO of(List<MenuEntity> menuEntityList) {
-    List<MenuTreeGetResponseVO> menuList =
-        menuEntityList.stream().map(MenuTreeGetResponseVO::of).collect(Collectors.toList());
-    List<TreeAbstractVO> treeList = TreeUtils.getTree(menuList);
+    List<MenuListVO> menuList =
+        menuEntityList.stream().map(MenuListVO::of).collect(Collectors.toList());
+    
+    List<MenuTreeVO> treeList =
+        menuEntityList.stream().map(MenuTreeVO::of).collect(Collectors.toList());
+    
+    treeList = TreeUtils.getTree(treeList);
+    
     return builder()
         .menuList(menuList)
         .treeList(treeList)
