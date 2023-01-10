@@ -16,6 +16,9 @@ public class MenuListVO {
   private final String url;
   private final String useFg;
   private final int sortSeq;
+  private final String text;
+  private final boolean expanded;
+  private final boolean selected;
   private final Long regUserNo;
   private final LocalDateTime regDttm;
   private final Long procUserNo;
@@ -23,8 +26,8 @@ public class MenuListVO {
 
   @Builder
   private MenuListVO(Long menuId, String menuNm, String menuEngNm, Long upMenuId, String url,
-      String useFg, int sortSeq, Long regUserNo, LocalDateTime regDttm, Long procUserNo,
-      LocalDateTime procDttm) {
+      String useFg, int sortSeq, String text, boolean expanded, boolean selected, Long regUserNo,
+      LocalDateTime regDttm, Long procUserNo, LocalDateTime procDttm) {
     this.menuId = menuId;
     this.menuNm = menuNm;
     this.menuEngNm = menuEngNm;
@@ -32,6 +35,9 @@ public class MenuListVO {
     this.url = url;
     this.useFg = useFg;
     this.sortSeq = sortSeq;
+    this.text = text;
+    this.expanded = expanded;
+    this.selected = selected;
     this.regUserNo = regUserNo;
     this.regDttm = regDttm;
     this.procUserNo = procUserNo;
@@ -51,6 +57,9 @@ public class MenuListVO {
         .url(menuEntity.getUrl())
         .useFg(convertBoolean(menuEntity.getIsUsed()))
         .sortSeq(menuEntity.getSortSequence())
+        .text(getNameByLocale(menuEntity, locale))
+        .expanded(false)
+        .selected(false)
         .regUserNo(menuEntity.getCreatedBy())
         .regDttm(menuEntity.getCreatedDate())
         .procUserNo(menuEntity.getLastModifiedBy())
