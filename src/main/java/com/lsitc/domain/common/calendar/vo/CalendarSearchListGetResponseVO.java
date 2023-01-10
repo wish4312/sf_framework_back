@@ -12,14 +12,14 @@ import lombok.Getter;
 @Getter
 public class CalendarSearchListGetResponseVO {
   
-  private LocalDate dt;
-  private String hldyFg;
-  private String hldyNm;
-  private String rmrk;
-  private Long regUserNo;
-  private LocalDateTime regDttm;
-  private Long procUserNo;
-  private LocalDateTime procDttm;
+  private final LocalDate dt;
+  private final String hldyFg;
+  private final String hldyNm;
+  private final String rmrk;
+  private final Long regUserNo;
+  private final LocalDateTime regDttm;
+  private final Long procUserNo;
+  private final LocalDateTime procDttm;
 
   @Builder
   private CalendarSearchListGetResponseVO(LocalDate dt, String hldyFg, String hldyNm, String rmrk,

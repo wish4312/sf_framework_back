@@ -13,13 +13,13 @@ import lombok.Getter;
 public class CodeAddRequestVO {
 
   @NotBlank(message = "그룹 코드가 필요합니다.")
-  private String commGrpCdId;
+  private final String commGrpCdId;
   @NotBlank(message = "코드가 필요합니다.")
-  private String commCd;
-  private String commCdNm;
-  private String sortSeq;
-  private String useFg;
-  private String rmrk;
+  private final String commCd;
+  private final String commCdNm;
+  private final String sortSeq;
+  private final String useFg;
+  private final String rmrk;
 
   public CodeEntity toEntity() {
     return CodeEntity.builder()

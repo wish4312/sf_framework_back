@@ -11,20 +11,20 @@ import lombok.Getter;
 @Getter
 public class PlanInfoGetResponseVO {
   
-  private Long planSeq;
-  private LocalDate strtDt;
-  private String strtHh;
-  private String strtMm;
-  private LocalDate endDt;
-  private String endHh;
-  private String endMm;
-  private String planTitle;
-  private String planCntn;
-  private String planColor;
-  private Long regUserNo;
-  private LocalDateTime regDttm;
-  private Long procUserNo;
-  private LocalDateTime procDttm;
+  private final Long planSeq;
+  private final LocalDate strtDt;
+  private final String strtHh;
+  private final String strtMm;
+  private final LocalDate endDt;
+  private final String endHh;
+  private final String endMm;
+  private final String planTitle;
+  private final String planCntn;
+  private final String planColor;
+  private final Long regUserNo;
+  private final LocalDateTime regDttm;
+  private final Long procUserNo;
+  private final LocalDateTime procDttm;
   
   @Builder
   private PlanInfoGetResponseVO(Long planSeq, LocalDate strtDt, String strtHh, String strtMm,

@@ -13,16 +13,16 @@ import lombok.Getter;
 @Getter
 public class PlanSearchListGetResponseVO {
   
-  private LocalDate dt;
-  private Long planSeq;
-  private LocalDate strtDt;
-  private LocalDate endDt;
-  private String planTitle;
-  private String planColor;
-  private Long regUserNo;
-  private LocalDateTime regDttm;
-  private Long procUserNo;
-  private LocalDateTime procDttm;
+  private final LocalDate dt;
+  private final Long planSeq;
+  private final LocalDate strtDt;
+  private final LocalDate endDt;
+  private final String planTitle;
+  private final String planColor;
+  private final Long regUserNo;
+  private final LocalDateTime regDttm;
+  private final Long procUserNo;
+  private final LocalDateTime procDttm;
 
   @Builder
   private PlanSearchListGetResponseVO(LocalDate dt, Long planSeq, LocalDate strtDt, LocalDate endDt,

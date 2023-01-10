@@ -9,7 +9,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public class MainMenuListGetRequestVO {
   
-  private String locale;
+  private final String locale;
 
   @Override
   public String toString() {

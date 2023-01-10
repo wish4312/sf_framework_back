@@ -1,7 +1,5 @@
 package com.lsitc.domain.common.plan.vo;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.lsitc.domain.common.plan.entity.PlanEntity;
@@ -13,16 +11,16 @@ import lombok.Getter;
 @AllArgsConstructor
 public class PlanModifyRequestVO {
   
-  private String planSeq;
-  private String strtDt;
-  private String strtHh;
-  private String strtMm;
-  private String endDt;
-  private String endHh;
-  private String endMm;
-  private String planTitle;
-  private String planCntn;
-  private String planColor;
+  private final String planSeq;
+  private final String strtDt;
+  private final String strtHh;
+  private final String strtMm;
+  private final String endDt;
+  private final String endHh;
+  private final String endMm;
+  private final String planTitle;
+  private final String planCntn;
+  private final String planColor;
   
   public PlanEntity toEntity() {
     return PlanEntity.builder()

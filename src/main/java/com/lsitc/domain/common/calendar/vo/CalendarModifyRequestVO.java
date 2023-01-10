@@ -12,10 +12,10 @@ import lombok.Getter;
 @AllArgsConstructor
 public class CalendarModifyRequestVO {
   
-  private String dt;
-  private String hldyFg;
-  private String hldyNm;
-  private String rmrk;
+  private final String dt;
+  private final String hldyFg;
+  private final String hldyNm;
+  private final String rmrk;
   
   public CalendarEntity toEntity() {
     return CalendarEntity.builder()

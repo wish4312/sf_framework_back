@@ -10,7 +10,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public class CodeListSearchRequestVO {
 
-  private String commGrpCdId;
+  private final String commGrpCdId;
 
   public CodeEntity toEntity() {
     return CodeEntity.builder()

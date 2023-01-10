@@ -11,15 +11,15 @@ import lombok.Getter;
 @AllArgsConstructor
 public class PlanAddRequestVO {
   
-  private String strtDt;
-  private String strtHh;
-  private String strtMm;
-  private String endDt;
-  private String endHh;
-  private String endMm;
-  private String planTitle;
-  private String planCntn;
-  private String planColor;
+  private final String strtDt;
+  private final String strtHh;
+  private final String strtMm;
+  private final String endDt;
+  private final String endHh;
+  private final String endMm;
+  private final String planTitle;
+  private final String planCntn;
+  private final String planColor;
   
   public PlanEntity toEntity() {
     return PlanEntity.builder()
