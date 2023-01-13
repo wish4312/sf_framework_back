@@ -70,6 +70,6 @@ deploy-to-prod:
     - $sshscript docker pull $imagename:$imagetag
     - $sshscript docker stop sf-app || true
     - $sshscript docker rm sf-app || true
-    - $sshscript docker run --name sf-app -d -p 8080:8080 $imagename:$imagetag $APP_ENV_DEV --spring.profiles.active=prod
+    - $sshscript docker run --name sf-app -d -p 8080:8080 $imagename:$imagetag $APP_ENV_PROD --spring.profiles.active=prod
     - export rmiscript='ssh sfuser@10.123.202.204 -p 2211 docker rmi $(docker images -q --filter "before='$imagename':'$imagetag'") || true'
     - $rmiscript
